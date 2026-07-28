@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-15">
+    <link rel="stylesheet" href="styles.css?v=20260728-16">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -224,45 +224,36 @@
               </div>
             </section>
 
-            <section class="flyer-disclosure" aria-labelledby="flyerSectionTitle">
-              <button id="flyerToggle" class="flyer-summary" type="button" aria-expanded="false" aria-controls="flyerDetails">
-                <span class="flyer-summary-media" aria-hidden="true">
-                  <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="">
-                </span>
-                <span class="flyer-summary-copy">
-                  <span class="flyer-summary-meta"><strong>Borrador</strong><time datetime="2026-07-27">27 de julio de 2026</time></span>
-                  <span class="flyer-summary-topic">Concurso Docente 2026</span>
-                  <strong id="flyerSectionTitle" class="flyer-summary-title">&iquest;Qu&eacute; significar&iacute;a aprobar con 50/100 y tener una ponderaci&oacute;n m&iacute;nima del 55%?</strong>
-                  <span class="flyer-summary-description">Conoce la diferencia entre el puntaje m&iacute;nimo propuesto y el peso que tendr&iacute;a la prueba escrita en el resultado final.</span>
-                  <span class="flyer-summary-action">
-                    <span id="flyerToggleLabel">Ver informaci&oacute;n completa</span>
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                  </span>
-                </span>
-              </button>
+            <section id="flyerReveal" class="flyer-reveal" aria-labelledby="flyerSectionTitle">
+              <header class="flyer-reveal-header">
+                <div class="flyer-reveal-heading">
+                  <span class="flyer-reveal-meta"><strong>En seguimiento</strong><time datetime="2026-07-27">27 de julio de 2026</time></span>
+                  <h2 id="flyerSectionTitle">Lo que plantea el nuevo borrador.</h2>
+                  <p>Explora el resumen visual sobre el puntaje m&iacute;nimo y el peso propuesto para la prueba escrita.</p>
+                </div>
+                <a class="flyer-reveal-source" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
+                  Norma vigente
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                </a>
+              </header>
 
-              <div id="flyerDetails" class="flyer-details" hidden>
-                <div class="flyer-details-heading">
-                  <div>
-                    <span>Informaci&oacute;n ampliada</span>
-                    <h3>Puntaje m&iacute;nimo y ponderaci&oacute;n propuesta</h3>
-                  </div>
-                  <button id="flyerCollapse" type="button" aria-label="Contraer informaci&oacute;n" title="Contraer">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 15l-6-6-6 6"/></svg>
-                  </button>
+              <div class="flyer-reveal-frame">
+                <div id="flyerViewport" class="flyer-reveal-viewport">
+                  <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="Flyer informativo sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
+                  <span class="flyer-reveal-fade" aria-hidden="true"></span>
                 </div>
-                <figure class="flyer-details-figure">
-                  <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="Flyer informativo completo sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
-                  <figcaption>Contenido informativo sujeto a cambios. Verifica siempre las fuentes oficiales del MEN y la CNSC.</figcaption>
-                </figure>
-                <div class="flyer-details-footer">
-                  <p>Mientras no se expida una nueva norma, contin&uacute;an vigentes las condiciones actuales.</p>
-                  <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
-                    Consultar norma vigente
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-                  </a>
-                </div>
+                <button id="flyerToggle" class="flyer-reveal-toggle" type="button" aria-expanded="false" aria-controls="flyerViewport">
+                  <span id="flyerToggleLabel">Desplegar flyer completo</span>
+                  <span class="flyer-reveal-toggle-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                  </span>
+                </button>
               </div>
+
+              <footer class="flyer-reveal-note">
+                <span><i aria-hidden="true"></i> Borrador sujeto a cambios</span>
+                <p>Verifica siempre las fuentes oficiales del MEN y la CNSC.</p>
+              </footer>
             </section>
           </section>
 
@@ -465,6 +456,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-12"></script>
+    <script src="app.js?v=20260728-13"></script>
   </body>
 </html>

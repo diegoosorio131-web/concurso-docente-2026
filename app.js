@@ -42,10 +42,9 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
+  flyerReveal: document.getElementById("flyerReveal"),
   flyerToggle: document.getElementById("flyerToggle"),
   flyerToggleLabel: document.getElementById("flyerToggleLabel"),
-  flyerDetails: document.getElementById("flyerDetails"),
-  flyerCollapse: document.getElementById("flyerCollapse"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -777,21 +776,21 @@ els.mobileThemeToggle?.addEventListener("click", () => {
 els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
 function setFlyerExpanded(expanded) {
-  if (!els.flyerToggle || !els.flyerDetails) return;
+  if (!els.flyerReveal || !els.flyerToggle) return;
+  els.flyerReveal.classList.toggle("expanded", expanded);
   els.flyerToggle.setAttribute("aria-expanded", String(expanded));
-  els.flyerDetails.hidden = !expanded;
   if (els.flyerToggleLabel) {
     els.flyerToggleLabel.textContent = expanded
-      ? "Ocultar informaci\u00f3n"
-      : "Ver informaci\u00f3n completa";
+      ? "Contraer flyer"
+      : "Desplegar flyer completo";
   }
 }
 els.flyerToggle?.addEventListener("click", () => {
-  setFlyerExpanded(els.flyerToggle.getAttribute("aria-expanded") !== "true");
-});
-els.flyerCollapse?.addEventListener("click", () => {
-  setFlyerExpanded(false);
-  els.flyerToggle?.scrollIntoView({ behavior: "smooth", block: "center" });
+  const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
+  setFlyerExpanded(!expanded);
+  if (expanded) {
+    els.flyerReveal?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
 });
 els.simulacroShortcuts.forEach((button) => {
   button.addEventListener("click", () => {
