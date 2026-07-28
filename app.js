@@ -44,6 +44,7 @@ const els = {
   newsUpdated: document.getElementById("newsUpdated"),
   flyerReveal: document.getElementById("flyerReveal"),
   flyerToggle: document.getElementById("flyerToggle"),
+  flyerToggles: document.querySelectorAll("[data-flyer-toggle]"),
   flyerToggleLabel: document.getElementById("flyerToggleLabel"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
@@ -778,19 +779,26 @@ els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
 function setFlyerExpanded(expanded) {
   if (!els.flyerReveal || !els.flyerToggle) return;
   els.flyerReveal.classList.toggle("expanded", expanded);
-  els.flyerToggle.setAttribute("aria-expanded", String(expanded));
+  els.flyerToggles.forEach((toggle) => {
+    toggle.setAttribute("aria-expanded", String(expanded));
+    if (toggle.id === "flyerPreviewToggle") {
+      toggle.setAttribute("aria-label", expanded ? "Contraer flyer" : "Desplegar flyer completo");
+    }
+  });
   if (els.flyerToggleLabel) {
     els.flyerToggleLabel.textContent = expanded
       ? "Contraer flyer"
       : "Desplegar flyer completo";
   }
 }
-els.flyerToggle?.addEventListener("click", () => {
-  const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
-  setFlyerExpanded(!expanded);
-  if (expanded) {
-    els.flyerReveal?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
+els.flyerToggles.forEach((toggle) => {
+  toggle.addEventListener("click", () => {
+    const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
+    setFlyerExpanded(!expanded);
+    if (expanded) {
+      els.flyerReveal?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
 });
 els.simulacroShortcuts.forEach((button) => {
   button.addEventListener("click", () => {

@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-16">
+    <link rel="stylesheet" href="styles.css?v=20260728-17">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -225,29 +225,33 @@
             </section>
 
             <section id="flyerReveal" class="flyer-reveal" aria-labelledby="flyerSectionTitle">
-              <header class="flyer-reveal-header">
-                <div class="flyer-reveal-heading">
-                  <span class="flyer-reveal-meta"><strong>En seguimiento</strong><time datetime="2026-07-27">27 de julio de 2026</time></span>
-                  <h2 id="flyerSectionTitle">Lo que plantea el nuevo borrador.</h2>
-                  <p>Explora el resumen visual sobre el puntaje m&iacute;nimo y el peso propuesto para la prueba escrita.</p>
-                </div>
-                <a class="flyer-reveal-source" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
-                  Norma vigente
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-                </a>
-              </header>
-
               <div class="flyer-reveal-frame">
-                <div id="flyerViewport" class="flyer-reveal-viewport">
+                <button id="flyerPreviewToggle" class="flyer-reveal-viewport" type="button" data-flyer-toggle aria-expanded="false" aria-controls="flyerReveal" aria-label="Desplegar flyer completo">
                   <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="Flyer informativo sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
                   <span class="flyer-reveal-fade" aria-hidden="true"></span>
-                </div>
-                <button id="flyerToggle" class="flyer-reveal-toggle" type="button" aria-expanded="false" aria-controls="flyerViewport">
-                  <span id="flyerToggleLabel">Desplegar flyer completo</span>
-                  <span class="flyer-reveal-toggle-icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                  <span class="flyer-reveal-image-action" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
                   </span>
                 </button>
+
+                <div class="flyer-reveal-copy">
+                  <span class="flyer-reveal-meta"><strong>Borrador</strong><time datetime="2026-07-27">27 de julio de 2026</time></span>
+                  <span class="flyer-reveal-category">Concurso Docente 2026</span>
+                  <h2 id="flyerSectionTitle">&iquest;Qu&eacute; significar&iacute;a aprobar con 50/100 y tener una ponderaci&oacute;n m&iacute;nima del 55%?</h2>
+                  <p>Conoce la diferencia entre el puntaje m&iacute;nimo propuesto y el peso que tendr&iacute;a la prueba escrita en el resultado final.</p>
+                  <div class="flyer-reveal-actions">
+                    <button id="flyerToggle" class="flyer-reveal-toggle" type="button" data-flyer-toggle aria-expanded="false" aria-controls="flyerReveal">
+                      <span id="flyerToggleLabel">Desplegar flyer completo</span>
+                      <span class="flyer-reveal-toggle-icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                      </span>
+                    </button>
+                    <a class="flyer-reveal-source" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
+                      Norma vigente
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                    </a>
+                  </div>
+                </div>
               </div>
 
               <footer class="flyer-reveal-note">
@@ -456,6 +460,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-13"></script>
+    <script src="app.js?v=20260728-14"></script>
   </body>
 </html>
