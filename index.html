@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-8">
+    <link rel="stylesheet" href="styles.css?v=20260728-9">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -223,6 +223,75 @@
                 </div>
               </div>
             </section>
+
+            <section class="score-explainer" aria-labelledby="scoreExplainerTitle">
+              <div class="score-explainer-copy">
+                <div class="score-explainer-meta">
+                  <span><i aria-hidden="true"></i> Gu&iacute;a normativa</span>
+                  <time datetime="2026-07-28">Verificada el 28 de julio de 2026</time>
+                </div>
+                <h2 id="scoreExplainerTitle">Puntaje m&iacute;nimo y ponderaci&oacute;n no significan lo mismo.</h2>
+                <p class="score-explainer-lead">Uno determina si contin&uacute;as en el concurso; el otro indica cu&aacute;nto aporta la prueba al resultado final.</p>
+
+                <div class="score-rule-grid">
+                  <article class="score-rule">
+                    <span class="score-rule-index">01</span>
+                    <div>
+                      <span class="score-rule-label">Puntaje m&iacute;nimo aprobatorio</span>
+                      <strong>70/100 <small>docentes</small></strong>
+                      <strong>80/100 <small>directivos docentes</small></strong>
+                    </div>
+                  </article>
+                  <article class="score-rule">
+                    <span class="score-rule-index">02</span>
+                    <div>
+                      <span class="score-rule-label">Ponderaci&oacute;n m&iacute;nima</span>
+                      <strong>55% <small>docentes</small></strong>
+                      <strong>45% <small>directivos docentes</small></strong>
+                    </div>
+                  </article>
+                </div>
+
+                <div class="score-source-note">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-2.9 8.5-7 10-4.1-1.5-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+                  <p>Referencia vigente consultada: art&iacute;culo 2.4.1.1.11 del Decreto 915 de 2016. El acuerdo y el anexo de la convocatoria CNSC definir&aacute;n las reglas aplicables al proceso.</p>
+                </div>
+                <a class="score-source-link" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
+                  Consultar fuente oficial
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                </a>
+              </div>
+
+              <div class="score-calculator" aria-labelledby="scoreCalculatorTitle">
+                <div class="score-calculator-head">
+                  <span>Calculadora</span>
+                  <h3 id="scoreCalculatorTitle">Estima el aporte de la prueba</h3>
+                  <p>Ejercicio ilustrativo con la ponderaci&oacute;n m&iacute;nima.</p>
+                </div>
+
+                <div id="scoreRoleSelector" class="score-role-selector" aria-label="Tipo de cargo">
+                  <button class="active" type="button" data-score-role="docente" aria-pressed="true">Docente</button>
+                  <button type="button" data-score-role="directivo" aria-pressed="false">Directivo</button>
+                </div>
+
+                <label class="score-control" for="scoreInput">
+                  <span><strong>Tu resultado</strong><output id="scoreOutput" for="scoreInput">80/100</output></span>
+                  <input id="scoreInput" type="range" min="0" max="100" value="80" step="1">
+                </label>
+
+                <label class="score-control" for="weightInput">
+                  <span><strong>Peso de la prueba</strong><output id="weightOutput" for="weightInput">55%</output></span>
+                  <input id="weightInput" type="range" min="55" max="100" value="55" step="1">
+                </label>
+
+                <div class="score-result">
+                  <span>Aporte al puntaje final</span>
+                  <strong id="weightedScoreOutput">44,0 puntos</strong>
+                  <p id="minimumScoreStatus" data-status="pass">Supera el m&iacute;nimo aprobatorio.</p>
+                </div>
+                <p class="score-calculator-disclaimer">Resultado orientativo. La distribuci&oacute;n definitiva depende de la convocatoria.</p>
+              </div>
+            </section>
           </section>
 
           <section class="view" id="simulacro">
@@ -424,6 +493,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-7"></script>
+    <script src="app.js?v=20260728-8"></script>
   </body>
 </html>
