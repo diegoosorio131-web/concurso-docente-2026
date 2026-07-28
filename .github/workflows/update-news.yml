@@ -1,0 +1,37 @@
+name: Actualizar noticias
+
+on:
+  schedule:
+    - cron: "15 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Consultar fuentes oficiales
+        run: node scripts/update-news.mjs
+
+      - name: Publicar cambios
+        run: |
+          if git diff --quiet -- data/news-data.js; then
+            echo "No hay noticias nuevas."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/news-data.js
+          git commit -m "Actualizar noticias docentes"
+          git push

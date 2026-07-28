@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Aula 2026 | Preparacion docente</title>
+    <meta name="description" content="Espacio de practica para preparar el Concurso Docente 2026.">
+    <meta name="theme-color" content="#3659a7">
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a id="homeLink" class="brand" href="#inicio" aria-label="Aula 2026, inicio">
+          <img class="brand-mark" src="assets/logo.svg" alt="">
+          <span class="brand-copy">
+            <strong>Aula 2026</strong>
+            <small>Preparacion docente</small>
+          </span>
+        </a>
+        <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Cerrar menu lateral" title="Cerrar menu">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+
+        <nav class="tabs" aria-label="Secciones">
+          <button class="tab active" data-view="inicio" type="button">
+            <span class="tab-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
+            </span>
+            <span>Inicio</span>
+          </button>
+          <button class="tab" data-view="simulacro" type="button">
+            <span class="tab-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </span>
+            <span>Practicar</span>
+          </button>
+          <button class="tab" data-view="estudio" type="button">
+            <span class="tab-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+            </span>
+            <span>Estudiar</span>
+          </button>
+          <button class="tab" data-view="progreso" type="button">
+            <span class="tab-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 16l4-5 4 3 5-7"/></svg>
+            </span>
+            <span>Mi progreso</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="official-note">
+            <span class="status-dot" aria-hidden="true"></span>
+            <div>
+              <strong>Fuentes oficiales</strong>
+              <span>CNSC, SIMO y MEN</span>
+            </div>
+          </div>
+          <div class="sidebar-actions">
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambiar tema">Oscuro</button>
+            <a href="https://simo.cnsc.gov.co/" target="_blank" rel="noreferrer">Ir a SIMO</a>
+          </div>
+        </div>
+      </aside>
+      <button id="sidebarOpenBtn" class="sidebar-open" type="button" aria-label="Abrir menu lateral" title="Abrir menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+      </button>
+
+      <main class="app-main">
+        <header class="mobile-header">
+          <a class="brand" href="#" aria-label="Aula 2026, inicio">
+            <img class="brand-mark" src="assets/logo.svg" alt="">
+            <span class="brand-copy"><strong>Aula 2026</strong><small>Preparacion docente</small></span>
+          </a>
+          <button id="mobileThemeToggle" class="mobile-theme" type="button" aria-label="Cambiar tema">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
+          </button>
+        </header>
+
+        <div class="page">
+          <section class="view active" id="inicio">
+            <section class="news-section" aria-labelledby="newsTitle">
+              <header class="news-heading">
+                <div>
+                  <span class="eyebrow">Actualidad docente</span>
+                  <h1 id="newsTitle">Noticias que debes seguir</h1>
+                  <p>Novedades oficiales sobre el concurso, vacantes y carrera docente. <span id="newsUpdated" class="news-updated"></span></p>
+                </div>
+                <a class="news-all-link" href="https://www.cnsc.gov.co/cnsc-al-dia" target="_blank" rel="noreferrer">
+                  Ver noticias CNSC
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+              </header>
+
+              <div class="news-grid">
+                <a id="newsFeature" class="news-feature" href="https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros" target="_blank" rel="noreferrer">
+                  <div class="news-meta"><span>MEN</span><time datetime="2026-04-01">1 abril 2026</time></div>
+                  <div class="news-feature-copy">
+                    <span class="news-topic">Nuevo concurso de meritos</span>
+                    <h2>Educacion y CNSC anuncian avances claves para la carrera docente</h2>
+                    <p>Las entidades informaron avances en la ejecucion del nuevo concurso, los procesos de encargo y los traslados por seguridad.</p>
+                    <span class="news-read">Leer comunicado <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                  </div>
+                </a>
+
+                <div id="newsList" class="news-list">
+                  <a class="news-card" href="https://www.cnsc.gov.co/la-cnsc-y-el-men-reiteran-directrices-para-evitar-vacancias-prolongadas-y-el-uso-inadecuado-de-la" target="_blank" rel="noreferrer">
+                    <div class="news-meta"><span>CNSC</span><time datetime="2026-05-04">4 mayo 2026</time></div>
+                    <h3>Nuevas directrices para evitar vacancias prolongadas</h3>
+                    <p>La Circular 2026RS069413 fija instrucciones para la provision de cargos directivos mediante encargo.</p>
+                    <span class="news-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                  </a>
+                  <a class="news-card" href="https://www.cnsc.gov.co/cnsc-y-ministerio-de-educacion-fortalecen-la-transparencia-y-el-merito-docente-en-santa-marta-y-el" target="_blank" rel="noreferrer">
+                    <div class="news-meta"><span>CNSC</span><time datetime="2026-04-23">23 abril 2026</time></div>
+                    <h3>Avanza la identificacion y el reporte de vacantes definitivas</h3>
+                    <p>CNSC, MEN y secretarias trabajan para consolidar una oferta publica precisa para el nuevo proceso.</p>
+                    <span class="news-arrow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                  </a>
+                </div>
+              </div>
+            </section>
+          </section>
+
+          <section class="view" id="simulacro">
+            <section class="practice-section">
+              <div class="section-title">
+                <div>
+                  <span class="eyebrow">Centro de practica</span>
+                  <h2>Prepara tu simulacro</h2>
+                </div>
+                <span class="section-hint">Los resultados se guardan en este dispositivo</span>
+              </div>
+
+              <section class="stats-strip practice-stats" aria-label="Tu actividad">
+                <article class="stat">
+                  <span class="stat-icon stat-icon-coral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>
+                  <div><strong id="questionCount">0</strong><span>preguntas disponibles</span></div>
+                </article>
+                <article class="stat">
+                  <span class="stat-icon stat-icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
+                  <div><strong id="bestScore">0%</strong><span>mejor resultado</span></div>
+                </article>
+                <article class="stat">
+                  <span class="stat-icon stat-icon-yellow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.3H22l-6.2 4.5 2.4 7.2-6.2-4.5L5.8 21l2.4-7.2L2 9.3h7.6z"/></svg></span>
+                  <div><strong id="studyStreak">0 dias</strong><span>racha actual</span></div>
+                </article>
+              </section>
+
+              <div class="workspace">
+                <aside class="setup-panel" aria-label="Configuracion del simulacro">
+                  <div class="setup-section">
+                    <span class="field-title">1. Elige un modo</span>
+                    <div class="preset-group" aria-label="Configuracion rapida">
+                      <button class="preset active" type="button" data-questions="10" data-minutes="45">
+                        <strong>Equilibrado</strong><span>10 preg. · 45 min</span>
+                      </button>
+                      <button class="preset" type="button" data-questions="5" data-minutes="15">
+                        <strong>Rapido</strong><span>5 preg. · 15 min</span>
+                      </button>
+                      <button class="preset" type="button" data-questions="15" data-minutes="60">
+                        <strong>Intensivo</strong><span>15 preg. · 60 min</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="setup-section">
+                    <label class="field-title" for="categorySelect">2. Selecciona el area</label>
+                    <div class="select-wrap">
+                      <select id="categorySelect">
+                        <option value="todas">Todas las areas</option>
+                        <option value="pedagogia">Pedagogia</option>
+                        <option value="normativa">Normativa</option>
+                        <option value="competencias">Competencias</option>
+                        <option value="lectura">Lectura critica</option>
+                      </select>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                    </div>
+                  </div>
+
+                  <div class="custom-fields">
+                    <label>Preguntas<input id="amountInput" type="number" min="5" max="20" value="10"></label>
+                    <label>Minutos<input id="minutesInput" type="number" min="5" max="120" value="45"></label>
+                  </div>
+
+                  <button id="startBtn" class="btn btn-primary btn-block" type="button">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7 4 19 12 7 20 7 4"/></svg>
+                    Iniciar simulacro
+                  </button>
+                  <button id="resetBtn" class="btn btn-text btn-block" type="button">Limpiar respuestas</button>
+                </aside>
+
+                <article class="exam-panel">
+                  <div class="exam-toolbar">
+                    <div class="exam-progress-wrap">
+                      <div class="exam-progress-meta">
+                        <span id="questionMeta">Listo para empezar</span>
+                        <span id="answeredCount">0 respondidas</span>
+                      </div>
+                      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <span id="progressBar"></span>
+                      </div>
+                    </div>
+                    <div class="timer-box">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+                      <div><span>Tiempo</span><time id="timer" datetime="PT45M">45:00</time></div>
+                    </div>
+                  </div>
+
+                  <div id="questionNavigator" class="question-navigator" aria-label="Navegacion de preguntas"></div>
+
+                  <div id="questionCard" class="question-card empty">
+                    <div class="empty-state">
+                      <div class="empty-illustration" aria-hidden="true">
+                        <span class="paper-line line-one"></span>
+                        <span class="paper-line line-two"></span>
+                        <span class="paper-line line-three"></span>
+                        <span class="paper-check">✓</span>
+                      </div>
+                      <h3>Todo listo para comenzar</h3>
+                      <p>Configura tu sesion a la izquierda. Aqui apareceran las preguntas y su retroalimentacion.</p>
+                    </div>
+                  </div>
+
+                  <div class="exam-actions">
+                    <button id="prevBtn" class="btn btn-secondary" type="button" disabled>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                      Anterior
+                    </button>
+                    <button id="nextBtn" class="btn btn-secondary" type="button" disabled>
+                      Siguiente
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                    <button id="finishBtn" class="btn btn-primary" type="button" disabled>Finalizar</button>
+                  </div>
+                </article>
+              </div>
+            </section>
+          </section>
+
+          <section class="view" id="estudio">
+            <header class="page-heading">
+              <div><span class="eyebrow">Biblioteca personal</span><h1>Estudia con enfoque.</h1><p>Avanza por tu ruta y usa las tarjetas para fijar conceptos clave.</p></div>
+              <div class="date-chip"><span>Metodo</span><strong>Repaso activo</strong></div>
+            </header>
+            <div class="content-grid">
+              <article class="content-panel">
+                <div class="content-panel-head"><span class="panel-index">01</span><div><h2>Ruta de preparacion</h2><p>Marca cada paso cuando lo completes.</p></div></div>
+                <div id="studyPlan" class="checklist"></div>
+              </article>
+              <article class="content-panel accent-panel">
+                <div class="content-panel-head"><span class="panel-index">02</span><div><h2>Tarjetas de memoria</h2><p>Toca una tarjeta para revelar la respuesta.</p></div></div>
+                <div id="flashcards" class="flashcards"></div>
+              </article>
+            </div>
+          </section>
+
+          <section class="view" id="progreso">
+            <header class="page-heading">
+              <div><span class="eyebrow">Tu rendimiento</span><h1>Observa tu avance.</h1><p>Identifica patrones y decide donde concentrar tu proxima sesion.</p></div>
+              <div class="date-chip"><span>Analisis</span><strong>Guardado local</strong></div>
+            </header>
+            <div class="content-grid">
+              <article class="content-panel">
+                <div class="content-panel-head"><span class="panel-index">01</span><div><h2>Intentos recientes</h2><p>Historial de tus ultimos simulacros.</p></div></div>
+                <div id="attemptsList" class="attempts"></div>
+              </article>
+              <article class="content-panel accent-panel">
+                <div class="content-panel-head"><span class="panel-index">02</span><div><h2>En que enfocarte</h2><p>Recomendaciones segun tus resultados.</p></div></div>
+                <div id="recommendations" class="recommendations"></div>
+              </article>
+            </div>
+          </section>
+
+          <footer class="site-footer">
+            <p>Herramienta orientativa. Confirma fechas y requisitos en las fuentes oficiales.</p>
+            <div><a href="https://www.cnsc.gov.co/convocatorias/directivos-docentes-y-docentes" target="_blank" rel="noreferrer">CNSC</a><a href="https://simo.cnsc.gov.co/" target="_blank" rel="noreferrer">SIMO</a><a href="https://www.mineducacion.gov.co/portal/adelante-maestros/Carrera-Docente/Concursos/" target="_blank" rel="noreferrer">MEN</a></div>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <script src="data/news-data.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
