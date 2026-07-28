@@ -7,11 +7,13 @@ permanecer desactivado.
 
 1. Crear cada usuario desde Authentication > Users.
 2. Activar `Auto Confirm User`.
-3. Aprobarlo desde SQL Editor:
 
-```sql
-select public.approve_user_by_email('persona@correo.com');
-```
+El trigger `on_auth_user_auto_approve` agrega automaticamente cada cuenta nueva
+a `approved_users` con `active = true`.
+
+Importante: `Allow new users to sign up` debe permanecer desactivado en
+Authentication > Settings. De lo contrario, cualquier persona que se registre
+tambien quedaria aprobada automaticamente.
 
 Para retirar el acceso sin eliminar la cuenta:
 
@@ -27,6 +29,7 @@ where user_id = (
 
 - Supabase conectado al proyecto `wceoekdvnbxfnogakkdc`.
 - Registro publico desactivado.
+- Aprobacion automatica activa para usuarios creados por el administrador.
 - Banco inicial de 20 preguntas migrado.
 - Funcion `quiz` desplegada.
 - El sitio carga los enunciados sin la clave y califica en el servidor.
