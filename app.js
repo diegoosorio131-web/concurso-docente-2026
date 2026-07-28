@@ -78,6 +78,9 @@ const els = {
   simulacroResultBreakdown: document.getElementById("simulacroResultBreakdown"),
   simulacroReviewBtn: document.getElementById("simulacroReviewBtn"),
   simulacroReturnBtn: document.getElementById("simulacroReturnBtn"),
+  resetProgressBtn: document.getElementById("resetProgressBtn"),
+  resetProgressDialog: document.getElementById("resetProgressDialog"),
+  confirmResetProgressBtn: document.getElementById("confirmResetProgressBtn"),
   studyPlan: document.getElementById("studyPlan"),
   flashcards: document.getElementById("flashcards"),
   attemptsList: document.getElementById("attemptsList"),
@@ -105,6 +108,12 @@ function loadProgress() {
 
 function saveProgress(progress) {
   localStorage.setItem(storageKey, JSON.stringify(progress));
+}
+
+function resetUserProgress() {
+  localStorage.removeItem(storageKey);
+  renderStudy();
+  renderProgress();
 }
 
 function applyTheme(theme) {
@@ -630,6 +639,13 @@ function renderStudy() {
 
 function renderProgress() {
   const progress = loadProgress();
+  const hasProgress = (
+    progress.attempts.length > 0
+    || progress.completedItems.length > 0
+    || Boolean(progress.lastStudyDate)
+    || progress.streak > 0
+  );
+  if (els.resetProgressBtn) els.resetProgressBtn.disabled = !hasProgress;
   if (!progress.attempts.length) {
     els.attemptsList.innerHTML = `<p>Aun no hay simulacros registrados.</p>`;
     els.recommendations.innerHTML = `<p>Completa un simulacro para recibir recomendaciones por area.</p>`;
@@ -727,6 +743,12 @@ els.simulacroFinishBtn?.addEventListener("click", finishSimulacro);
 els.simulacroExitBtn?.addEventListener("click", showSimulacroCatalog);
 els.simulacroReviewBtn?.addEventListener("click", reviewSimulacro);
 els.simulacroReturnBtn?.addEventListener("click", showSimulacroCatalog);
+els.resetProgressBtn?.addEventListener("click", () => {
+  if (!els.resetProgressDialog) return;
+  els.resetProgressDialog.returnValue = "";
+  els.resetProgressDialog.showModal();
+});
+els.confirmResetProgressBtn?.addEventListener("click", resetUserProgress);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && els.simulacroMenu?.classList.contains("expanded")) {
     setSimulacroMenuExpanded(false);
