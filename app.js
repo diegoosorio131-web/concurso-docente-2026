@@ -430,28 +430,39 @@ function newsFallback() {
   return fallback;
 }
 
+function appendNewsImage(media, source, referrerPolicy = "") {
+  const backdrop = document.createElement("img");
+  backdrop.className = "news-feature-backdrop";
+  backdrop.src = source;
+  backdrop.alt = "";
+  backdrop.setAttribute("aria-hidden", "true");
+
+  const image = document.createElement("img");
+  image.className = "news-feature-image";
+  image.src = source;
+  image.alt = "";
+  image.loading = "eager";
+
+  if (referrerPolicy) {
+    backdrop.referrerPolicy = referrerPolicy;
+    image.referrerPolicy = referrerPolicy;
+  }
+
+  image.addEventListener("error", () => media.replaceChildren(newsFallback()), { once: true });
+  media.append(backdrop, image);
+}
+
 function newsMedia(item) {
   const media = document.createElement("div");
   media.className = "news-feature-media";
   if (typeof item.image === "string" && /^assets\/news\/[a-z0-9._-]+$/i.test(item.image)) {
-    const image = document.createElement("img");
-    image.src = item.image;
-    image.alt = "";
-    image.loading = "eager";
-    image.addEventListener("error", () => media.replaceChildren(newsFallback()), { once: true });
-    media.append(image);
+    appendNewsImage(media, item.image);
     return media;
   }
   try {
     const imageUrl = new URL(item.image);
     if (imageUrl.protocol === "https:") {
-      const image = document.createElement("img");
-      image.src = imageUrl.href;
-      image.alt = "";
-      image.loading = "eager";
-      image.referrerPolicy = "no-referrer";
-      image.addEventListener("error", () => media.replaceChildren(newsFallback()), { once: true });
-      media.append(image);
+      appendNewsImage(media, imageUrl.href, "no-referrer");
       return media;
     }
   } catch {
