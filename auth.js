@@ -8,6 +8,8 @@
   const togglePasswordBtn = document.getElementById("togglePasswordBtn");
   const message = document.getElementById("authMessage");
   const loginBtn = document.getElementById("loginBtn");
+  const loginBtnLabel = document.getElementById("loginBtnLabel");
+  const loginLabel = loginBtnLabel.textContent;
   const accountSummary = document.getElementById("accountSummary");
   const accountName = document.getElementById("accountName");
   const accountEmail = document.getElementById("accountEmail");
@@ -100,7 +102,7 @@
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
         loginBtn.disabled = true;
-        loginBtn.textContent = "Verificando...";
+        loginBtnLabel.textContent = "Verificando...";
         setMessage("");
 
         const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
@@ -111,13 +113,13 @@
         if (signInError) {
           setMessage("Correo o contrasena incorrectos, o cuenta sin autorizacion.", "error");
           loginBtn.disabled = false;
-          loginBtn.textContent = "Ingresar";
+          loginBtnLabel.textContent = loginLabel;
           return;
         }
 
         if (signInData.user) await verifyApproval(client, signInData.user);
         loginBtn.disabled = false;
-        loginBtn.textContent = "Ingresar";
+        loginBtnLabel.textContent = loginLabel;
       });
 
       logoutBtn.addEventListener("click", () => client.auth.signOut());
