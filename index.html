@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-12">
+    <link rel="stylesheet" href="styles.css?v=20260728-13">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -224,17 +224,42 @@
               </div>
             </section>
 
-            <section class="flyer-image-section" aria-label="Informacion sobre el borrador del concurso docente">
+            <section class="flyer-image-section" aria-labelledby="flyerSectionTitle">
+              <aside class="flyer-context">
+                <span class="flyer-context-kicker"><i aria-hidden="true"></i> En seguimiento</span>
+                <h2 id="flyerSectionTitle">Una propuesta que puede cambiar las reglas.</h2>
+                <p>El borrador difundido reduce el puntaje m&iacute;nimo y mantiene la prueba escrita como el componente de mayor peso.</p>
+
+                <div class="flyer-context-facts">
+                  <div>
+                    <span>M&iacute;nimo planteado</span>
+                    <strong>50/100</strong>
+                    <small>Para docentes</small>
+                  </div>
+                  <div>
+                    <span>Peso planteado</span>
+                    <strong>55%</strong>
+                    <small>Como m&iacute;nimo</small>
+                  </div>
+                </div>
+
+                <p class="flyer-context-note">Todav&iacute;a no es una regla definitiva. La CNSC y el decreto expedido confirmar&aacute;n las condiciones aplicables.</p>
+                <div class="flyer-context-actions">
+                  <a class="flyer-open-link" href="assets/flyer-borrador-concurso-docente.png" target="_blank" rel="noreferrer">
+                    Ver flyer completo
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                  </a>
+                  <a class="flyer-source-link" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">Norma vigente</a>
+                </div>
+              </aside>
+
               <figure class="flyer-figure">
                 <a class="flyer-image-link" href="assets/flyer-borrador-concurso-docente.png" target="_blank" rel="noreferrer" aria-label="Abrir flyer informativo en tamano completo">
                   <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="Flyer informativo sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
                 </a>
                 <figcaption>
                   <span><i aria-hidden="true"></i> Borrador en seguimiento</span>
-                  <a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">
-                    Consultar norma vigente
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-                  </a>
+                  <time datetime="2026-07-27">27 de julio de 2026</time>
                 </figcaption>
               </figure>
             </section>
