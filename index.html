@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-13">
+    <link rel="stylesheet" href="styles.css?v=20260728-14">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -245,18 +245,21 @@
 
                 <p class="flyer-context-note">Todav&iacute;a no es una regla definitiva. La CNSC y el decreto expedido confirmar&aacute;n las condiciones aplicables.</p>
                 <div class="flyer-context-actions">
-                  <a class="flyer-open-link" href="assets/flyer-borrador-concurso-docente.png" target="_blank" rel="noreferrer">
+                  <button class="flyer-open-link" type="button" data-open-flyer>
                     Ver flyer completo
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
-                  </a>
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+                  </button>
                   <a class="flyer-source-link" href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">Norma vigente</a>
                 </div>
               </aside>
 
               <figure class="flyer-figure">
-                <a class="flyer-image-link" href="assets/flyer-borrador-concurso-docente.png" target="_blank" rel="noreferrer" aria-label="Abrir flyer informativo en tamano completo">
+                <button class="flyer-preview-button" type="button" data-open-flyer aria-label="Ampliar flyer informativo">
                   <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" loading="lazy" alt="Flyer informativo sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
-                </a>
+                  <span class="flyer-preview-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+                  </span>
+                </button>
                 <figcaption>
                   <span><i aria-hidden="true"></i> Borrador en seguimiento</span>
                   <time datetime="2026-07-27">27 de julio de 2026</time>
@@ -447,6 +450,21 @@
       </main>
     </div>
 
+    <dialog id="flyerDialog" class="flyer-dialog" aria-labelledby="flyerDialogTitle">
+      <header class="flyer-dialog-header">
+        <div>
+          <span>Borrador en seguimiento</span>
+          <h2 id="flyerDialogTitle">Puntaje m&iacute;nimo y ponderaci&oacute;n</h2>
+        </div>
+        <button id="flyerDialogClose" type="button" aria-label="Cerrar flyer" title="Cerrar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </header>
+      <div class="flyer-dialog-body">
+        <img src="assets/flyer-borrador-concurso-docente.png" width="858" height="1834" alt="Flyer ampliado sobre los puntajes minimos y la ponderacion planteados en el borrador del concurso docente.">
+      </div>
+    </dialog>
+
     <dialog id="resetProgressDialog" class="confirm-dialog" aria-labelledby="resetProgressTitle" aria-describedby="resetProgressDescription">
       <form method="dialog">
         <span class="confirm-dialog-icon" aria-hidden="true">
@@ -464,6 +482,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-10"></script>
+    <script src="app.js?v=20260728-11"></script>
   </body>
 </html>

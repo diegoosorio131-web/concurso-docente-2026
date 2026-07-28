@@ -42,6 +42,9 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
+  flyerOpenButtons: document.querySelectorAll("[data-open-flyer]"),
+  flyerDialog: document.getElementById("flyerDialog"),
+  flyerDialogClose: document.getElementById("flyerDialogClose"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -772,6 +775,28 @@ els.mobileThemeToggle?.addEventListener("click", () => {
 });
 els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
+els.flyerOpenButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!els.flyerDialog) return;
+    if (typeof els.flyerDialog.showModal === "function") els.flyerDialog.showModal();
+    else els.flyerDialog.setAttribute("open", "");
+  });
+});
+function closeFlyerDialog() {
+  if (typeof els.flyerDialog?.close === "function") els.flyerDialog.close();
+  else els.flyerDialog?.removeAttribute("open");
+}
+els.flyerDialogClose?.addEventListener("click", closeFlyerDialog);
+els.flyerDialog?.addEventListener("click", (event) => {
+  const rect = els.flyerDialog.getBoundingClientRect();
+  const outside = (
+    event.clientX < rect.left
+    || event.clientX > rect.right
+    || event.clientY < rect.top
+    || event.clientY > rect.bottom
+  );
+  if (outside) closeFlyerDialog();
+});
 els.simulacroShortcuts.forEach((button) => {
   button.addEventListener("click", () => {
     showSimulacroCatalog();
