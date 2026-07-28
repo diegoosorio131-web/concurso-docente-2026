@@ -2121,6 +2121,55 @@ body.sidebar-collapsed .sidebar-open {
   width: 30px;
 }
 
+.simulacros-heading {
+  margin-bottom: 24px;
+}
+
+.simulacros-empty {
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 430px;
+  padding: 54px 28px;
+  text-align: center;
+}
+
+.simulacros-empty-icon {
+  align-items: center;
+  background: var(--primary-soft);
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent);
+  border-radius: 8px;
+  color: var(--primary);
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  margin-bottom: 24px;
+  width: 64px;
+}
+
+.simulacros-empty-icon svg {
+  height: 30px;
+  width: 30px;
+}
+
+.simulacros-empty h2 {
+  color: var(--ink);
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin: 10px 0 12px;
+}
+
+.simulacros-empty p {
+  color: var(--muted);
+  margin: 0;
+  max-width: 530px;
+}
+
 .practice-stats {
   border: 1px solid var(--line);
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2228,5 +2277,14 @@ body.sidebar-collapsed .sidebar-open {
 
   .news-topic {
     margin-top: 18px;
+  }
+
+  .simulacros-empty {
+    min-height: 340px;
+    padding: 40px 22px;
+  }
+
+  .simulacros-empty h2 {
+    font-size: 1.45rem;
   }
 }

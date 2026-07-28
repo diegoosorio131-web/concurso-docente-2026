@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aula 2026 | Preparacion docente</title>
-    <meta name="description" content="Espacio de practica para preparar el Concurso Docente 2026.">
+    <meta name="description" content="Noticias, estudio y simulacros para preparar el Concurso Docente 2026.">
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="styles.css">
@@ -34,7 +34,7 @@
             <span class="tab-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </span>
-            <span>Practicar</span>
+            <span>Simulacros</span>
           </button>
           <button class="tab" data-view="estudio" type="button">
             <span class="tab-icon">
@@ -130,118 +130,22 @@
           </section>
 
           <section class="view" id="simulacro">
-            <section class="practice-section">
-              <div class="section-title">
-                <div>
-                  <span class="eyebrow">Centro de practica</span>
-                  <h2>Prepara tu simulacro</h2>
-                </div>
-                <span class="section-hint">Los resultados se guardan en este dispositivo</span>
+            <header class="page-heading simulacros-heading">
+              <div>
+                <span class="eyebrow">Entrenamiento evaluativo</span>
+                <h1>Simulacros</h1>
+                <p>Contenido alineado con la preparacion para el Concurso Docente 2026.</p>
               </div>
+              <div class="date-chip"><span>Estado</span><strong>En preparacion</strong></div>
+            </header>
 
-              <section class="stats-strip practice-stats" aria-label="Tu actividad">
-                <article class="stat">
-                  <span class="stat-icon stat-icon-coral"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span>
-                  <div><strong id="questionCount">0</strong><span>preguntas disponibles</span></div>
-                </article>
-                <article class="stat">
-                  <span class="stat-icon stat-icon-blue"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></span>
-                  <div><strong id="bestScore">0%</strong><span>mejor resultado</span></div>
-                </article>
-                <article class="stat">
-                  <span class="stat-icon stat-icon-yellow"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l2.4 7.3H22l-6.2 4.5 2.4 7.2-6.2-4.5L5.8 21l2.4-7.2L2 9.3h7.6z"/></svg></span>
-                  <div><strong id="studyStreak">0 dias</strong><span>racha actual</span></div>
-                </article>
-              </section>
-
-              <div class="workspace">
-                <aside class="setup-panel" aria-label="Configuracion del simulacro">
-                  <div class="setup-section">
-                    <span class="field-title">1. Elige un modo</span>
-                    <div class="preset-group" aria-label="Configuracion rapida">
-                      <button class="preset active" type="button" data-questions="10" data-minutes="45">
-                        <strong>Equilibrado</strong><span>10 preg. · 45 min</span>
-                      </button>
-                      <button class="preset" type="button" data-questions="5" data-minutes="15">
-                        <strong>Rapido</strong><span>5 preg. · 15 min</span>
-                      </button>
-                      <button class="preset" type="button" data-questions="15" data-minutes="60">
-                        <strong>Intensivo</strong><span>15 preg. · 60 min</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="setup-section">
-                    <label class="field-title" for="categorySelect">2. Selecciona el area</label>
-                    <div class="select-wrap">
-                      <select id="categorySelect">
-                        <option value="todas">Todas las areas</option>
-                        <option value="pedagogia">Pedagogia</option>
-                        <option value="normativa">Normativa</option>
-                        <option value="competencias">Competencias</option>
-                        <option value="lectura">Lectura critica</option>
-                      </select>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                    </div>
-                  </div>
-
-                  <div class="custom-fields">
-                    <label>Preguntas<input id="amountInput" type="number" min="5" max="20" value="10"></label>
-                    <label>Minutos<input id="minutesInput" type="number" min="5" max="120" value="45"></label>
-                  </div>
-
-                  <button id="startBtn" class="btn btn-primary btn-block" type="button">
-                    <svg viewBox="0 0 24 24" aria-hidden="true"><polygon points="7 4 19 12 7 20 7 4"/></svg>
-                    Iniciar simulacro
-                  </button>
-                  <button id="resetBtn" class="btn btn-text btn-block" type="button">Limpiar respuestas</button>
-                </aside>
-
-                <article class="exam-panel">
-                  <div class="exam-toolbar">
-                    <div class="exam-progress-wrap">
-                      <div class="exam-progress-meta">
-                        <span id="questionMeta">Listo para empezar</span>
-                        <span id="answeredCount">0 respondidas</span>
-                      </div>
-                      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                        <span id="progressBar"></span>
-                      </div>
-                    </div>
-                    <div class="timer-box">
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-                      <div><span>Tiempo</span><time id="timer" datetime="PT45M">45:00</time></div>
-                    </div>
-                  </div>
-
-                  <div id="questionNavigator" class="question-navigator" aria-label="Navegacion de preguntas"></div>
-
-                  <div id="questionCard" class="question-card empty">
-                    <div class="empty-state">
-                      <div class="empty-illustration" aria-hidden="true">
-                        <span class="paper-line line-one"></span>
-                        <span class="paper-line line-two"></span>
-                        <span class="paper-line line-three"></span>
-                        <span class="paper-check">✓</span>
-                      </div>
-                      <h3>Todo listo para comenzar</h3>
-                      <p>Configura tu sesion a la izquierda. Aqui apareceran las preguntas y su retroalimentacion.</p>
-                    </div>
-                  </div>
-
-                  <div class="exam-actions">
-                    <button id="prevBtn" class="btn btn-secondary" type="button" disabled>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-                      Anterior
-                    </button>
-                    <button id="nextBtn" class="btn btn-secondary" type="button" disabled>
-                      Siguiente
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                    </button>
-                    <button id="finishBtn" class="btn btn-primary" type="button" disabled>Finalizar</button>
-                  </div>
-                </article>
-              </div>
+            <section class="simulacros-empty" aria-labelledby="simulacrosEmptyTitle">
+              <span class="simulacros-empty-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </span>
+              <span class="eyebrow">Proxima actualizacion</span>
+              <h2 id="simulacrosEmptyTitle">Nuevos simulacros proximamente</h2>
+              <p>Estamos revisando y organizando el contenido de evaluacion para esta convocatoria.</p>
             </section>
           </section>
 
