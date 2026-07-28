@@ -5,6 +5,7 @@
   const form = document.getElementById("loginForm");
   const emailInput = document.getElementById("loginEmail");
   const passwordInput = document.getElementById("loginPassword");
+  const rememberLoginInput = document.getElementById("rememberLogin");
   const togglePasswordBtn = document.getElementById("togglePasswordBtn");
   const message = document.getElementById("authMessage");
   const loginBtn = document.getElementById("loginBtn");
@@ -14,6 +15,38 @@
   const accountName = document.getElementById("accountName");
   const accountEmail = document.getElementById("accountEmail");
   const logoutBtn = document.getElementById("logoutBtn");
+  const rememberPreferenceKey = "aula2026RememberLogin";
+  const rememberedEmailKey = "aula2026RememberedEmail";
+
+  function shouldRememberLogin() {
+    return localStorage.getItem(rememberPreferenceKey) !== "false";
+  }
+
+  function restoreLoginPreference() {
+    const remember = shouldRememberLogin();
+    rememberLoginInput.checked = remember;
+    emailInput.value = remember ? localStorage.getItem(rememberedEmailKey) || "" : "";
+  }
+
+  function saveLoginPreference(email) {
+    const remember = rememberLoginInput.checked;
+    localStorage.setItem(rememberPreferenceKey, String(remember));
+    if (remember) localStorage.setItem(rememberedEmailKey, email);
+    else localStorage.removeItem(rememberedEmailKey);
+  }
+
+  const authStorage = {
+    getItem(key) {
+      return (shouldRememberLogin() ? localStorage : sessionStorage).getItem(key);
+    },
+    setItem(key, value) {
+      (shouldRememberLogin() ? localStorage : sessionStorage).setItem(key, value);
+    },
+    removeItem(key) {
+      localStorage.removeItem(key);
+      sessionStorage.removeItem(key);
+    }
+  };
 
   function setAuthenticated(user) {
     window.AULA_USER_ID = user.id;
@@ -32,6 +65,7 @@
     gate.hidden = false;
     accountSummary.hidden = true;
     form.reset();
+    restoreLoginPreference();
     message.textContent = "";
     document.body.classList.add("auth-locked");
     window.dispatchEvent(new CustomEvent("aula:auth", { detail: { user: null } }));
@@ -71,6 +105,7 @@
   app.hidden = true;
   gate.hidden = false;
   document.body.classList.add("auth-locked");
+  restoreLoginPreference();
 
   window.AULA_AUTH_READY = import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm")
     .then(async ({ createClient }) => {
@@ -82,7 +117,8 @@
         auth: {
           persistSession: true,
           autoRefreshToken: true,
-          detectSessionInUrl: true
+          detectSessionInUrl: true,
+          storage: authStorage
         }
       });
       window.AULA_SUPABASE = client;
@@ -104,9 +140,11 @@
         loginBtn.disabled = true;
         loginBtnLabel.textContent = "Verificando...";
         setMessage("");
+        const email = emailInput.value.trim();
+        saveLoginPreference(email);
 
         const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
-          email: emailInput.value.trim(),
+          email,
           password: passwordInput.value
         });
 

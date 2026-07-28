@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-7">
+    <link rel="stylesheet" href="styles.css?v=20260728-8">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -56,6 +56,13 @@
                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
               </button>
             </div>
+            <label class="auth-remember" for="rememberLogin">
+              <input id="rememberLogin" name="remember" type="checkbox" checked>
+              <span class="auth-remember-control" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M5 12l4 4L19 6"/></svg>
+              </span>
+              <span>Recordar mis datos</span>
+            </label>
             <p id="authMessage" class="auth-message" role="alert" aria-live="polite"></p>
             <button id="loginBtn" class="btn auth-submit" type="submit">
               <span id="loginBtnLabel">Entrar a Aula 2026</span>
@@ -415,7 +422,7 @@
     </dialog>
 
     <script src="config.js?v=20260728-4"></script>
-    <script src="auth.js?v=20260728-6"></script>
+    <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
     <script src="app.js?v=20260728-7"></script>
   </body>

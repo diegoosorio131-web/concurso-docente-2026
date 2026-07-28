@@ -3601,6 +3601,61 @@ body.auth-locked {
   color: var(--auth-green);
 }
 
+.auth-form .auth-remember {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 8px;
+  color: var(--auth-muted);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  user-select: none;
+}
+
+.auth-remember input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.auth-remember-control {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  flex: 0 0 19px;
+  place-items: center;
+  border: 1px solid #bdc9c5;
+  border-radius: 4px;
+  background: #fff;
+  color: transparent;
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.auth-remember-control svg {
+  width: 13px;
+  height: 13px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+}
+
+.auth-remember input:checked + .auth-remember-control {
+  border-color: var(--auth-green);
+  background: var(--auth-green);
+  color: #fff;
+}
+
+.auth-remember input:focus-visible + .auth-remember-control {
+  outline: 3px solid rgba(31, 102, 85, .2);
+  outline-offset: 2px;
+}
+
 .password-field button svg,
 .account-logout svg {
   width: 20px;
