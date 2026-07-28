@@ -42,13 +42,6 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
-  scoreRoleButtons: document.querySelectorAll("[data-score-role]"),
-  scoreInput: document.getElementById("scoreInput"),
-  scoreOutput: document.getElementById("scoreOutput"),
-  weightInput: document.getElementById("weightInput"),
-  weightOutput: document.getElementById("weightOutput"),
-  weightedScoreOutput: document.getElementById("weightedScoreOutput"),
-  minimumScoreStatus: document.getElementById("minimumScoreStatus"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -105,7 +98,6 @@ const simulacroState = {
   reviewMode: false,
   completed: false
 };
-let selectedScoreRole = "docente";
 
 function progressStorageKey() {
   if (!window.AULA_CONFIG?.authEnabled) return storageKey;
@@ -150,42 +142,6 @@ function setSidebarCollapsed(collapsed) {
   localStorage.setItem(sidebarKey, collapsed ? "collapsed" : "open");
   els.sidebarToggle?.setAttribute("aria-expanded", String(!collapsed));
   els.sidebarOpenBtn?.setAttribute("aria-expanded", String(!collapsed));
-}
-
-function updateScoreCalculator(role = "docente") {
-  if (!els.scoreInput || !els.weightInput) return;
-  const rules = {
-    docente: { minimumScore: 50 },
-    directivo: { minimumScore: 60 }
-  };
-  const selectedRole = rules[role] ? role : "docente";
-  const rule = rules[selectedRole];
-  const score = Number(els.scoreInput.value);
-  const weight = Number(els.weightInput.value);
-  const contribution = score * weight / 100;
-
-  els.scoreRoleButtons.forEach((button) => {
-    const active = button.dataset.scoreRole === selectedRole;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
-  els.scoreOutput.textContent = `${score}/100`;
-  els.weightOutput.textContent = `${weight}%`;
-  els.weightedScoreOutput.textContent = `${contribution.toLocaleString("es-CO", {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1
-  })} puntos`;
-
-  const passes = score >= rule.minimumScore;
-  els.minimumScoreStatus.dataset.status = passes ? "pass" : "fail";
-  els.minimumScoreStatus.textContent = passes
-    ? `Alcanzaria el minimo planteado de ${rule.minimumScore}/100.`
-    : `No alcanzaria el minimo planteado de ${rule.minimumScore}/100.`;
-}
-
-function selectScoreRole(role) {
-  selectedScoreRole = role === "directivo" ? "directivo" : "docente";
-  updateScoreCalculator(selectedScoreRole);
 }
 
 function setSimulacroMenuExpanded(expanded) {
@@ -806,11 +762,6 @@ els.tabs.forEach((tab) => {
     switchView(tab.dataset.view);
   });
 });
-els.scoreRoleButtons.forEach((button) => {
-  button.addEventListener("click", () => selectScoreRole(button.dataset.scoreRole));
-});
-els.scoreInput?.addEventListener("input", () => updateScoreCalculator(selectedScoreRole));
-els.weightInput?.addEventListener("input", () => updateScoreCalculator(selectedScoreRole));
 els.themeToggle?.addEventListener("click", () => {
   const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
   applyTheme(nextTheme);
@@ -898,7 +849,6 @@ if (els.workspaceDate) {
 }
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
-updateScoreCalculator(selectedScoreRole);
 updateSimulacroCounts();
 renderNews();
 renderStudy();

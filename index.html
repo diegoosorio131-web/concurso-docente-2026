@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-10">
+    <link rel="stylesheet" href="styles.css?v=20260728-11">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -276,35 +276,6 @@
                 </a>
               </div>
 
-              <div class="score-calculator" aria-labelledby="scoreCalculatorTitle">
-                <div class="score-calculator-head">
-                  <span>Escenario propuesto</span>
-                  <h3 id="scoreCalculatorTitle">Prueba distintos resultados</h3>
-                  <p>Calcula el aporte usando el peso que quieras analizar.</p>
-                </div>
-
-                <div id="scoreRoleSelector" class="score-role-selector" aria-label="Tipo de cargo">
-                  <button class="active" type="button" data-score-role="docente" aria-pressed="true">Docente</button>
-                  <button type="button" data-score-role="directivo" aria-pressed="false">Directivo</button>
-                </div>
-
-                <label class="score-control" for="scoreInput">
-                  <span><strong>Resultado de la prueba</strong><output id="scoreOutput" for="scoreInput">50/100</output></span>
-                  <input id="scoreInput" type="range" min="0" max="100" value="50" step="1">
-                </label>
-
-                <label class="score-control" for="weightInput">
-                  <span><strong>Peso usado en el ejemplo</strong><output id="weightOutput" for="weightInput">55%</output></span>
-                  <input id="weightInput" type="range" min="0" max="100" value="55" step="1">
-                </label>
-
-                <div class="score-result">
-                  <span>Aporte al puntaje final</span>
-                  <strong id="weightedScoreOutput">27,5 puntos</strong>
-                  <p id="minimumScoreStatus" data-status="pass">Alcanzar&iacute;a el m&iacute;nimo planteado.</p>
-                </div>
-                <p class="score-calculator-disclaimer">Simulaci&oacute;n informativa. No representa una calificaci&oacute;n oficial.</p>
-              </div>
             </section>
           </section>
 
@@ -507,6 +478,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-9"></script>
+    <script src="app.js?v=20260728-10"></script>
   </body>
 </html>

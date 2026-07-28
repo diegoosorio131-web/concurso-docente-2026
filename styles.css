@@ -4282,7 +4282,7 @@ body.auth-locked {
 
 .score-explainer {
   display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(320px, .72fr);
+  grid-template-columns: 1fr;
   gap: 36px;
   margin-top: 58px;
   padding: 42px;
@@ -4294,7 +4294,10 @@ body.auth-locked {
 }
 
 .score-explainer-copy {
+  width: 100%;
+  max-width: 980px;
   min-width: 0;
+  margin: 0 auto;
 }
 
 .score-explainer-meta {
@@ -4538,134 +4541,6 @@ body.auth-locked {
 .score-source-link svg {
   width: 15px;
   height: 15px;
-}
-
-.score-calculator {
-  align-self: stretch;
-  min-width: 0;
-  padding: 28px;
-  border-radius: 6px;
-  background: #153d35;
-  color: #fff;
-}
-
-:root[data-theme="dark"] .score-calculator {
-  background: #0d2923;
-}
-
-.score-calculator-head > span {
-  color: #8fd2bd;
-  font-size: 10px;
-  font-weight: 800;
-  text-transform: uppercase;
-}
-
-.score-calculator h3 {
-  margin: 9px 0 7px;
-  color: #fff;
-  font-size: 21px;
-}
-
-.score-calculator-head p,
-.score-calculator-disclaimer {
-  color: rgba(255, 255, 255, .58);
-  font-size: 11px;
-  line-height: 1.5;
-}
-
-.score-role-selector {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 3px;
-  margin: 24px 0;
-  padding: 3px;
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 5px;
-  background: rgba(255, 255, 255, .05);
-}
-
-.score-role-selector button {
-  min-height: 38px;
-  border: 0;
-  border-radius: 3px;
-  background: transparent;
-  color: rgba(255, 255, 255, .62);
-  cursor: pointer;
-  font-size: 11px;
-  font-weight: 800;
-}
-
-.score-role-selector button.active {
-  background: #fff;
-  color: #153d35;
-}
-
-.score-control {
-  display: grid;
-  gap: 12px;
-  margin-top: 20px;
-}
-
-.score-control > span {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  font-size: 11px;
-}
-
-.score-control strong {
-  color: rgba(255, 255, 255, .72);
-}
-
-.score-control output {
-  color: #fff;
-  font-size: 13px;
-  font-weight: 850;
-}
-
-.score-control input {
-  width: 100%;
-  height: 4px;
-  border: 0;
-  border-radius: 2px;
-  accent-color: #ef8068;
-  cursor: pointer;
-}
-
-.score-result {
-  margin-top: 28px;
-  padding: 20px 0;
-  border-top: 1px solid rgba(255, 255, 255, .14);
-  border-bottom: 1px solid rgba(255, 255, 255, .14);
-}
-
-.score-result > span {
-  color: rgba(255, 255, 255, .54);
-  font-size: 10px;
-  font-weight: 750;
-  text-transform: uppercase;
-}
-
-.score-result > strong {
-  display: block;
-  margin: 7px 0 9px;
-  color: #fff;
-  font-size: 30px;
-}
-
-.score-result p {
-  color: #8fd2bd;
-  font-size: 11px;
-  font-weight: 700;
-}
-
-.score-result p[data-status="fail"] {
-  color: #ffad9b;
-}
-
-.score-calculator-disclaimer {
-  margin-top: 16px;
 }
 
 .news-meta span {
@@ -5008,10 +4883,6 @@ body.auth-locked {
   .score-current-rule {
     grid-template-columns: 1fr;
     gap: 7px;
-  }
-
-  .score-calculator {
-    padding: 24px 20px;
   }
 
   .content-grid {
