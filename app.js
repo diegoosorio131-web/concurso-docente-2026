@@ -97,21 +97,26 @@ const simulacroState = {
   completed: false
 };
 
+function progressStorageKey() {
+  if (!window.AULA_CONFIG?.authEnabled) return storageKey;
+  return window.AULA_USER_ID ? `${storageKey}:${window.AULA_USER_ID}` : `${storageKey}:pending`;
+}
+
 function loadProgress() {
   const fallback = { attempts: [], completedItems: [], lastStudyDate: null, streak: 0 };
   try {
-    return { ...fallback, ...JSON.parse(localStorage.getItem(storageKey)) };
+    return { ...fallback, ...JSON.parse(localStorage.getItem(progressStorageKey())) };
   } catch {
     return fallback;
   }
 }
 
 function saveProgress(progress) {
-  localStorage.setItem(storageKey, JSON.stringify(progress));
+  localStorage.setItem(progressStorageKey(), JSON.stringify(progress));
 }
 
 function resetUserProgress() {
-  localStorage.removeItem(storageKey);
+  localStorage.removeItem(progressStorageKey());
   renderStudy();
   renderProgress();
 }
@@ -197,9 +202,34 @@ function getSimulacroQuestions(category) {
 }
 
 function updateSimulacroCounts() {
+  if (window.AULA_CONFIG?.authEnabled) return;
   els.simulacroCounts.forEach((counter) => {
     counter.textContent = String(getSimulacroQuestions(counter.dataset.simulacroCount).length);
   });
+}
+
+async function requestSecureQuiz(category, answers = null) {
+  const config = window.AULA_CONFIG || {};
+  const client = await window.AULA_AUTH_READY;
+  const { data: sessionData } = await client.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  if (!accessToken) throw new Error("Tu sesion ha vencido. Ingresa nuevamente.");
+
+  const response = await fetch(
+    `${config.supabaseUrl}/functions/v1/quiz?category=${encodeURIComponent(category)}`,
+    {
+      method: answers ? "POST" : "GET",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        apikey: config.supabasePublishableKey,
+        ...(answers ? { "Content-Type": "application/json" } : {})
+      },
+      body: answers ? JSON.stringify({ answers }) : undefined
+    }
+  );
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "No fue posible consultar el simulacro.");
+  return data;
 }
 
 function showSimulacroCatalog() {
@@ -324,8 +354,10 @@ function renderSimulacroQuestion() {
   renderSimulacroNavigator();
 }
 
-function startSimulacro(category) {
-  const questions = getSimulacroQuestions(category);
+async function startSimulacro(category) {
+  const secureMode = Boolean(window.AULA_CONFIG?.authEnabled);
+  const data = secureMode ? await requestSecureQuiz(category) : null;
+  const questions = secureMode ? data.questions : getSimulacroQuestions(category);
   if (!questions.length) return;
 
   simulacroState.category = category;
@@ -344,19 +376,47 @@ function startSimulacro(category) {
   els.simulacroRunner.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function finishSimulacro() {
+async function finishSimulacro() {
   if (
     simulacroState.completed
     || !simulacroState.questions.length
     || simulacroState.answers.some((answer) => answer === null)
   ) return;
 
-  const correct = simulacroState.questions.reduce(
-    (total, question, index) => total + (simulacroState.answers[index] === question.answer ? 1 : 0),
-    0
-  );
-  const total = simulacroState.questions.length;
-  const score = Math.round((correct / total) * 100);
+  const secureMode = Boolean(window.AULA_CONFIG?.authEnabled);
+  let correct;
+  let total;
+  let score;
+
+  if (secureMode) {
+    els.simulacroFinishBtn.disabled = true;
+    els.simulacroFinishBtn.textContent = "Calificando...";
+    const result = await requestSecureQuiz(
+      simulacroState.category,
+      simulacroState.questions.map((question, index) => ({
+        id: question.id,
+        answer: simulacroState.answers[index]
+      }))
+    );
+    const reviewById = new Map(result.review.map((item) => [item.id, item]));
+    simulacroState.questions = simulacroState.questions.map((question) => {
+      const review = reviewById.get(question.id);
+      return {
+        ...question,
+        answer: review.correctAnswer,
+        explanation: review.explanation,
+        optionFeedback: review.optionFeedback
+      };
+    });
+    ({ correct, total, score } = result);
+  } else {
+    correct = simulacroState.questions.reduce(
+      (sum, question, index) => sum + (simulacroState.answers[index] === question.answer ? 1 : 0),
+      0
+    );
+    total = simulacroState.questions.length;
+    score = Math.round((correct / total) * 100);
+  }
   const progress = loadProgress();
   progress.attempts = [
     {
@@ -374,7 +434,7 @@ function finishSimulacro() {
   simulacroState.completed = true;
   els.simulacroResultScore.textContent = `${score}%`;
   els.simulacroResultSummary.textContent = `${correct} respuestas correctas de ${total}.`;
-  els.simulacroProvisionalNote.hidden = !window.AULA_SIMULACROS?.provisionalAnswerKey;
+  els.simulacroProvisionalNote.hidden = secureMode || !window.AULA_SIMULACROS?.provisionalAnswerKey;
   renderSimulacroBreakdown();
   els.simulacroRunner.hidden = true;
   els.simulacroResult.hidden = false;
@@ -718,7 +778,19 @@ els.simulacroShortcuts.forEach((button) => {
   });
 });
 els.simulacroStartButtons.forEach((button) => {
-  button.addEventListener("click", () => startSimulacro(button.dataset.startSimulacro));
+  button.addEventListener("click", async () => {
+    const originalText = button.textContent;
+    button.disabled = true;
+    button.textContent = "Cargando...";
+    try {
+      await startSimulacro(button.dataset.startSimulacro);
+    } catch (error) {
+      window.alert(error.message || "No fue posible cargar el simulacro.");
+    } finally {
+      button.disabled = false;
+      button.textContent = originalText;
+    }
+  });
 });
 els.simulacroPrevBtn?.addEventListener("click", () => {
   if (simulacroState.currentIndex > 0) {
@@ -732,7 +804,15 @@ els.simulacroNextBtn?.addEventListener("click", () => {
     renderSimulacroQuestion();
   }
 });
-els.simulacroFinishBtn?.addEventListener("click", finishSimulacro);
+els.simulacroFinishBtn?.addEventListener("click", async () => {
+  try {
+    await finishSimulacro();
+  } catch (error) {
+    els.simulacroFinishBtn.disabled = false;
+    els.simulacroFinishBtn.textContent = "Finalizar";
+    window.alert(error.message || "No fue posible calificar el simulacro.");
+  }
+});
 els.simulacroExitBtn?.addEventListener("click", showSimulacroCatalog);
 els.simulacroReviewBtn?.addEventListener("click", reviewSimulacro);
 els.simulacroReturnBtn?.addEventListener("click", showSimulacroCatalog);
@@ -751,6 +831,11 @@ document.addEventListener("keydown", (event) => {
     setSimulacroMenuExpanded(false);
     els.simulacroTab?.focus();
   }
+});
+window.addEventListener("aula:auth", (event) => {
+  if (!event.detail?.user) return;
+  renderStudy();
+  renderProgress();
 });
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
