@@ -40,7 +40,10 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
-  simulacroCategories: document.querySelectorAll("[data-simulacro-category]"),
+  simulacroMenu: document.getElementById("simulacroMenu"),
+  simulacroTab: document.getElementById("simulacroTab"),
+  simulacroSubmenu: document.getElementById("simulacroSubmenu"),
+  simulacroShortcuts: document.querySelectorAll("[data-simulacro-shortcut]"),
   simulacroPanels: document.querySelectorAll("[data-simulacro-panel]"),
   studyPlan: document.getElementById("studyPlan"),
   flashcards: document.getElementById("flashcards"),
@@ -82,11 +85,21 @@ function setSidebarCollapsed(collapsed) {
   els.sidebarOpenBtn?.setAttribute("aria-expanded", String(!collapsed));
 }
 
+function setSimulacroMenuExpanded(expanded) {
+  els.simulacroMenu?.classList.toggle("expanded", expanded);
+  els.simulacroTab?.setAttribute("aria-expanded", String(expanded));
+  if (els.simulacroSubmenu) els.simulacroSubmenu.hidden = !expanded;
+}
+
 function selectSimulacroCategory(category) {
-  els.simulacroCategories.forEach((button) => {
-    const selected = button.dataset.simulacroCategory === category;
+  els.simulacroShortcuts.forEach((button) => {
+    const selected = button.dataset.simulacroShortcut === category;
     button.classList.toggle("active", selected);
-    button.setAttribute("aria-pressed", String(selected));
+    if (selected) {
+      button.setAttribute("aria-current", "true");
+    } else {
+      button.removeAttribute("aria-current");
+    }
   });
   els.simulacroPanels.forEach((panel) => {
     panel.hidden = panel.dataset.simulacroPanel !== category;
@@ -336,12 +349,20 @@ function renderProgress() {
 function switchView(viewId) {
   els.tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.view === viewId));
   els.views.forEach((view) => view.classList.toggle("active", view.id === viewId));
+  if (viewId !== "simulacro") setSimulacroMenuExpanded(false);
   if (viewId === "estudio") renderStudy();
   if (viewId === "progreso") renderProgress();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-els.tabs.forEach((tab) => tab.addEventListener("click", () => switchView(tab.dataset.view)));
+els.tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    if (tab.dataset.view === "simulacro") {
+      setSimulacroMenuExpanded(!els.simulacroMenu?.classList.contains("expanded"));
+    }
+    switchView(tab.dataset.view);
+  });
+});
 els.homeLink?.addEventListener("click", (event) => {
   event.preventDefault();
   switchView("inicio");
@@ -356,8 +377,18 @@ els.mobileThemeToggle?.addEventListener("click", () => {
 });
 els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
-els.simulacroCategories.forEach((button) => {
-  button.addEventListener("click", () => selectSimulacroCategory(button.dataset.simulacroCategory));
+els.simulacroShortcuts.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectSimulacroCategory(button.dataset.simulacroShortcut);
+    switchView("simulacro");
+    if (window.matchMedia("(max-width: 900px)").matches) setSimulacroMenuExpanded(false);
+  });
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && els.simulacroMenu?.classList.contains("expanded")) {
+    setSimulacroMenuExpanded(false);
+    els.simulacroTab?.focus();
+  }
 });
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");

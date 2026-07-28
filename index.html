@@ -30,12 +30,26 @@
             </span>
             <span>Inicio</span>
           </button>
-          <button class="tab" data-view="simulacro" type="button">
-            <span class="tab-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-            </span>
-            <span>Simulacros</span>
-          </button>
+          <div id="simulacroMenu" class="simulacro-menu">
+            <button id="simulacroTab" class="tab" data-view="simulacro" type="button" aria-expanded="false" aria-controls="simulacroSubmenu">
+              <span class="tab-icon">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </span>
+              <span>Simulacros</span>
+              <svg class="submenu-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <div id="simulacroSubmenu" class="simulacro-submenu" hidden>
+              <button class="simulacro-subcategory active" type="button" data-simulacro-shortcut="pedagogica" aria-current="true">
+                <span aria-hidden="true">01</span>Competencia pedag&oacute;gica
+              </button>
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="especificos">
+                <span aria-hidden="true">02</span>Conocimientos espec&iacute;ficos
+              </button>
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="razonamiento">
+                <span aria-hidden="true">03</span>Razonamiento + lectura cr&iacute;tica
+              </button>
+            </div>
+          </div>
           <button class="tab" data-view="estudio" type="button">
             <span class="tab-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
@@ -139,49 +153,8 @@
               <div class="date-chip"><span>Ruta</span><strong>3 categorias</strong></div>
             </header>
 
-            <section class="simulacro-browser" aria-labelledby="simulacroCategoriesTitle">
-              <header class="simulacro-browser-heading">
-                <span class="eyebrow">Areas de evaluacion</span>
-                <h2 id="simulacroCategoriesTitle">Elige una categoria</h2>
-              </header>
-
-              <div class="simulacro-browser-grid">
-                <div class="simulacro-category-list" aria-label="Categorias de simulacro">
-                  <button class="simulacro-category active" type="button" data-simulacro-category="pedagogica" aria-controls="simulacroPanelPedagogica" aria-pressed="true">
-                    <span class="simulacro-category-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-                    </span>
-                    <span class="simulacro-category-copy">
-                      <strong>Competencia pedag&oacute;gica</strong>
-                      <small>Decisiones y situaciones del aula</small>
-                    </span>
-                    <svg class="simulacro-category-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-                  </button>
-
-                  <button class="simulacro-category" type="button" data-simulacro-category="especificos" aria-controls="simulacroPanelEspecificos" aria-pressed="false">
-                    <span class="simulacro-category-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-                    </span>
-                    <span class="simulacro-category-copy">
-                      <strong>Conocimientos espec&iacute;ficos</strong>
-                      <small>Dominio disciplinar y did&aacute;ctico</small>
-                    </span>
-                    <svg class="simulacro-category-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-                  </button>
-
-                  <button class="simulacro-category" type="button" data-simulacro-category="razonamiento" aria-controls="simulacroPanelRazonamiento" aria-pressed="false">
-                    <span class="simulacro-category-icon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24"><path d="M4 5h16M4 12h10M4 19h7"/><path d="M17 15l3 3-3 3"/></svg>
-                    </span>
-                    <span class="simulacro-category-copy">
-                      <strong>Razonamiento + lectura cr&iacute;tica</strong>
-                      <small>An&aacute;lisis, inferencias y comprensi&oacute;n</small>
-                    </span>
-                    <svg class="simulacro-category-arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-                  </button>
-                </div>
-
-                <div class="simulacro-category-panels">
+            <section class="simulacro-browser" aria-label="Contenido del simulacro seleccionado">
+              <div class="simulacro-category-panels">
                   <article id="simulacroPanelPedagogica" class="simulacro-category-panel" data-simulacro-panel="pedagogica">
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">01</span>
@@ -217,7 +190,6 @@
                       <span>Comprensi&oacute;n</span><span>Inferencias</span><span>Argumentaci&oacute;n</span><span>L&oacute;gica</span>
                     </div>
                   </article>
-                </div>
               </div>
             </section>
           </section>
