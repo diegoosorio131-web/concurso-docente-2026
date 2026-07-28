@@ -42,9 +42,10 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
-  flyerOpenButtons: document.querySelectorAll("[data-open-flyer]"),
-  flyerDialog: document.getElementById("flyerDialog"),
-  flyerDialogClose: document.getElementById("flyerDialogClose"),
+  flyerToggle: document.getElementById("flyerToggle"),
+  flyerToggleLabel: document.getElementById("flyerToggleLabel"),
+  flyerDetails: document.getElementById("flyerDetails"),
+  flyerCollapse: document.getElementById("flyerCollapse"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -775,27 +776,22 @@ els.mobileThemeToggle?.addEventListener("click", () => {
 });
 els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
-els.flyerOpenButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    if (!els.flyerDialog) return;
-    if (typeof els.flyerDialog.showModal === "function") els.flyerDialog.showModal();
-    else els.flyerDialog.setAttribute("open", "");
-  });
-});
-function closeFlyerDialog() {
-  if (typeof els.flyerDialog?.close === "function") els.flyerDialog.close();
-  else els.flyerDialog?.removeAttribute("open");
+function setFlyerExpanded(expanded) {
+  if (!els.flyerToggle || !els.flyerDetails) return;
+  els.flyerToggle.setAttribute("aria-expanded", String(expanded));
+  els.flyerDetails.hidden = !expanded;
+  if (els.flyerToggleLabel) {
+    els.flyerToggleLabel.textContent = expanded
+      ? "Ocultar informaci\u00f3n"
+      : "Ver informaci\u00f3n completa";
+  }
 }
-els.flyerDialogClose?.addEventListener("click", closeFlyerDialog);
-els.flyerDialog?.addEventListener("click", (event) => {
-  const rect = els.flyerDialog.getBoundingClientRect();
-  const outside = (
-    event.clientX < rect.left
-    || event.clientX > rect.right
-    || event.clientY < rect.top
-    || event.clientY > rect.bottom
-  );
-  if (outside) closeFlyerDialog();
+els.flyerToggle?.addEventListener("click", () => {
+  setFlyerExpanded(els.flyerToggle.getAttribute("aria-expanded") !== "true");
+});
+els.flyerCollapse?.addEventListener("click", () => {
+  setFlyerExpanded(false);
+  els.flyerToggle?.scrollIntoView({ behavior: "smooth", block: "center" });
 });
 els.simulacroShortcuts.forEach((button) => {
   button.addEventListener("click", () => {
