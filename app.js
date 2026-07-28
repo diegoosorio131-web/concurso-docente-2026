@@ -418,6 +418,50 @@ function allowedNewsUrl(value) {
   }
 }
 
+function newsFallback() {
+  const fallback = document.createElement("div");
+  fallback.className = "news-media-fallback";
+  const logo = document.createElement("img");
+  logo.src = "assets/logo.svg";
+  logo.alt = "";
+  const label = document.createElement("span");
+  label.textContent = "Informacion oficial";
+  fallback.append(logo, label);
+  return fallback;
+}
+
+function newsMedia(item) {
+  const media = document.createElement("div");
+  media.className = "news-feature-media";
+  if (typeof item.image === "string" && /^assets\/news\/[a-z0-9._-]+$/i.test(item.image)) {
+    const image = document.createElement("img");
+    image.src = item.image;
+    image.alt = "";
+    image.loading = "eager";
+    image.addEventListener("error", () => media.replaceChildren(newsFallback()), { once: true });
+    media.append(image);
+    return media;
+  }
+  try {
+    const imageUrl = new URL(item.image);
+    if (imageUrl.protocol === "https:") {
+      const image = document.createElement("img");
+      image.src = imageUrl.href;
+      image.alt = "";
+      image.loading = "eager";
+      image.referrerPolicy = "no-referrer";
+      image.addEventListener("error", () => media.replaceChildren(newsFallback()), { once: true });
+      media.append(image);
+      return media;
+    }
+  } catch {
+    // The branded fallback below keeps the layout stable.
+  }
+
+  media.append(newsFallback());
+  return media;
+}
+
 function renderNews() {
   const data = window.AULA_NEWS;
   const items = Array.isArray(data?.items)
@@ -438,8 +482,8 @@ function renderNews() {
   summary.textContent = feature.summary;
   const read = newsArrow("news-read");
   read.prepend("Leer comunicado ");
-  featureCopy.append(topic, title, summary, read);
-  els.newsFeature.replaceChildren(newsMeta(feature), featureCopy);
+  featureCopy.append(newsMeta(feature), topic, title, summary, read);
+  els.newsFeature.replaceChildren(newsMedia(feature), featureCopy);
 
   const cards = items.slice(1).map((item) => {
     const card = document.createElement("a");

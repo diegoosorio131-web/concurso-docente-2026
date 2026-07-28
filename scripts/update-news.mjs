@@ -1,10 +1,12 @@
-import { readFile, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectDir = path.resolve(scriptDir, "..");
 const outputPath = path.join(projectDir, "data", "news-data.js");
+const newsAssetsDir = path.join(projectDir, "assets", "news");
+const featureImagePath = path.join(newsAssetsDir, "feature.jpg");
 
 const sources = [
   {
@@ -137,6 +139,26 @@ function extractMeta(html, names) {
   return "";
 }
 
+function extractArticleImage(html, baseUrl) {
+  const images = [];
+  const pattern = /<img\b[^>]*(?:src|data-src)\s*=\s*["']([^"']+)["'][^>]*>/gi;
+  let match;
+  while ((match = pattern.exec(html))) {
+    const rawSource = decodeHtml(match[1]);
+    const url = /^articles-\d+_recurso/i.test(rawSource)
+      ? new URL(`/1780/${rawSource}`, baseUrl).href
+      : absoluteUrl(rawSource, baseUrl);
+    if (!url || !/\.(png|jpe?g|webp)(\?|$)/i.test(url)) continue;
+    const normalized = normalizeForScore(url);
+    let score = 0;
+    if (/articles-\d+_recurso/i.test(url)) score += 30;
+    if (normalized.includes("comunicado") || normalized.includes("noticia")) score += 10;
+    if (normalized.includes("logo") || normalized.includes("icon")) score -= 20;
+    images.push({ url, score });
+  }
+  return images.sort((a, b) => b.score - a.score)[0]?.url ?? "";
+}
+
 function extractDate(html) {
   const candidates = [
     extractMeta(html, ["article:published_time", "date", "DC.date"]),
@@ -179,6 +201,13 @@ async function enrichCandidate(candidate) {
     const pageTitle = extractMeta(html, ["og:title", "twitter:title"]) || candidate.title;
     const summary = extractMeta(html, ["description", "og:description"])
       || cleanText(/<p\b[^>]*>([\s\S]*?)<\/p>/i.exec(html)?.[1] ?? "");
+    const menArticleId = /\/Comunicados\/(\d+):/i.exec(candidate.url)?.[1];
+    const inferredMenImage = menArticleId
+      ? `https://www.mineducacion.gov.co/1780/articles-${menArticleId}_recurso_1.png`
+      : "";
+    const image = extractMeta(html, ["og:image", "twitter:image"])
+      || extractArticleImage(html, candidate.url)
+      || inferredMenImage;
     const title = pageTitle.slice(0, 180);
     const cleanedSummary = summary.slice(0, 260);
     return {
@@ -186,6 +215,7 @@ async function enrichCandidate(candidate) {
       title,
       summary: cleanedSummary || "Consulta la publicacion oficial para conocer todos los detalles.",
       date: extractDate(html),
+      image: image ? absoluteUrl(image, candidate.url) : candidate.image,
       topic: relevanceScore(`${title} ${cleanedSummary}`) >= 15 ? "Concurso y carrera docente" : "Actualidad educativa",
       score: relevanceScore(`${title} ${cleanedSummary}`)
     };
@@ -216,6 +246,32 @@ async function loadExistingItems() {
   }
 }
 
+async function localizeFeatureImage(items) {
+  const feature = items[0];
+  if (!feature?.image?.startsWith("https://")) return;
+  try {
+    const response = await fetch(feature.image, {
+      headers: {
+        "Accept": "image/avif,image/webp,image/png,image/jpeg",
+        "User-Agent": "Aula2026-NewsBot/1.0 (+https://github.com/)"
+      },
+      signal: AbortSignal.timeout(20000)
+    });
+    const contentType = response.headers.get("content-type") ?? "";
+    if (!response.ok || !contentType.startsWith("image/")) {
+      throw new Error(`${response.status} ${contentType || "sin tipo de contenido"}`);
+    }
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (bytes.length > 8_000_000) throw new Error("la imagen supera 8 MB");
+    await mkdir(newsAssetsDir, { recursive: true });
+    await writeFile(featureImagePath, bytes);
+    feature.image = "assets/news/feature.jpg";
+  } catch (error) {
+    console.warn(`No se pudo guardar la imagen principal: ${error.message}`);
+    delete feature.image;
+  }
+}
+
 async function main() {
   const discovered = [];
 
@@ -228,12 +284,26 @@ async function main() {
     }
   }
 
-  const unique = [...new Map(discovered.map((item) => [item.url, item])).values()];
-  const enriched = await Promise.all(unique.slice(0, 18).map(enrichCandidate));
   const existing = await loadExistingItems();
+  const unique = [...new Map([
+    ...discovered.slice(0, 18),
+    ...existing.filter((item) => !item.image)
+  ].map((item) => [item.url, item])).values()];
+  const enriched = await Promise.all(unique.map(enrichCandidate));
   const relevantDiscovered = enriched
     .filter((item) => relevanceScore(`${item.title} ${item.summary ?? ""}`) >= 6);
-  const combined = [...relevantDiscovered, ...existing]
+  const enrichedByUrl = new Map(enriched.map((item) => [item.url, item]));
+  const refreshedExisting = existing.map((item) => {
+    const fresh = enrichedByUrl.get(item.url);
+    return fresh
+      ? {
+          ...item,
+          date: fresh.date || item.date,
+          image: fresh.image || item.image
+        }
+      : item;
+  });
+  const combined = [...relevantDiscovered, ...refreshedExisting]
     .filter((item) => item.title && item.url);
 
   const ranked = [...new Map(combined.map((item) => [item.url, item])).values()]
@@ -246,6 +316,7 @@ async function main() {
     throw new Error("No se encontraron al menos tres noticias relevantes; se conserva el archivo anterior.");
   }
 
+  await localizeFeatureImage(ranked);
   const payload = {
     generatedAt: new Date().toISOString(),
     items: ranked

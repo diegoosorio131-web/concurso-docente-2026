@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-07-28T02:40:30.297Z",
+  "generatedAt": "2026-07-28T03:47:31.564Z",
   "items": [
     {
       "source": "MEN",
@@ -7,7 +7,8 @@ window.AULA_NEWS = {
       "title": "Educacion y CNSC anuncian avances claves para la carrera docente",
       "summary": "Las entidades informaron avances en la ejecucion del nuevo concurso, los procesos de encargo y los traslados por seguridad.",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
-      "topic": "Nuevo concurso de meritos"
+      "topic": "Nuevo concurso de meritos",
+      "image": "assets/news/feature.jpg"
     },
     {
       "source": "CNSC",
