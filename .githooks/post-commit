@@ -1,0 +1,12 @@
+#!/bin/sh
+
+branch="$(git branch --show-current)"
+
+if [ "$branch" != "main" ]; then
+  exit 0
+fi
+
+echo "Enviando cambios a GitHub..."
+if ! git push origin main; then
+  echo "No se pudo enviar el commit. Puedes reintentarlo con: git push origin main" >&2
+fi
