@@ -639,13 +639,6 @@ function renderStudy() {
 
 function renderProgress() {
   const progress = loadProgress();
-  const hasProgress = (
-    progress.attempts.length > 0
-    || progress.completedItems.length > 0
-    || Boolean(progress.lastStudyDate)
-    || progress.streak > 0
-  );
-  if (els.resetProgressBtn) els.resetProgressBtn.disabled = !hasProgress;
   if (!progress.attempts.length) {
     els.attemptsList.innerHTML = `<p>Aun no hay simulacros registrados.</p>`;
     els.recommendations.innerHTML = `<p>Completa un simulacro para recibir recomendaciones por area.</p>`;
@@ -746,7 +739,11 @@ els.simulacroReturnBtn?.addEventListener("click", showSimulacroCatalog);
 els.resetProgressBtn?.addEventListener("click", () => {
   if (!els.resetProgressDialog) return;
   els.resetProgressDialog.returnValue = "";
-  els.resetProgressDialog.showModal();
+  if (typeof els.resetProgressDialog.showModal === "function") {
+    els.resetProgressDialog.showModal();
+  } else {
+    els.resetProgressDialog.setAttribute("open", "");
+  }
 });
 els.confirmResetProgressBtn?.addEventListener("click", resetUserProgress);
 document.addEventListener("keydown", (event) => {
