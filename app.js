@@ -37,6 +37,8 @@ const els = {
   mobileThemeToggle: document.getElementById("mobileThemeToggle"),
   sidebarToggle: document.getElementById("sidebarToggle"),
   sidebarOpenBtn: document.getElementById("sidebarOpenBtn"),
+  workspaceViewLabel: document.getElementById("workspaceViewLabel"),
+  workspaceDate: document.getElementById("workspaceDate"),
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
@@ -739,8 +741,15 @@ function renderProgress() {
 }
 
 function switchView(viewId) {
+  const viewLabels = {
+    inicio: "Inicio",
+    simulacro: "Simulacros",
+    estudio: "Estudiar",
+    progreso: "Mi progreso"
+  };
   els.tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.view === viewId));
   els.views.forEach((view) => view.classList.toggle("active", view.id === viewId));
+  if (els.workspaceViewLabel) els.workspaceViewLabel.textContent = viewLabels[viewId] || "Aula 2026";
   if (viewId !== "simulacro") setSimulacroMenuExpanded(false);
   if (viewId === "estudio") renderStudy();
   if (viewId === "progreso") renderProgress();
@@ -837,6 +846,13 @@ window.addEventListener("aula:auth", (event) => {
   renderStudy();
   renderProgress();
 });
+if (els.workspaceDate) {
+  els.workspaceDate.textContent = new Intl.DateTimeFormat("es-CO", {
+    weekday: "long",
+    day: "numeric",
+    month: "long"
+  }).format(new Date());
+}
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
 updateSimulacroCounts();

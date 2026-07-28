@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-5">
+    <link rel="stylesheet" href="styles.css?v=20260728-6">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -169,6 +169,17 @@
           <button id="mobileThemeToggle" class="mobile-theme" type="button" aria-label="Cambiar tema">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
           </button>
+        </header>
+
+        <header class="workspace-topbar">
+          <div class="workspace-context">
+            <span>Espacio de preparaci&oacute;n</span>
+            <strong id="workspaceViewLabel">Inicio</strong>
+          </div>
+          <div class="workspace-status">
+            <span class="workspace-secure"><i aria-hidden="true"></i> Sesi&oacute;n protegida</span>
+            <time id="workspaceDate"></time>
+          </div>
         </header>
 
         <div class="page">
@@ -418,8 +429,8 @@
     </dialog>
 
     <script src="config.js?v=20260728-4"></script>
-    <script src="auth.js?v=20260728-5"></script>
-    <script src="data/news-data.js?v=20260728-5"></script>
-    <script src="app.js?v=20260728-5"></script>
+    <script src="auth.js?v=20260728-6"></script>
+    <script src="data/news-data.js?v=20260728-6"></script>
+    <script src="app.js?v=20260728-6"></script>
   </body>
 </html>
