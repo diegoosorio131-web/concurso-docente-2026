@@ -45,10 +45,46 @@ const els = {
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
   simulacroShortcuts: document.querySelectorAll("[data-simulacro-shortcut]"),
   simulacroPanels: document.querySelectorAll("[data-simulacro-panel]"),
+  simulacroBrowser: document.querySelector(".simulacro-browser"),
+  simulacroStartButtons: document.querySelectorAll("[data-start-simulacro]"),
+  simulacroCounts: document.querySelectorAll("[data-simulacro-count]"),
+  simulacroRunner: document.getElementById("simulacroRunner"),
+  simulacroRunnerCategory: document.getElementById("simulacroRunnerCategory"),
+  simulacroRunnerTitle: document.getElementById("simulacroRunnerTitle"),
+  simulacroAnsweredCount: document.getElementById("simulacroAnsweredCount"),
+  simulacroProgressBar: document.getElementById("simulacroProgressBar"),
+  simulacroQuestionNav: document.getElementById("simulacroQuestionNav"),
+  simulacroSituation: document.getElementById("simulacroSituation"),
+  simulacroSituationRange: document.getElementById("simulacroSituationRange"),
+  simulacroSituationTopic: document.getElementById("simulacroSituationTopic"),
+  simulacroSituationText: document.getElementById("simulacroSituationText"),
+  simulacroQuestionNumber: document.getElementById("simulacroQuestionNumber"),
+  simulacroQuestionPrompt: document.getElementById("simulacroQuestionPrompt"),
+  simulacroOptions: document.getElementById("simulacroOptions"),
+  simulacroPrevBtn: document.getElementById("simulacroPrevBtn"),
+  simulacroNextBtn: document.getElementById("simulacroNextBtn"),
+  simulacroFinishBtn: document.getElementById("simulacroFinishBtn"),
+  simulacroExitBtn: document.getElementById("simulacroExitBtn"),
+  simulacroResult: document.getElementById("simulacroResult"),
+  simulacroResultScore: document.getElementById("simulacroResultScore"),
+  simulacroResultSummary: document.getElementById("simulacroResultSummary"),
+  simulacroProvisionalNote: document.getElementById("simulacroProvisionalNote"),
+  simulacroReviewBtn: document.getElementById("simulacroReviewBtn"),
+  simulacroReturnBtn: document.getElementById("simulacroReturnBtn"),
   studyPlan: document.getElementById("studyPlan"),
   flashcards: document.getElementById("flashcards"),
   attemptsList: document.getElementById("attemptsList"),
   recommendations: document.getElementById("recommendations")
+};
+
+const simulacroState = {
+  category: null,
+  questions: [],
+  answers: [],
+  currentIndex: 0,
+  currentBlockId: null,
+  reviewMode: false,
+  completed: false
 };
 
 function loadProgress() {
@@ -104,6 +140,209 @@ function selectSimulacroCategory(category) {
   els.simulacroPanels.forEach((panel) => {
     panel.hidden = panel.dataset.simulacroPanel !== category;
   });
+}
+
+function simulacroCategoryLabel(category) {
+  return {
+    pedagogica: "Competencia pedagogica",
+    especificos: "Conocimientos especificos",
+    razonamiento: "Razonamiento + lectura critica"
+  }[category] || "Simulacro";
+}
+
+function getSimulacroQuestions(category) {
+  const tests = Array.isArray(window.AULA_SIMULACROS?.tests) ? window.AULA_SIMULACROS.tests : [];
+  return tests.flatMap((test) => {
+    const blocks = Array.isArray(test.blocks) ? test.blocks : [];
+    return blocks
+      .filter((block) => block.category === category && Array.isArray(block.questions))
+      .flatMap((block) => block.questions
+        .filter((question) => (
+          Number.isInteger(question.answer)
+          && question.answer >= 0
+          && question.answer < 3
+          && Array.isArray(question.options)
+          && question.options.length === 3
+          && typeof question.prompt === "string"
+        ))
+        .map((question) => ({
+          ...question,
+          testId: test.id,
+          testTitle: test.title,
+          blockId: block.id,
+          range: block.range,
+          topic: block.topic,
+          situation: block.situation
+        })));
+  });
+}
+
+function updateSimulacroCounts() {
+  els.simulacroCounts.forEach((counter) => {
+    counter.textContent = String(getSimulacroQuestions(counter.dataset.simulacroCount).length);
+  });
+}
+
+function showSimulacroCatalog() {
+  if (els.simulacroBrowser) els.simulacroBrowser.hidden = false;
+  if (els.simulacroRunner) els.simulacroRunner.hidden = true;
+  if (els.simulacroResult) els.simulacroResult.hidden = true;
+}
+
+function renderSimulacroNavigator() {
+  const buttons = simulacroState.questions.map((question, index) => {
+    const button = document.createElement("button");
+    const answer = simulacroState.answers[index];
+    button.type = "button";
+    button.textContent = String(question.number);
+    button.classList.toggle("answered", answer !== null);
+    button.classList.toggle("current", index === simulacroState.currentIndex);
+    if (simulacroState.reviewMode) {
+      button.classList.toggle("correct", answer === question.answer);
+      button.classList.toggle("wrong", answer !== question.answer);
+    }
+    button.setAttribute("aria-label", `Ir a la pregunta ${question.number}`);
+    button.addEventListener("click", () => {
+      simulacroState.currentIndex = index;
+      renderSimulacroQuestion();
+    });
+    return button;
+  });
+  els.simulacroQuestionNav.replaceChildren(...buttons);
+}
+
+function renderSimulacroSituation(question) {
+  const changedBlock = simulacroState.currentBlockId !== question.blockId;
+  simulacroState.currentBlockId = question.blockId;
+  els.simulacroSituationRange.textContent = `Situacion ${question.range}`;
+  els.simulacroSituationTopic.textContent = question.topic;
+
+  const paragraphs = String(question.situation || "")
+    .split(/\n{2,}/)
+    .filter(Boolean)
+    .map((text) => {
+      const paragraph = document.createElement("p");
+      paragraph.textContent = text;
+      return paragraph;
+    });
+  els.simulacroSituationText.replaceChildren(...paragraphs);
+  if (changedBlock) els.simulacroSituation.open = true;
+}
+
+function renderSimulacroOptions(question) {
+  const selectedAnswer = simulacroState.answers[simulacroState.currentIndex];
+  const options = question.options.map((text, index) => {
+    const option = document.createElement("button");
+    const letter = document.createElement("span");
+    const copy = document.createElement("span");
+    option.type = "button";
+    option.className = "simulacro-option";
+    option.disabled = simulacroState.reviewMode;
+    option.classList.toggle("selected", !simulacroState.reviewMode && selectedAnswer === index);
+    if (simulacroState.reviewMode) {
+      option.classList.toggle("correct", index === question.answer);
+      option.classList.toggle("wrong", selectedAnswer === index && index !== question.answer);
+    }
+    letter.className = "simulacro-option-letter";
+    letter.textContent = String.fromCharCode(65 + index);
+    copy.textContent = text;
+    option.append(letter, copy);
+    option.addEventListener("click", () => {
+      simulacroState.answers[simulacroState.currentIndex] = index;
+      markStudyActivity();
+      renderSimulacroQuestion();
+    });
+    return option;
+  });
+  els.simulacroOptions.replaceChildren(...options);
+}
+
+function renderSimulacroQuestion() {
+  const question = simulacroState.questions[simulacroState.currentIndex];
+  if (!question) return;
+
+  const answered = simulacroState.answers.filter((answer) => answer !== null).length;
+  const total = simulacroState.questions.length;
+  const percent = total ? Math.round((answered / total) * 100) : 0;
+  els.simulacroAnsweredCount.textContent = `${answered}/${total}`;
+  els.simulacroProgressBar.style.width = `${percent}%`;
+  els.simulacroProgressBar.parentElement.setAttribute("aria-valuenow", String(percent));
+  els.simulacroQuestionNumber.textContent = `Pregunta ${question.number} - ${simulacroState.currentIndex + 1} de ${total}`;
+  els.simulacroQuestionPrompt.textContent = question.prompt;
+  els.simulacroPrevBtn.disabled = simulacroState.currentIndex === 0;
+  els.simulacroNextBtn.disabled = simulacroState.currentIndex === total - 1;
+  els.simulacroFinishBtn.disabled = simulacroState.reviewMode || answered !== total;
+  els.simulacroFinishBtn.textContent = answered === total ? "Finalizar" : `Faltan ${total - answered}`;
+  renderSimulacroSituation(question);
+  renderSimulacroOptions(question);
+  renderSimulacroNavigator();
+}
+
+function startSimulacro(category) {
+  const questions = getSimulacroQuestions(category);
+  if (!questions.length) return;
+
+  simulacroState.category = category;
+  simulacroState.questions = questions;
+  simulacroState.answers = Array(questions.length).fill(null);
+  simulacroState.currentIndex = 0;
+  simulacroState.currentBlockId = null;
+  simulacroState.reviewMode = false;
+  simulacroState.completed = false;
+  els.simulacroRunnerCategory.textContent = simulacroCategoryLabel(category);
+  els.simulacroRunnerTitle.textContent = questions[0].testTitle;
+  els.simulacroBrowser.hidden = true;
+  els.simulacroResult.hidden = true;
+  els.simulacroRunner.hidden = false;
+  renderSimulacroQuestion();
+  els.simulacroRunner.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function finishSimulacro() {
+  if (
+    simulacroState.completed
+    || !simulacroState.questions.length
+    || simulacroState.answers.some((answer) => answer === null)
+  ) return;
+
+  const correct = simulacroState.questions.reduce(
+    (total, question, index) => total + (simulacroState.answers[index] === question.answer ? 1 : 0),
+    0
+  );
+  const total = simulacroState.questions.length;
+  const score = Math.round((correct / total) * 100);
+  const progress = loadProgress();
+  progress.attempts = [
+    {
+      date: new Date().toLocaleString("es-CO"),
+      score,
+      correct,
+      total,
+      byCategory: {
+        [simulacroState.category]: { total, correct }
+      }
+    },
+    ...progress.attempts
+  ].slice(0, 8);
+  saveProgress(progress);
+  simulacroState.completed = true;
+  els.simulacroResultScore.textContent = `${score}%`;
+  els.simulacroResultSummary.textContent = `${correct} respuestas correctas de ${total}.`;
+  els.simulacroProvisionalNote.hidden = !window.AULA_SIMULACROS?.provisionalAnswerKey;
+  els.simulacroRunner.hidden = true;
+  els.simulacroResult.hidden = false;
+  renderProgress();
+  els.simulacroResult.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function reviewSimulacro() {
+  simulacroState.reviewMode = true;
+  simulacroState.currentIndex = 0;
+  simulacroState.currentBlockId = null;
+  els.simulacroResult.hidden = true;
+  els.simulacroRunner.hidden = false;
+  renderSimulacroQuestion();
+  els.simulacroRunner.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function newsArrow(className) {
@@ -261,9 +500,12 @@ function markStudyActivity() {
 function labelCategory(category) {
   return {
     pedagogia: "Pedagogia",
+    pedagogica: "Competencia pedagogica",
     normativa: "Normativa",
     competencias: "Competencias",
-    lectura: "Lectura critica"
+    especificos: "Conocimientos especificos",
+    lectura: "Lectura critica",
+    razonamiento: "Razonamiento + lectura critica"
   }[category] || "General";
 }
 function renderStudy() {
@@ -379,11 +621,31 @@ els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
 els.simulacroShortcuts.forEach((button) => {
   button.addEventListener("click", () => {
+    showSimulacroCatalog();
     selectSimulacroCategory(button.dataset.simulacroShortcut);
     switchView("simulacro");
     if (window.matchMedia("(max-width: 900px)").matches) setSimulacroMenuExpanded(false);
   });
 });
+els.simulacroStartButtons.forEach((button) => {
+  button.addEventListener("click", () => startSimulacro(button.dataset.startSimulacro));
+});
+els.simulacroPrevBtn?.addEventListener("click", () => {
+  if (simulacroState.currentIndex > 0) {
+    simulacroState.currentIndex -= 1;
+    renderSimulacroQuestion();
+  }
+});
+els.simulacroNextBtn?.addEventListener("click", () => {
+  if (simulacroState.currentIndex < simulacroState.questions.length - 1) {
+    simulacroState.currentIndex += 1;
+    renderSimulacroQuestion();
+  }
+});
+els.simulacroFinishBtn?.addEventListener("click", finishSimulacro);
+els.simulacroExitBtn?.addEventListener("click", showSimulacroCatalog);
+els.simulacroReviewBtn?.addEventListener("click", reviewSimulacro);
+els.simulacroReturnBtn?.addEventListener("click", showSimulacroCatalog);
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && els.simulacroMenu?.classList.contains("expanded")) {
     setSimulacroMenuExpanded(false);
@@ -392,6 +654,7 @@ document.addEventListener("keydown", (event) => {
 });
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
+updateSimulacroCounts();
 renderNews();
 renderStudy();
 renderProgress();

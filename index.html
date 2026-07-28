@@ -158,24 +158,38 @@
                   <article id="simulacroPanelPedagogica" class="simulacro-category-panel" data-simulacro-panel="pedagogica">
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">01</span>
-                      <span class="simulacro-panel-status"><i aria-hidden="true"></i> En preparacion</span>
+                      <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
                     </div>
                     <h2>Competencia pedag&oacute;gica</h2>
                     <p>Situaciones relacionadas con planeaci&oacute;n, evaluaci&oacute;n, inclusi&oacute;n y toma de decisiones en el aula.</p>
                     <div class="simulacro-topics" aria-label="Temas de competencia pedagogica">
                       <span>Planeaci&oacute;n</span><span>Evaluaci&oacute;n</span><span>Inclusi&oacute;n</span><span>Convivencia</span>
                     </div>
+                    <div class="simulacro-panel-action">
+                      <div><strong data-simulacro-count="pedagogica">16</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="pedagogica">
+                        Comenzar
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </button>
+                    </div>
                   </article>
 
                   <article id="simulacroPanelEspecificos" class="simulacro-category-panel" data-simulacro-panel="especificos" hidden>
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">02</span>
-                      <span class="simulacro-panel-status"><i aria-hidden="true"></i> En preparacion</span>
+                      <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
                     </div>
                     <h2>Conocimientos espec&iacute;ficos</h2>
                     <p>Contenidos asociados con el saber disciplinar, la did&aacute;ctica del &aacute;rea y su aplicaci&oacute;n en contextos educativos.</p>
                     <div class="simulacro-topics" aria-label="Temas de conocimientos especificos">
                       <span>Saber disciplinar</span><span>Did&aacute;ctica</span><span>Aplicaci&oacute;n</span>
+                    </div>
+                    <div class="simulacro-panel-action">
+                      <div><strong data-simulacro-count="especificos">4</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="especificos">
+                        Comenzar
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </button>
                     </div>
                   </article>
 
@@ -190,6 +204,67 @@
                       <span>Comprensi&oacute;n</span><span>Inferencias</span><span>Argumentaci&oacute;n</span><span>L&oacute;gica</span>
                     </div>
                   </article>
+              </div>
+            </section>
+
+            <section id="simulacroRunner" class="simulacro-runner" aria-label="Simulacro en curso" hidden>
+              <header class="simulacro-runner-head">
+                <button id="simulacroExitBtn" class="icon-button" type="button" aria-label="Salir del simulacro" title="Salir del simulacro">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                </button>
+                <div>
+                  <span id="simulacroRunnerCategory" class="eyebrow"></span>
+                  <h2 id="simulacroRunnerTitle">Prueba de competencias docentes 01</h2>
+                </div>
+                <div class="simulacro-runner-count">
+                  <strong id="simulacroAnsweredCount">0/0</strong>
+                  <span>respondidas</span>
+                </div>
+              </header>
+
+              <div class="simulacro-runner-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                <span id="simulacroProgressBar"></span>
+              </div>
+
+              <nav id="simulacroQuestionNav" class="simulacro-question-nav" aria-label="Preguntas del simulacro"></nav>
+
+              <details id="simulacroSituation" class="simulacro-situation" open>
+                <summary>
+                  <span id="simulacroSituationRange">Situacion</span>
+                  <strong id="simulacroSituationTopic"></strong>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                </summary>
+                <div id="simulacroSituationText" class="simulacro-situation-text"></div>
+              </details>
+
+              <article class="simulacro-question">
+                <span id="simulacroQuestionNumber" class="simulacro-question-number">Pregunta 1</span>
+                <h2 id="simulacroQuestionPrompt"></h2>
+                <div id="simulacroOptions" class="simulacro-options"></div>
+              </article>
+
+              <footer class="simulacro-runner-actions">
+                <button id="simulacroPrevBtn" class="btn btn-secondary" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                  Anterior
+                </button>
+                <button id="simulacroNextBtn" class="btn btn-secondary" type="button">
+                  Siguiente
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+                <button id="simulacroFinishBtn" class="btn btn-primary" type="button" disabled>Finalizar</button>
+              </footer>
+            </section>
+
+            <section id="simulacroResult" class="simulacro-result" aria-labelledby="simulacroResultTitle" hidden>
+              <span class="simulacro-result-label">Resultado del simulacro</span>
+              <strong id="simulacroResultScore" class="simulacro-result-score">0%</strong>
+              <h2 id="simulacroResultTitle">Simulacro completado</h2>
+              <p id="simulacroResultSummary"></p>
+              <p id="simulacroProvisionalNote" class="simulacro-provisional-note">Calificacion basada en una clave tecnica provisional.</p>
+              <div class="simulacro-result-actions">
+                <button id="simulacroReviewBtn" class="btn btn-secondary" type="button">Revisar respuestas</button>
+                <button id="simulacroReturnBtn" class="btn btn-primary" type="button">Volver a categorias</button>
               </div>
             </section>
           </section>
@@ -237,6 +312,7 @@
     </div>
 
     <script src="data/news-data.js"></script>
+    <script src="data/simulacros.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
