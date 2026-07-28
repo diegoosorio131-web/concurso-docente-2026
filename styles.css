@@ -2909,6 +2909,22 @@ body.sidebar-collapsed .sidebar-open {
   margin-bottom: 0;
 }
 
+#simulacroFeedbackWrongReason {
+  color: var(--red);
+}
+
+#simulacroFeedbackCorrectAnswer {
+  border-top: 1px solid color-mix(in srgb, var(--green) 28%, transparent);
+  color: var(--green);
+  font-weight: 750;
+  margin-top: 12px;
+  padding-top: 12px;
+}
+
+#simulacroFeedbackCorrectReason {
+  color: var(--text);
+}
+
 .simulacro-runner-actions {
   align-items: center;
   display: flex;
@@ -3044,6 +3060,23 @@ body.sidebar-collapsed .sidebar-open {
 
 .simulacro-result-item p:last-child {
   margin-bottom: 0;
+}
+
+.simulacro-result-selection,
+.simulacro-result-correct-answer {
+  color: var(--ink) !important;
+  font-weight: 750;
+}
+
+.simulacro-result-wrong-reason {
+  color: var(--red) !important;
+}
+
+.simulacro-result-correct-answer {
+  border-top: 1px solid var(--line);
+  color: var(--green) !important;
+  margin-top: 12px;
+  padding-top: 12px;
 }
 
 .simulacro-result-actions {

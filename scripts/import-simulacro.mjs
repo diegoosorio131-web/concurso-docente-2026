@@ -90,6 +90,89 @@ const answerKey = {
   }
 };
 
+const wrongFeedback = {
+  1: {
+    A: "Depurar duplicados, entregas tardías y valores extremos mejora la calidad de los datos, pero no corrige el cambio de rúbrica, de unidad de análisis ni de ponderación. Por eso todavía no permite comparar válidamente los periodos.",
+    C: "La triangulación ayuda a interpretar el resultado, pero se realizaría sobre mediciones que aún no son equivalentes. Primero debe corregirse la comparabilidad métrica para separar una mejora real de un efecto metodológico."
+  },
+  2: {
+    A: "La integración de series, entrevistas y auditorías explica mecanismos y aporta contexto, pero no construye una comparación suficientemente fuerte frente a la asignación no aleatoria del acompañamiento.",
+    B: "El modelo multinivel controla sede, tiempo y variables observadas, pero no aborda de manera explícita la selección no aleatoria de quienes recibieron más acompañamiento ni prueba la sensibilidad frente a ese sesgo."
+  },
+  3: {
+    A: "Ampliar la implementación mientras solo se anexan reservas mantiene el indicador inestable y extiende una estrategia antes de definir criterios verificables para decidir si realmente funciona.",
+    B: "Suspender completamente la estrategia es desproporcionado porque existe una señal favorable y no se reportan daños que exijan detenerla. Puede continuar de manera controlada mientras se valida la medición."
+  },
+  4: {
+    B: "Las auditorías rotativas permiten detectar diferencias de ejecución, pero no fijan previamente las unidades, reglas de ausencia, fuentes y umbrales necesarios para que la medición sea estable.",
+    C: "Los informes y reuniones mejoran la coordinación, pero una mayor frecuencia de reporte no corrige por sí misma las inconsistencias del indicador ni establece reglas trazables de decisión."
+  },
+  5: {
+    B: "Priorizar innovación, factibilidad y transferencia concede ventaja al documento del asesor antes de comprobar su coherencia con el PEI, el POA y las prácticas institucionales.",
+    C: "Las percepciones y resultados agregados aportan evidencia útil, pero no muestran por sí solos la correspondencia normativa y estratégica que debe orientar la revisión completa del lineamiento."
+  },
+  6: {
+    A: "La aceptación docente y la facilidad de registro informan la viabilidad operativa, pero no demuestran que un descriptor sea pedagógicamente válido ni coherente con el enfoque institucional.",
+    B: "La consistencia, progresión y observabilidad mejoran la calidad técnica del descriptor, pero son insuficientes si este contradice el PEI, excluye formas de evidencia o produce consecuencias pedagógicas no deseadas."
+  },
+  7: {
+    A: "Probar únicamente en sedes estables repite el sesgo de representación identificado en la elaboración del marco y no permite saber cómo funciona en contextos con otras trayectorias y condiciones.",
+    C: "Las mesas con expertos ayudan a depurar interpretaciones, pero no sustituyen una aplicación empírica que incluya sedes, estudiantes y trayectorias diversas con criterios definidos previamente."
+  },
+  8: {
+    A: "Las actas, la matriz normativa y el cronograma formalizan el trámite, pero no garantizan que la decisión incorpore la evidencia de validación, los disensos ni reglas para revisar posteriormente el lineamiento.",
+    B: "Los laboratorios y la asesoría entre pares favorecen la apropiación, pero no reemplazan la decisión trazable de la instancia académica competente ni las condiciones formales de aplicación y revisión."
+  },
+  9: {
+    A: "Registrar fechas y autores produce un inventario, pero no distingue autoridad, vigencia, alcance ni función. Un material reciente o relacionado con el objetivo anual puede seguir sin ser aplicable.",
+    C: "Los resultados prácticos de una matriz externa no determinan su autoridad ni corrigen las omisiones frente a la fuente oficial. La aplicabilidad documental debe resolverse antes de valorar su conveniencia."
+  },
+  10: {
+    A: "Una circular territorial no se vuelve aplicable solo por ser auténtica, especialmente si se apoya en un borrador. Deben verificarse competencia, jerarquía, vigencia y compatibilidad con la norma nacional.",
+    B: "La fecha más reciente no define por sí sola la fuerza jurídica ni el alcance. Un documento posterior puede ser técnico, orientativo o emitido por una autoridad sin competencia para modificar la regla aplicable."
+  },
+  11: {
+    B: "Mantener las orientaciones actuales prolonga las inconsistencias ya identificadas entre PEI, planeación y evaluación, aun cuando el marco ministerial aplicable ya fue determinado.",
+    C: "Cambiar la terminología de la matriz externa no corrige sus omisiones ni le otorga autoridad. Además, conserva el riesgo de reducir la diversidad de evidencias exigida por los referentes oficiales."
+  },
+  12: {
+    A: "Analizar novedades y distribuir temas fortalece el estudio colectivo, pero no asegura validación de las fuentes, aplicación en el aula ni evaluación de los cambios realizados.",
+    B: "El repositorio mejora acceso y trazabilidad documental, pero almacenar versiones no demuestra que el profesorado estudie, aplique y evalúe los referentes para transformar su práctica."
+  },
+  13: {
+    A: "Priorizar razonamiento y autonomía deja en segundo plano las barreras, la regulación emocional, la participación física y la interacción social que forman parte del objetivo integral.",
+    B: "Distribuir tiempos equivalentes por dimensiones las trata como componentes separados. El modelo exige que se articulen dentro de una misma trayectoria y a través de sus cinco fases."
+  },
+  14: {
+    B: "Las estaciones especializadas garantizan cobertura, pero fragmentan las dimensiones y permiten que cada una funcione de manera aislada en lugar de integrarse durante toda la misión.",
+    C: "La secuencia mantiene la dificultad intelectual como eje y agrega pausas y acuerdos como complementos. No integra de forma estructural movimiento, emoción, interacción y rotación de responsabilidades."
+  },
+  15: {
+    A: "Mantener la secuencia posterga un ajuste necesario pese a que ya existen patrones claros de exclusión, evitación motriz y concentración de decisiones. Recoger más registros no elimina esas barreras.",
+    C: "Un módulo separado aplaza la participación y fragmenta el modelo. Los apoyos y el liderazgo distribuido deben incorporarse dentro de la misión actual, no convertirse en un requisito previo."
+  },
+  16: {
+    A: "Una ponderación equivalente produce un índice global, pero puede ocultar avances o dificultades específicas y no incorpora la voz estudiantil ni evidencia situada para orientar ajustes.",
+    B: "Productos, asistencia, roles y satisfacción describen el funcionamiento operativo, pero no miden con suficiente precisión la calidad del desarrollo físico, cognitivo, emocional y social."
+  },
+  17: {
+    B: "El contraste identifica diferencias conceptuales, pero no establece explícitamente qué fuentes tienen mayor solidez, alcance o pertinencia. Sin esa jerarquización es difícil delimitar la magnitud de la actualización.",
+    C: "Probar el enfoque reciente antes de establecer la calidad y el alcance de la evidencia invierte el orden del análisis. Primero debe determinarse su validez disciplinar y luego decidir su aplicación."
+  },
+  18: {
+    B: "Convertir la propuesta reciente en marco principal es prematuro porque procede de una muestra limitada y mantiene preguntas metodológicas. La novedad no justifica reemplazar un modelo aún válido bajo ciertas condiciones.",
+    C: "Presentar ambos modelos como perspectivas equivalentes ignora que poseen niveles de evidencia y condiciones de validez diferentes. La relación debe explicarse mediante límites de aplicación, no mediante equivalencia general."
+  },
+  19: {
+    A: "Una exposición comparativa permite reconocer términos y diferencias históricas, pero no demuestra que el estudiante pueda usar los modelos para explicar, predecir y decidir bajo condiciones nuevas.",
+    B: "Un protocolo uniforme con resultado esperado evalúa reproducción procedimental y reduce la posibilidad de analizar controversias, predicciones rivales y límites conceptuales."
+  },
+  20: {
+    A: "Certificados, lecturas y seminarios demuestran participación en actividades de formación, pero no evidencian cómo cambió el razonamiento disciplinar ni la práctica pedagógica.",
+    C: "Los resultados antes y después pueden estar afectados por múltiples factores y no documentan las decisiones profesionales que produjeron el cambio. Por sí solos no permiten atribuirlo a la actualización disciplinar."
+  }
+};
+
 const blockMetadata = {
   1: {
     category: "pedagogica",
@@ -135,13 +218,23 @@ function parseQuestions(content) {
     }
 
     const prompt = clean(body.slice(0, options[0].index));
+    const parsedOptions = options.map((option) => clean(option[2]));
+    const correctLetter = answerKey[number].option;
+    const optionFeedback = parsedOptions.map((_, index) => {
+      const letter = String.fromCharCode(65 + index);
+      if (letter === correctLetter) return answerKey[number].explanation;
+      const feedback = wrongFeedback[number]?.[letter];
+      if (!feedback) throw new Error(`Falta retroalimentacion para la pregunta ${number}, opcion ${letter}.`);
+      return feedback;
+    });
     return {
       id: `p${number}`,
       number,
       prompt,
-      options: options.map((option) => clean(option[2])),
-      answer: answerKey[number].option.charCodeAt(0) - 65,
-      explanation: answerKey[number].explanation
+      options: parsedOptions,
+      answer: correctLetter.charCodeAt(0) - 65,
+      explanation: answerKey[number].explanation,
+      optionFeedback
     };
   });
 }

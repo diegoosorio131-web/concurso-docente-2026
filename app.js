@@ -63,8 +63,10 @@ const els = {
   simulacroOptions: document.getElementById("simulacroOptions"),
   simulacroFeedback: document.getElementById("simulacroFeedback"),
   simulacroFeedbackTitle: document.getElementById("simulacroFeedbackTitle"),
-  simulacroFeedbackAnswer: document.getElementById("simulacroFeedbackAnswer"),
-  simulacroFeedbackExplanation: document.getElementById("simulacroFeedbackExplanation"),
+  simulacroFeedbackSelection: document.getElementById("simulacroFeedbackSelection"),
+  simulacroFeedbackWrongReason: document.getElementById("simulacroFeedbackWrongReason"),
+  simulacroFeedbackCorrectAnswer: document.getElementById("simulacroFeedbackCorrectAnswer"),
+  simulacroFeedbackCorrectReason: document.getElementById("simulacroFeedbackCorrectReason"),
   simulacroPrevBtn: document.getElementById("simulacroPrevBtn"),
   simulacroNextBtn: document.getElementById("simulacroNextBtn"),
   simulacroFinishBtn: document.getElementById("simulacroFinishBtn"),
@@ -170,6 +172,8 @@ function getSimulacroQuestions(category) {
           && question.options.length === 3
           && typeof question.prompt === "string"
           && typeof question.explanation === "string"
+          && Array.isArray(question.optionFeedback)
+          && question.optionFeedback.length === 3
         ))
         .map((question) => ({
           ...question,
@@ -271,13 +275,22 @@ function renderSimulacroFeedback(question) {
 
   const selected = simulacroState.answers[simulacroState.currentIndex];
   const correct = selected === question.answer;
+  const selectedLetter = String.fromCharCode(65 + selected);
   const correctLetter = String.fromCharCode(65 + question.answer);
   els.simulacroFeedback.hidden = false;
   els.simulacroFeedback.classList.toggle("correct", correct);
   els.simulacroFeedback.classList.toggle("wrong", !correct);
   els.simulacroFeedbackTitle.textContent = correct ? "Respuesta correcta" : "Respuesta incorrecta";
-  els.simulacroFeedbackAnswer.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
-  els.simulacroFeedbackExplanation.textContent = `Por qu\u00e9: ${question.explanation}`;
+  els.simulacroFeedbackSelection.textContent = `Tu respuesta: ${selectedLetter}. ${question.options[selected]}`;
+  els.simulacroFeedbackWrongReason.hidden = correct;
+  els.simulacroFeedbackCorrectAnswer.hidden = correct;
+  els.simulacroFeedbackWrongReason.textContent = correct
+    ? ""
+    : `Por qu\u00e9 qued\u00f3 mal: ${question.optionFeedback[selected]}`;
+  els.simulacroFeedbackCorrectAnswer.textContent = correct
+    ? ""
+    : `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
+  els.simulacroFeedbackCorrectReason.textContent = `Por qu\u00e9 es correcta: ${question.explanation}`;
 }
 
 function renderSimulacroQuestion() {
@@ -371,17 +384,31 @@ function renderSimulacroBreakdown() {
     const questionLabel = document.createElement("span");
     const status = document.createElement("strong");
     const body = document.createElement("div");
-    const answer = document.createElement("p");
-    const explanation = document.createElement("p");
+    const selection = document.createElement("p");
+    const wrongReason = document.createElement("p");
+    const correctAnswer = document.createElement("p");
+    const correctReason = document.createElement("p");
+    const selectedLetter = String.fromCharCode(65 + selected);
 
     details.className = `simulacro-result-item ${correct ? "correct" : "wrong"}`;
     details.open = !correct;
     statusDot.className = "simulacro-result-status-dot";
+    selection.className = "simulacro-result-selection";
+    wrongReason.className = "simulacro-result-wrong-reason";
+    correctAnswer.className = "simulacro-result-correct-answer";
+    correctReason.className = "simulacro-result-correct-reason";
     questionLabel.textContent = `Pregunta ${question.number}`;
     status.textContent = correct ? "Correcta" : "Incorrecta";
-    answer.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
-    explanation.textContent = `Por qu\u00e9: ${question.explanation}`;
-    body.append(answer, explanation);
+    selection.textContent = `Tu respuesta: ${selectedLetter}. ${question.options[selected]}`;
+    if (correct) {
+      correctReason.textContent = `Por qu\u00e9 es correcta: ${question.explanation}`;
+      body.append(selection, correctReason);
+    } else {
+      wrongReason.textContent = `Por qu\u00e9 qued\u00f3 mal: ${question.optionFeedback[selected]}`;
+      correctAnswer.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
+      correctReason.textContent = `Por qu\u00e9 es correcta: ${question.explanation}`;
+      body.append(selection, wrongReason, correctAnswer, correctReason);
+    }
     summary.append(statusDot, questionLabel, status);
     details.append(summary, body);
     return details;
