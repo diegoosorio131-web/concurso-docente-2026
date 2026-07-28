@@ -1,6 +1,6 @@
 window.AULA_SIMULACROS = {
   "version": 1,
-  "generatedAt": "2026-07-28T04:42:22.965Z",
+  "generatedAt": "2026-07-28T04:52:30.595Z",
   "provisionalAnswerKey": true,
   "tests": [
     {
@@ -24,7 +24,8 @@ window.AULA_SIMULACROS = {
                 "Homologar las rúbricas mediante anclajes compartidos, igualar la unidad docente y reponderar artefactos para reconstruir una estimación institucional comparable entre periodos evaluados.",
                 "Triangular resultados automatizados, apreciaciones docentes y actas de acompañamiento mediante una matriz probatoria para interpretar variaciones antes de recalibrar el indicador institucional."
               ],
-              "answer": 1
+              "answer": 1,
+              "explanation": "Antes de interpretar el aumento es necesario hacer comparables los dos periodos. Homologar la rubrica, recuperar la unidad de analisis docente y corregir la ponderacion evita atribuir al resultado cambios producidos por el metodo de medicion."
             },
             {
               "id": "p2",
@@ -35,7 +36,8 @@ window.AULA_SIMULACROS = {
                 "Aplicar un modelo multinivel de diferencias temporales, ajustando línea base, exposición desigual y sede, para estimar variación atribuible a la estrategia institucional.",
                 "Contrastar grupos según intensidad de acompañamiento, emparejando perfiles iniciales y efectuando análisis de sensibilidad, para valorar explicaciones rivales del cambio institucional observado."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "El acompanamiento no fue asignado al azar y su intensidad vario entre sedes. Comparar grupos semejantes, emparejar sus condiciones iniciales y aplicar analisis de sensibilidad permite examinar mejor ese sesgo y otras explicaciones rivales."
             },
             {
               "id": "p3",
@@ -46,7 +48,8 @@ window.AULA_SIMULACROS = {
                 "Suspender temporalmente la estrategia, reservar recursos y solicitar revisión territorial, para prevenir decisiones institucionales apoyadas en resultados metodológicamente inestables durante la vigencia.",
                 "Mantener la estrategia bajo validación, redefinir indicador y fijar umbrales verificables, para decidir cierre o ampliación mediante evidencia equivalente del próximo corte."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "La evidencia muestra un avance, pero todavia no permite cerrar la accion ni adoptar definitivamente la estrategia. Mantenerla bajo validacion, redefinir el indicador y establecer umbrales equilibra continuidad, prudencia y trazabilidad."
             },
             {
               "id": "p4",
@@ -57,7 +60,8 @@ window.AULA_SIMULACROS = {
                 "Implementar auditorías rotativas entre sedes, revisión documental y retroalimentación técnica, para fortalecer fidelidad operativa y detectar divergencias durante la ejecución institucional periódica.",
                 "Programar informes bimestrales, reuniones técnicas y compromisos responsables, para mantener actualización ejecutiva y facilitar decisiones del equipo directivo durante la vigencia institucional."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "Un protocolo definido antes de medir fija unidades, fuentes, tratamiento de ausencias y umbrales de decision. Esto estabiliza la medicion y permite saber cuando y por que se activa cada ajuste."
             }
           ]
         },
@@ -77,7 +81,8 @@ window.AULA_SIMULACROS = {
                 "Jerarquizar las propuestas del asesor mediante criterios de innovación, factibilidad y transferencia institucional para seleccionar componentes aplicables durante la siguiente vigencia académica.",
                 "Sistematizar percepciones docentes, registros pedagógicos y resultados agregados mediante categorías emergentes para fundamentar prioridades de actualización del lineamiento académico institucional actualmente vigente."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "La revision debe comenzar por la coherencia institucional. Relacionar PEI, objetivos, POA, practicas y evidencia permite detectar rupturas antes de decidir ajustes sobre descriptores particulares."
             },
             {
               "id": "p6",
@@ -88,7 +93,8 @@ window.AULA_SIMULACROS = {
                 "Examinar la consistencia interna de los descriptores, su progresión y observabilidad mediante revisión experta para depurar ambigüedades antes de su aplicación institucional.",
                 "Determinar la alineación de cada descriptor con principios del PEI, objetivos, evidencia contextual y consecuencias pedagógicas para decidir permanencia, adaptación o exclusión."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "La permanencia de un descriptor no depende solo de que sea claro o facil de aplicar. Debe corresponder con los principios del PEI, responder a evidencia contextual y evitar consecuencias pedagogicas contrarias al enfoque institucional."
             },
             {
               "id": "p7",
@@ -99,7 +105,8 @@ window.AULA_SIMULACROS = {
                 "Estratificar la prueba por trayectorias, sedes y niveles de participación, fijando criterios previos para valorar pertinencia, equidad, comprensión y variación pedagógica observada.",
                 "Organizar mesas técnicas sucesivas con docentes experimentados, analizando casos límite para perfeccionar descriptores y anticipar dificultades interpretativas durante la aplicación institucional posterior."
               ],
-              "answer": 1
+              "answer": 1,
+              "explanation": "Una validacion representativa debe incluir la diversidad de sedes y trayectorias. Estratificar la prueba y definir previamente criterios de pertinencia, equidad y comprension permite identificar efectos que una sede estable podria ocultar."
             },
             {
               "id": "p8",
@@ -110,7 +117,8 @@ window.AULA_SIMULACROS = {
                 "Divulgar el lineamiento validado mediante laboratorios pedagógicos, casos interpretativos y asesoría entre pares, para favorecer apropiación institucional antes de evaluar resultados posteriores.",
                 "Someter una versión trazable a la instancia académica competente, incorporando evidencia, disensos, reglas de aplicación y umbrales para revisar su vigencia institucional."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "La legitimidad exige una decision de la instancia academica competente sustentada en una version trazable. Incluir evidencia, disensos, reglas de aplicacion y umbrales permite justificar la adopcion y revisar posteriormente su vigencia."
             }
           ]
         },
@@ -130,7 +138,8 @@ window.AULA_SIMULACROS = {
                 "Clasificar cada fuente por autoridad, vigencia, alcance, versión y función pedagógica para establecer el marco aplicable antes de modificar las orientaciones institucionales.",
                 "Examinar los resultados obtenidos tras aplicar la matriz externa, estimar sus ventajas prácticas y definir ajustes graduales para preservar avances institucionales verificables."
               ],
-              "answer": 1
+              "answer": 1,
+              "explanation": "Antes de usar los materiales se debe distinguir su autoridad, vigencia, alcance, version y funcion. Esa clasificacion separa referentes aplicables de borradores, sintesis, herramientas privadas o documentos desactualizados."
             },
             {
               "id": "p10",
@@ -141,7 +150,8 @@ window.AULA_SIMULACROS = {
                 "Preferir el referente ministerial fechado posteriormente, integrando sus orientaciones técnicas al PEI para superar discrepancias documentales y asegurar actualización pedagógica institucional trazable.",
                 "Distinguir fuerza jurídica, autoridad emisora, ámbito, vigencia y finalidad técnica, articulando la norma nacional aplicable con orientaciones territoriales válidas, pertinentes y vigentes."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "Ni la fecha ni el origen territorial bastan por si solos. La decision debe considerar fuerza juridica, competencia de la autoridad, ambito, vigencia y finalidad para articular correctamente normas y orientaciones tecnicas."
             },
             {
               "id": "p11",
@@ -152,7 +162,8 @@ window.AULA_SIMULACROS = {
                 "Mantener las orientaciones actuales, anexando notas interpretativas y ejemplos renovados, para preservar estabilidad pedagógica mientras el Ministerio expide una actualización normativa expresa.",
                 "Incorporar la matriz externa tras ajustar su terminología al PEI, aprovechando resultados favorables y reservando revisiones profundas para el siguiente ciclo institucional."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "Las orientaciones deben derivarse de referentes vigentes, conservar coherencia con el PEI y validarse con evidencias diversas. Esto evita mantener practicas desactualizadas o convertir una matriz externa en fuente obligatoria."
             },
             {
               "id": "p12",
@@ -163,7 +174,8 @@ window.AULA_SIMULACROS = {
                 "Centralizar versiones oficiales, alertas de vigencia y fichas técnicas en un repositorio institucional para facilitar acceso, trazabilidad documental y actualización docente oportuna.",
                 "Instituir una ruta periódica de rastreo, validación, estudio, aplicación y evaluación de referentes, usando evidencias para ajustar prácticas y necesidades formativas institucionales."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "La actualizacion profesional es verificable cuando funciona como un ciclo permanente: rastrear, validar, estudiar, aplicar y evaluar. Las evidencias de aplicacion permiten ajustar tanto las practicas como las necesidades formativas."
             }
           ]
         },
@@ -183,7 +195,8 @@ window.AULA_SIMULACROS = {
                 "Distribuir actividades por dimensiones independientes, para asegurar tiempos equivalentes de movimiento, análisis, expresión emocional e interacción durante la secuencia pedagógica integral planificada.",
                 "Articular diagnóstico, propósitos formativos, fases del modelo, barreras previsibles y evidencias diferenciadas, para diseñar una trayectoria integral ajustable durante su ejecución pedagógica."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "La planeacion integral debe conectar el diagnostico con los propositos, las fases del modelo, las barreras y las evidencias. Esa articulacion permite ajustar la trayectoria sin separar artificialmente las dimensiones del desarrollo."
             },
             {
               "id": "p14",
@@ -194,7 +207,8 @@ window.AULA_SIMULACROS = {
                 "Organizar estaciones especializadas por dimensión, asignando productos equivalentes y tiempos balanceados, para garantizar cobertura integral al finalizar la experiencia pedagógica institucional planificada.",
                 "Graduar la dificultad intelectual según resultados previos, incorporando pausas y acuerdos grupales, para preservar exigencia académica durante toda la secuencia institucional prevista."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "Las misiones interdependientes integran movimiento, indagacion, regulacion emocional y participacion social dentro de cada fase. Los roles rotativos evitan que las dimensiones se conviertan en estaciones aisladas o accesorios."
             },
             {
               "id": "p15",
@@ -205,7 +219,8 @@ window.AULA_SIMULACROS = {
                 "Reconfigurar accesos, demandas motrices y responsabilidades mediante apoyos graduados y rotación estratégica, para preservar el reto mientras amplía participación durante la experiencia.",
                 "Introducir un módulo preparatorio de autorregulación y liderazgo distribuido, para fortalecer disposiciones personales antes de reanudar las misiones pedagógicas institucionales programadas originalmente."
               ],
-              "answer": 1
+              "answer": 1,
+              "explanation": "El problema observado es de acceso y participacion, no de falta de precision intelectual. Ajustar demandas motrices, apoyos y responsabilidades con rotacion amplia la participacion sin reducir el reto formativo."
             },
             {
               "id": "p16",
@@ -216,7 +231,8 @@ window.AULA_SIMULACROS = {
                 "Registrar productos, asistencia, elecciones de rol y satisfacción estudiantil, para relacionar cumplimiento operativo con el desarrollo integral previsto institucionalmente en cada ciclo.",
                 "Triangular indicadores observables por dimensión en momentos sucesivos, incorporando voz estudiantil y desempeños situados, para ajustar apoyos, secuencias y demandas pedagógicas oportunamente."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "El desarrollo integral no se demuestra con un unico indice. Triangular indicadores observables en distintos momentos, voz estudiantil y desempenos situados produce evidencia util para ajustar apoyos y misiones posteriores."
             }
           ]
         },
@@ -236,7 +252,8 @@ window.AULA_SIMULACROS = {
                 "Contrastar los materiales institucionales con publicaciones arbitradas y referentes oficiales, para identificar variaciones conceptuales antes de modificar la secuencia pedagógica institucional vigente.",
                 "Validar la utilidad del nuevo enfoque mediante una aplicación limitada, para valorar efectos formativos antes de revisar la solidez disciplinar disponible actualmente."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "Para delimitar la actualizacion se deben jerarquizar las fuentes por actualidad, revision experta, alcance explicativo y pertinencia curricular. Esto diferencia hallazgos consolidados de propuestas preliminares o simplificaciones comerciales."
             },
             {
               "id": "p18",
@@ -247,7 +264,8 @@ window.AULA_SIMULACROS = {
                 "Incorporar la propuesta reciente como marco principal, preservando ejemplos tradicionales para facilitar transición pedagógica y mantener continuidad interpretativa durante su implementación institucional.",
                 "Sintetizar ambas explicaciones en una matriz paralela, presentando sus diferencias como perspectivas equivalentes para ampliar repertorios interpretativos durante el aprendizaje disciplinar institucional."
               ],
-              "answer": 0
+              "answer": 0,
+              "explanation": "Si los modelos explican fenomenos bajo condiciones distintas, el saber debe explicitar principios estables, limites de aplicacion y hallazgos emergentes. Así se evitan tanto la sustitucion total como una falsa equivalencia."
             },
             {
               "id": "p19",
@@ -258,7 +276,8 @@ window.AULA_SIMULACROS = {
                 "Implementar un laboratorio guiado con protocolo uniforme y resultado esperado, para verificar apropiación procedimental antes de abordar controversias conceptuales de mayor complejidad.",
                 "Diseñar una secuencia de indagación que confronte predicciones rivales, evidencias límite y condiciones de aplicación, para revelar la estructura del saber disciplinar."
               ],
-              "answer": 2
+              "answer": 2,
+              "explanation": "Contrastar predicciones rivales, evidencia limite y condiciones de aplicacion exige comprender la estructura y el alcance de los modelos. Esa transferencia demuestra dominio conceptual mejor que repetir terminologia o seguir un protocolo esperado."
             },
             {
               "id": "p20",
@@ -269,7 +288,8 @@ window.AULA_SIMULACROS = {
                 "Integrar un portafolio trazable con fuentes, mapas conceptuales, decisiones didácticas y evidencias de aplicación, para demostrar dominio actualizado y transformación pedagógica verificable.",
                 "Sistematizar resultados de estudiantes antes y después de la intervención, atribuyendo variaciones al ajuste disciplinar para sustentar eficacia profesional en el ciclo."
               ],
-              "answer": 1
+              "answer": 1,
+              "explanation": "Un portafolio trazable conecta fuentes revisadas, cambios conceptuales, decisiones didacticas y evidencias de aplicacion. Por eso demuestra simultaneamente actualizacion disciplinar y transformacion de la practica pedagogica."
             }
           ]
         }

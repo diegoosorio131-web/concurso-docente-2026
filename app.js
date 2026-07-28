@@ -61,6 +61,10 @@ const els = {
   simulacroQuestionNumber: document.getElementById("simulacroQuestionNumber"),
   simulacroQuestionPrompt: document.getElementById("simulacroQuestionPrompt"),
   simulacroOptions: document.getElementById("simulacroOptions"),
+  simulacroFeedback: document.getElementById("simulacroFeedback"),
+  simulacroFeedbackTitle: document.getElementById("simulacroFeedbackTitle"),
+  simulacroFeedbackAnswer: document.getElementById("simulacroFeedbackAnswer"),
+  simulacroFeedbackExplanation: document.getElementById("simulacroFeedbackExplanation"),
   simulacroPrevBtn: document.getElementById("simulacroPrevBtn"),
   simulacroNextBtn: document.getElementById("simulacroNextBtn"),
   simulacroFinishBtn: document.getElementById("simulacroFinishBtn"),
@@ -69,6 +73,7 @@ const els = {
   simulacroResultScore: document.getElementById("simulacroResultScore"),
   simulacroResultSummary: document.getElementById("simulacroResultSummary"),
   simulacroProvisionalNote: document.getElementById("simulacroProvisionalNote"),
+  simulacroResultBreakdown: document.getElementById("simulacroResultBreakdown"),
   simulacroReviewBtn: document.getElementById("simulacroReviewBtn"),
   simulacroReturnBtn: document.getElementById("simulacroReturnBtn"),
   studyPlan: document.getElementById("studyPlan"),
@@ -164,6 +169,7 @@ function getSimulacroQuestions(category) {
           && Array.isArray(question.options)
           && question.options.length === 3
           && typeof question.prompt === "string"
+          && typeof question.explanation === "string"
         ))
         .map((question) => ({
           ...question,
@@ -257,6 +263,23 @@ function renderSimulacroOptions(question) {
   els.simulacroOptions.replaceChildren(...options);
 }
 
+function renderSimulacroFeedback(question) {
+  if (!simulacroState.reviewMode) {
+    els.simulacroFeedback.hidden = true;
+    return;
+  }
+
+  const selected = simulacroState.answers[simulacroState.currentIndex];
+  const correct = selected === question.answer;
+  const correctLetter = String.fromCharCode(65 + question.answer);
+  els.simulacroFeedback.hidden = false;
+  els.simulacroFeedback.classList.toggle("correct", correct);
+  els.simulacroFeedback.classList.toggle("wrong", !correct);
+  els.simulacroFeedbackTitle.textContent = correct ? "Respuesta correcta" : "Respuesta incorrecta";
+  els.simulacroFeedbackAnswer.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
+  els.simulacroFeedbackExplanation.textContent = `Por qu\u00e9: ${question.explanation}`;
+}
+
 function renderSimulacroQuestion() {
   const question = simulacroState.questions[simulacroState.currentIndex];
   if (!question) return;
@@ -275,6 +298,7 @@ function renderSimulacroQuestion() {
   els.simulacroFinishBtn.textContent = answered === total ? "Finalizar" : `Faltan ${total - answered}`;
   renderSimulacroSituation(question);
   renderSimulacroOptions(question);
+  renderSimulacroFeedback(question);
   renderSimulacroNavigator();
 }
 
@@ -329,10 +353,40 @@ function finishSimulacro() {
   els.simulacroResultScore.textContent = `${score}%`;
   els.simulacroResultSummary.textContent = `${correct} respuestas correctas de ${total}.`;
   els.simulacroProvisionalNote.hidden = !window.AULA_SIMULACROS?.provisionalAnswerKey;
+  renderSimulacroBreakdown();
   els.simulacroRunner.hidden = true;
   els.simulacroResult.hidden = false;
   renderProgress();
   els.simulacroResult.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function renderSimulacroBreakdown() {
+  const items = simulacroState.questions.map((question, index) => {
+    const selected = simulacroState.answers[index];
+    const correct = selected === question.answer;
+    const correctLetter = String.fromCharCode(65 + question.answer);
+    const details = document.createElement("details");
+    const summary = document.createElement("summary");
+    const statusDot = document.createElement("span");
+    const questionLabel = document.createElement("span");
+    const status = document.createElement("strong");
+    const body = document.createElement("div");
+    const answer = document.createElement("p");
+    const explanation = document.createElement("p");
+
+    details.className = `simulacro-result-item ${correct ? "correct" : "wrong"}`;
+    details.open = !correct;
+    statusDot.className = "simulacro-result-status-dot";
+    questionLabel.textContent = `Pregunta ${question.number}`;
+    status.textContent = correct ? "Correcta" : "Incorrecta";
+    answer.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
+    explanation.textContent = `Por qu\u00e9: ${question.explanation}`;
+    body.append(answer, explanation);
+    summary.append(statusDot, questionLabel, status);
+    details.append(summary, body);
+    return details;
+  });
+  els.simulacroResultBreakdown.replaceChildren(...items);
 }
 
 function reviewSimulacro() {

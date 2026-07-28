@@ -2833,6 +2833,11 @@ body.sidebar-collapsed .sidebar-open {
   border-color: var(--primary);
 }
 
+.simulacro-option:disabled {
+  cursor: default;
+  opacity: 1;
+}
+
 .simulacro-option.selected {
   background: var(--primary-soft);
   border-color: var(--primary);
@@ -2863,6 +2868,45 @@ body.sidebar-collapsed .sidebar-open {
   height: 30px;
   justify-content: center;
   width: 30px;
+}
+
+.simulacro-feedback {
+  background: var(--green-soft);
+  border: 1px solid var(--green);
+  border-radius: 7px;
+  margin-top: 18px;
+  padding: 17px;
+}
+
+.simulacro-feedback[hidden] {
+  display: none;
+}
+
+.simulacro-feedback.wrong {
+  background: var(--red-soft);
+  border-color: var(--red);
+}
+
+.simulacro-feedback > strong {
+  color: var(--green);
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+
+.simulacro-feedback.wrong > strong {
+  color: var(--red);
+}
+
+.simulacro-feedback p {
+  color: var(--text);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  margin-bottom: 7px;
+}
+
+.simulacro-feedback p:last-child {
+  margin-bottom: 0;
 }
 
 .simulacro-runner-actions {
@@ -2923,6 +2967,83 @@ body.sidebar-collapsed .sidebar-open {
   font-size: 0.68rem;
   margin-top: 14px;
   padding: 7px 10px;
+}
+
+.simulacro-result-breakdown {
+  display: grid;
+  gap: 8px;
+  margin-top: 26px;
+  max-width: 900px;
+  text-align: left;
+  width: 100%;
+}
+
+.simulacro-result-item {
+  background: var(--surface-soft);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--green);
+  border-radius: 6px;
+}
+
+.simulacro-result-item.wrong {
+  border-left-color: var(--red);
+}
+
+.simulacro-result-item summary {
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  font-size: 0.76rem;
+  gap: 10px;
+  grid-template-columns: 9px minmax(0, 1fr) auto;
+  list-style: none;
+  min-height: 46px;
+  padding: 10px 13px;
+}
+
+.simulacro-result-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.simulacro-result-status-dot {
+  background: var(--green);
+  border-radius: 50%;
+  height: 8px;
+  width: 8px;
+}
+
+.simulacro-result-item.wrong .simulacro-result-status-dot {
+  background: var(--red);
+}
+
+.simulacro-result-item summary > span:nth-child(2) {
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.simulacro-result-item summary > strong {
+  color: var(--green);
+  font-size: 0.68rem;
+}
+
+.simulacro-result-item.wrong summary > strong {
+  color: var(--red);
+}
+
+.simulacro-result-item > div {
+  border-top: 1px solid var(--line);
+  padding: 14px 15px;
+}
+
+.simulacro-result-item p {
+  color: var(--text);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  margin-bottom: 8px;
+}
+
+.simulacro-result-item p:last-child {
+  margin-bottom: 0;
 }
 
 .simulacro-result-actions {
