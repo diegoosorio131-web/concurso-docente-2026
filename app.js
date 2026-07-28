@@ -32,12 +32,12 @@ const sidebarKey = "concursoDocente2026Sidebar";
 const els = {
   tabs: document.querySelectorAll(".tab"),
   views: document.querySelectorAll(".view"),
-  homeLink: document.getElementById("homeLink"),
   themeToggle: document.getElementById("themeToggle"),
   mobileThemeToggle: document.getElementById("mobileThemeToggle"),
   sidebarToggle: document.getElementById("sidebarToggle"),
   sidebarOpenBtn: document.getElementById("sidebarOpenBtn"),
   workspaceViewLabel: document.getElementById("workspaceViewLabel"),
+  mobileViewLabel: document.getElementById("mobileViewLabel"),
   workspaceDate: document.getElementById("workspaceDate"),
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
@@ -538,12 +538,9 @@ function allowedNewsUrl(value) {
 function newsFallback() {
   const fallback = document.createElement("div");
   fallback.className = "news-media-fallback";
-  const logo = document.createElement("img");
-  logo.src = "assets/logo.svg";
-  logo.alt = "";
   const label = document.createElement("span");
   label.textContent = "Informacion oficial";
-  fallback.append(logo, label);
+  fallback.append(label);
   return fallback;
 }
 
@@ -750,6 +747,7 @@ function switchView(viewId) {
   els.tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.view === viewId));
   els.views.forEach((view) => view.classList.toggle("active", view.id === viewId));
   if (els.workspaceViewLabel) els.workspaceViewLabel.textContent = viewLabels[viewId] || "Aula 2026";
+  if (els.mobileViewLabel) els.mobileViewLabel.textContent = viewLabels[viewId] || "Inicio";
   if (viewId !== "simulacro") setSimulacroMenuExpanded(false);
   if (viewId === "estudio") renderStudy();
   if (viewId === "progreso") renderProgress();
@@ -763,10 +761,6 @@ els.tabs.forEach((tab) => {
     }
     switchView(tab.dataset.view);
   });
-});
-els.homeLink?.addEventListener("click", (event) => {
-  event.preventDefault();
-  switchView("inicio");
 });
 els.themeToggle?.addEventListener("click", () => {
   const nextTheme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";

@@ -1985,18 +1985,14 @@ body.sidebar-collapsed .sidebar-open {
   min-height: 354px;
 }
 
-.news-media-fallback img {
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 8px;
-  box-shadow: 0 14px 35px rgba(22, 31, 52, 0.22);
-  height: 74px;
-  width: 74px;
-}
-
 .news-media-fallback span {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.65rem;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, .32);
+  border-radius: 4px;
+  color: rgba(255, 255, 255, .86);
+  font-size: .68rem;
   font-weight: 800;
+  letter-spacing: 0;
   text-transform: uppercase;
 }
 
@@ -3878,24 +3874,14 @@ body.auth-locked {
   background: #0e2a24;
 }
 
-.sidebar > .brand {
-  padding: 0 10px;
-}
-
-.sidebar .brand-mark {
-  width: 42px;
-  height: 42px;
-  padding: 4px;
-  background: rgba(255, 255, 255, .96);
-}
-
-.sidebar .brand-copy strong {
-  color: #fff;
-  font-size: 15px;
-}
-
-.sidebar .brand-copy small {
-  color: rgba(255, 255, 255, .58);
+.sidebar-section-label {
+  display: block;
+  padding: 9px 10px 0;
+  color: rgba(255, 255, 255, .48);
+  font-size: 10px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
 }
 
 .sidebar-toggle {
@@ -3906,7 +3892,7 @@ body.auth-locked {
 
 .sidebar .tabs {
   gap: 5px;
-  margin-top: 48px;
+  margin-top: 31px;
 }
 
 .sidebar .tab {
@@ -4386,9 +4372,27 @@ body.auth-locked {
     backdrop-filter: blur(12px);
   }
 
-  .mobile-header .brand-mark {
-    width: 38px;
-    height: 38px;
+  .mobile-workspace-context {
+    display: grid;
+    gap: 3px;
+    min-width: 0;
+  }
+
+  .mobile-workspace-context span {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .mobile-workspace-context strong {
+    overflow: hidden;
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.2;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .mobile-theme {
@@ -4423,7 +4427,7 @@ body.auth-locked {
     box-shadow: 0 -10px 30px rgba(17, 44, 38, .14);
   }
 
-  .sidebar > .brand,
+  .sidebar-section-label,
   .sidebar-toggle,
   .sidebar-bottom,
   .sidebar-open,

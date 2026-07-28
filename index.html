@@ -8,16 +8,12 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-6">
+    <link rel="stylesheet" href="styles.css?v=20260728-7">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
       <div class="auth-visual">
         <img src="assets/auth-classroom.webp" alt="" aria-hidden="true">
-        <header class="auth-visual-brand">
-          <img src="assets/logo.svg" alt="">
-          <span><strong>Aula 2026</strong><small>Preparaci&oacute;n docente</small></span>
-        </header>
         <div class="auth-visual-copy">
           <span class="auth-kicker"><i aria-hidden="true"></i> Concurso Docente 2026</span>
           <h2>Tu preparaci&oacute;n merece un espacio a la altura.</h2>
@@ -37,10 +33,6 @@
 
       <div class="auth-access">
         <div class="auth-panel">
-          <a class="auth-brand" href="#inicio" aria-label="Aula 2026">
-            <img src="assets/logo.svg" alt="">
-            <span><strong>Aula 2026</strong><small>Preparaci&oacute;n docente</small></span>
-          </a>
           <div class="auth-security">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.6-2.9 8.5-7 10-4.1-1.5-7-5.4-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
             Acceso privado verificado
@@ -80,19 +72,13 @@
 
     <div class="app-shell">
       <aside class="sidebar">
-        <a id="homeLink" class="brand" href="#inicio" aria-label="Aula 2026, inicio">
-          <img class="brand-mark" src="assets/logo.svg" alt="">
-          <span class="brand-copy">
-            <strong>Aula 2026</strong>
-            <small>Preparacion docente</small>
-          </span>
-        </a>
+        <span class="sidebar-section-label">Navegaci&oacute;n</span>
         <button id="sidebarToggle" class="sidebar-toggle" type="button" aria-label="Cerrar menu lateral" title="Cerrar menu">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
         </button>
 
         <nav class="tabs" aria-label="Secciones">
-          <button class="tab active" data-view="inicio" type="button">
+          <button id="homeLink" class="tab active" data-view="inicio" type="button">
             <span class="tab-icon">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
             </span>
@@ -162,10 +148,10 @@
 
       <main class="app-main">
         <header class="mobile-header">
-          <a class="brand" href="#" aria-label="Aula 2026, inicio">
-            <img class="brand-mark" src="assets/logo.svg" alt="">
-            <span class="brand-copy"><strong>Aula 2026</strong><small>Preparacion docente</small></span>
-          </a>
+          <div class="mobile-workspace-context">
+            <span>Espacio privado</span>
+            <strong id="mobileViewLabel">Inicio</strong>
+          </div>
           <button id="mobileThemeToggle" class="mobile-theme" type="button" aria-label="Cambiar tema">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"/></svg>
           </button>
@@ -203,7 +189,7 @@
               <div class="news-grid">
                 <a id="newsFeature" class="news-feature" href="https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros" target="_blank" rel="noreferrer">
                   <div class="news-feature-media">
-                    <div class="news-media-fallback"><img src="assets/logo.svg" alt=""><span>Informacion oficial</span></div>
+                    <div class="news-media-fallback"><span>Informacion oficial</span></div>
                   </div>
                   <div class="news-feature-copy">
                     <div class="news-meta"><span>MEN</span><time datetime="2026-04-01">1 abril 2026</time></div>
@@ -431,6 +417,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-6"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-6"></script>
+    <script src="app.js?v=20260728-7"></script>
   </body>
 </html>
