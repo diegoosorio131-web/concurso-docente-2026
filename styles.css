@@ -4323,9 +4323,39 @@ body.auth-locked {
   box-shadow: 0 0 0 4px var(--green-soft);
 }
 
+.score-draft-ribbon {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  margin-top: 22px;
+  border: 1px solid #e9c9a0;
+  border-radius: 4px;
+  overflow: hidden;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.score-draft-ribbon strong {
+  padding: 8px 11px;
+  background: #f0a33a;
+  color: #1f2b28;
+}
+
+.score-draft-ribbon span {
+  padding: 8px 11px;
+  background: #fff8e9;
+  color: #76551e;
+}
+
+:root[data-theme="dark"] .score-draft-ribbon span {
+  background: #332d21;
+  color: #f4ca87;
+}
+
 .score-explainer h2 {
   max-width: 760px;
-  margin: 22px 0 12px;
+  margin: 18px 0 12px;
   color: var(--ink);
   font-size: clamp(28px, 3vw, 40px);
   line-height: 1.08;
@@ -4353,6 +4383,14 @@ body.auth-locked {
   gap: 14px;
   padding: 22px;
   background: var(--surface-soft);
+}
+
+.score-flyer .score-rule:first-child {
+  border-top: 3px solid var(--green);
+}
+
+.score-flyer .score-rule:last-child {
+  border-top: 3px solid var(--coral);
 }
 
 .score-rule-index {
@@ -4391,6 +4429,70 @@ body.auth-locked {
   font-size: 10px;
   font-weight: 700;
   text-align: right;
+}
+
+.score-examples {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.score-examples > span {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.score-examples strong {
+  color: var(--ink);
+  font-size: 16px;
+}
+
+.score-examples [data-result="fail"] {
+  border-left: 3px solid #d35f52;
+}
+
+.score-examples [data-result="pass"] {
+  border-left: 3px solid var(--green);
+}
+
+.score-examples [data-result="high"] {
+  border-left: 3px solid var(--blue);
+}
+
+.score-current-rule {
+  display: grid;
+  grid-template-columns: 130px minmax(0, 1fr);
+  gap: 18px;
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--blue);
+  background: var(--primary-soft);
+}
+
+.score-current-rule > span {
+  color: var(--primary-dark);
+  font-size: 9px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.score-current-rule p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.score-current-rule strong {
+  color: var(--ink);
 }
 
 .score-source-note {
@@ -4897,6 +4999,15 @@ body.auth-locked {
 
   .score-rule-grid {
     grid-template-columns: 1fr;
+  }
+
+  .score-examples {
+    grid-template-columns: 1fr;
+  }
+
+  .score-current-rule {
+    grid-template-columns: 1fr;
+    gap: 7px;
   }
 
   .score-calculator {

@@ -155,8 +155,8 @@ function setSidebarCollapsed(collapsed) {
 function updateScoreCalculator(role = "docente") {
   if (!els.scoreInput || !els.weightInput) return;
   const rules = {
-    docente: { minimumScore: 70, minimumWeight: 55 },
-    directivo: { minimumScore: 80, minimumWeight: 45 }
+    docente: { minimumScore: 50 },
+    directivo: { minimumScore: 60 }
   };
   const selectedRole = rules[role] ? role : "docente";
   const rule = rules[selectedRole];
@@ -179,16 +179,12 @@ function updateScoreCalculator(role = "docente") {
   const passes = score >= rule.minimumScore;
   els.minimumScoreStatus.dataset.status = passes ? "pass" : "fail";
   els.minimumScoreStatus.textContent = passes
-    ? `Supera el minimo aprobatorio de ${rule.minimumScore}/100.`
-    : `No alcanza el minimo aprobatorio de ${rule.minimumScore}/100.`;
+    ? `Alcanzaria el minimo planteado de ${rule.minimumScore}/100.`
+    : `No alcanzaria el minimo planteado de ${rule.minimumScore}/100.`;
 }
 
 function selectScoreRole(role) {
-  if (!els.weightInput) return;
   selectedScoreRole = role === "directivo" ? "directivo" : "docente";
-  const minimumWeight = role === "directivo" ? 45 : 55;
-  els.weightInput.min = String(minimumWeight);
-  els.weightInput.value = String(minimumWeight);
   updateScoreCalculator(selectedScoreRole);
 }
 
