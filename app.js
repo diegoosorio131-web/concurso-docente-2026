@@ -40,6 +40,8 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
+  simulacroCategories: document.querySelectorAll("[data-simulacro-category]"),
+  simulacroPanels: document.querySelectorAll("[data-simulacro-panel]"),
   studyPlan: document.getElementById("studyPlan"),
   flashcards: document.getElementById("flashcards"),
   attemptsList: document.getElementById("attemptsList"),
@@ -78,6 +80,17 @@ function setSidebarCollapsed(collapsed) {
   localStorage.setItem(sidebarKey, collapsed ? "collapsed" : "open");
   els.sidebarToggle?.setAttribute("aria-expanded", String(!collapsed));
   els.sidebarOpenBtn?.setAttribute("aria-expanded", String(!collapsed));
+}
+
+function selectSimulacroCategory(category) {
+  els.simulacroCategories.forEach((button) => {
+    const selected = button.dataset.simulacroCategory === category;
+    button.classList.toggle("active", selected);
+    button.setAttribute("aria-pressed", String(selected));
+  });
+  els.simulacroPanels.forEach((panel) => {
+    panel.hidden = panel.dataset.simulacroPanel !== category;
+  });
 }
 
 function newsArrow(className) {
@@ -343,6 +356,9 @@ els.mobileThemeToggle?.addEventListener("click", () => {
 });
 els.sidebarToggle?.addEventListener("click", () => setSidebarCollapsed(true));
 els.sidebarOpenBtn?.addEventListener("click", () => setSidebarCollapsed(false));
+els.simulacroCategories.forEach((button) => {
+  button.addEventListener("click", () => selectSimulacroCategory(button.dataset.simulacroCategory));
+});
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
 renderNews();
