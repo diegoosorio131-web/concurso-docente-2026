@@ -207,6 +207,27 @@ function getSimulacroQuestions(category) {
   });
 }
 
+function shuffleItems(items) {
+  const shuffled = [...items];
+  for (let index = shuffled.length - 1; index > 0; index -= 1) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[index]];
+  }
+  return shuffled;
+}
+
+function randomizeSimulacroQuestions(questions) {
+  const blocks = new Map();
+  questions.forEach((question) => {
+    const blockKey = `${question.testId || "test"}:${question.blockId || question.id}`;
+    if (!blocks.has(blockKey)) blocks.set(blockKey, []);
+    blocks.get(blockKey).push(question);
+  });
+
+  return shuffleItems([...blocks.values()])
+    .flatMap((blockQuestions) => shuffleItems(blockQuestions));
+}
+
 function updateSimulacroCounts() {
   if (window.AULA_CONFIG?.authEnabled) return;
   els.simulacroCounts.forEach((counter) => {
@@ -249,14 +270,14 @@ function renderSimulacroNavigator() {
     const button = document.createElement("button");
     const answer = simulacroState.answers[index];
     button.type = "button";
-    button.textContent = String(question.number);
+    button.textContent = String(index + 1);
     button.classList.toggle("answered", answer !== null);
     button.classList.toggle("current", index === simulacroState.currentIndex);
     if (simulacroState.reviewMode) {
       button.classList.toggle("correct", answer === question.answer);
       button.classList.toggle("wrong", answer !== question.answer);
     }
-    button.setAttribute("aria-label", `Ir a la pregunta ${question.number}`);
+    button.setAttribute("aria-label", `Ir a la pregunta ${index + 1}`);
     button.addEventListener("click", () => {
       simulacroState.currentIndex = index;
       renderSimulacroQuestion();
@@ -348,7 +369,7 @@ function renderSimulacroQuestion() {
   els.simulacroAnsweredCount.textContent = `${answered}/${total}`;
   els.simulacroProgressBar.style.width = `${percent}%`;
   els.simulacroProgressBar.parentElement.setAttribute("aria-valuenow", String(percent));
-  els.simulacroQuestionNumber.textContent = `Pregunta ${question.number} - ${simulacroState.currentIndex + 1} de ${total}`;
+  els.simulacroQuestionNumber.textContent = `Pregunta ${simulacroState.currentIndex + 1} de ${total}`;
   els.simulacroQuestionPrompt.textContent = question.prompt;
   els.simulacroPrevBtn.disabled = simulacroState.currentIndex === 0;
   els.simulacroNextBtn.disabled = simulacroState.currentIndex === total - 1;
@@ -363,7 +384,8 @@ function renderSimulacroQuestion() {
 async function startSimulacro(category) {
   const secureMode = Boolean(window.AULA_CONFIG?.authEnabled);
   const data = secureMode ? await requestSecureQuiz(category) : null;
-  const questions = secureMode ? data.questions : getSimulacroQuestions(category);
+  const loadedQuestions = secureMode ? data.questions : getSimulacroQuestions(category);
+  const questions = randomizeSimulacroQuestions(loadedQuestions);
   if (!questions.length) return;
 
   simulacroState.category = category;
