@@ -845,7 +845,7 @@ function setFlyerExpanded(expanded) {
 }
 
 function classProgressStorageKey() {
-  const base = "concursoDocente2026Class01";
+  const base = "concursoDocente2026Class01v2";
   return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
 }
 
@@ -994,17 +994,19 @@ els.classQuiz?.addEventListener("submit", (event) => {
     }
   });
 
+  const total = els.classQuizQuestions.length;
+  const passingScore = Math.ceil(total * 0.8);
   classLessonState.score = score;
-  classLessonState.completed = score >= 4;
+  classLessonState.completed = score >= passingScore;
   saveClassLessonProgress();
   if (els.classStatusText && classLessonState.completed) els.classStatusText.textContent = "Clase completada";
   if (els.classQuizMessage) els.classQuizMessage.textContent = "";
-  if (els.classQuizScore) els.classQuizScore.textContent = `${score}/5`;
+  if (els.classQuizScore) els.classQuizScore.textContent = `${score}/${total}`;
   if (els.classQuizResultTitle) {
-    els.classQuizResultTitle.textContent = score >= 4 ? "Clase completada" : "Conviene repasar";
+    els.classQuizResultTitle.textContent = score >= passingScore ? "Clase completada" : "Conviene repasar";
   }
   if (els.classQuizResultCopy) {
-    els.classQuizResultCopy.textContent = score >= 4
+    els.classQuizResultCopy.textContent = score >= passingScore
       ? "Ya diferencias la estructura, las competencias y los requisitos principales del manual."
       : "Lee las explicaciones, repasa los modulos necesarios y vuelve a intentarlo.";
   }

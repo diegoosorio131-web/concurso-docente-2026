@@ -5646,7 +5646,9 @@ body.auth-locked {
 .class-profile-list p,
 .class-competency-grid p,
 .class-behavior-block p,
-.class-requirement-steps p,
+.class-aula-summary p,
+.class-general-functions p,
+.class-area-functions p,
 .class-warning p,
 .class-source-note p {
   margin: 0;
@@ -5763,6 +5765,78 @@ body.auth-locked {
   font-weight: 700;
 }
 
+.class-aula-summary,
+.class-general-functions,
+.class-area-functions {
+  margin-top: 28px;
+  padding: 25px;
+  border: 1px solid var(--line);
+  background: var(--page);
+}
+
+.class-aula-summary > span,
+.class-general-functions > span,
+.class-area-functions > span {
+  color: var(--coral);
+  font-size: 9px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.class-aula-summary > p {
+  margin-top: 12px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.class-aula-summary > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.class-aula-summary > div strong {
+  width: 100%;
+  margin-bottom: 3px;
+  color: var(--ink);
+  font-size: 11px;
+}
+
+.class-aula-summary > div span {
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+.class-general-functions h4,
+.class-area-functions h4 {
+  margin: 10px 0 18px;
+  color: var(--ink);
+  font-size: 18px;
+}
+
+.class-general-functions ol {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 24px;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.class-general-functions > p {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-style: italic;
+}
+
 .class-practice-check {
   margin-top: 26px;
   padding: 25px;
@@ -5823,23 +5897,24 @@ body.auth-locked {
   color: var(--coral);
 }
 
-.class-requirement-steps {
+.class-area-functions > ol {
   display: grid;
-  margin: 30px 0 0;
+  gap: 0;
+  margin: 0;
   padding: 0;
   border-top: 1px solid var(--line);
   list-style: none;
 }
 
-.class-requirement-steps li {
+.class-area-functions li {
   display: grid;
-  grid-template-columns: 32px minmax(0, 1fr);
+  grid-template-columns: 38px minmax(0, 1fr);
   gap: 18px;
   padding: 18px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.class-requirement-steps li > span {
+.class-area-functions li > span {
   width: 28px;
   height: 28px;
   display: grid;
@@ -5851,11 +5926,109 @@ body.auth-locked {
   font-weight: 850;
 }
 
-.class-requirement-steps strong {
+.class-area-functions li p {
+  color: var(--text);
+  font-size: 12px;
+}
+
+.class-discipline-profiles {
+  display: grid;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.class-discipline-profiles details {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+
+.class-discipline-profiles summary {
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.class-discipline-profiles summary::-webkit-details-marker {
+  display: none;
+}
+
+.class-discipline-profiles summary > span {
+  color: var(--coral);
+  font-size: 10px;
+  font-weight: 850;
+}
+
+.class-discipline-profiles summary strong,
+.class-discipline-profiles summary small {
   display: block;
-  margin-bottom: 4px;
+}
+
+.class-discipline-profiles summary strong {
   color: var(--ink);
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.class-discipline-profiles summary small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 9px;
+}
+
+.class-discipline-profiles summary svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: var(--green);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+  transition: transform .2s ease;
+}
+
+.class-discipline-profiles details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: var(--green-soft);
+}
+
+.class-discipline-profiles details[open] summary svg {
+  transform: rotate(180deg);
+}
+
+.class-profile-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+}
+
+.class-profile-columns > div {
+  min-width: 0;
+  padding: 24px;
+  background: var(--surface);
+}
+
+.class-profile-columns h5 {
+  margin: 0 0 16px;
+  color: var(--green);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.class-profile-columns ol {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 20px;
+  color: var(--text);
+  font-size: 11px;
+  line-height: 1.55;
 }
 
 .class-warning {
@@ -6259,6 +6432,26 @@ body.auth-locked {
 
   .class-practice-check button {
     width: 100%;
+  }
+
+  .class-aula-summary,
+  .class-general-functions,
+  .class-area-functions {
+    padding: 20px 17px;
+  }
+
+  .class-discipline-profiles summary {
+    grid-template-columns: 52px minmax(0, 1fr) 18px;
+    gap: 10px;
+    padding: 13px;
+  }
+
+  .class-profile-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .class-profile-columns > div {
+    padding: 20px 17px;
   }
 
   .class-key-idea {
