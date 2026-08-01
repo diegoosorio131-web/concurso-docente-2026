@@ -5335,7 +5335,7 @@ body.auth-locked {
   max-width: 650px;
   margin: 0;
   color: var(--muted);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.7;
 }
 
@@ -5447,7 +5447,7 @@ body.auth-locked {
   max-width: 780px;
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.7;
 }
 
@@ -5557,14 +5557,14 @@ body.auth-locked {
 }
 
 .class-module-nav strong {
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .class-module-nav small {
   margin-top: 3px;
   overflow: hidden;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -5581,7 +5581,7 @@ body.auth-locked {
 
 .class-module-kicker {
   color: var(--coral);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -5590,7 +5590,7 @@ body.auth-locked {
   max-width: 760px;
   margin: 9px 0 13px;
   color: var(--ink);
-  font-size: clamp(26px, 3vw, 36px);
+  font-size: clamp(30px, 3vw, 40px);
   line-height: 1.08;
   overflow-wrap: anywhere;
 }
@@ -5599,7 +5599,7 @@ body.auth-locked {
   max-width: 800px;
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1.75;
 }
 
@@ -5630,7 +5630,7 @@ body.auth-locked {
 .class-definition-grid article > span,
 .class-competency-grid article > span {
   color: var(--green);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -5639,7 +5639,7 @@ body.auth-locked {
 .class-profile-list h4 {
   margin: 20px 0 8px;
   color: var(--ink);
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .class-definition-grid p,
@@ -5653,7 +5653,7 @@ body.auth-locked {
 .class-source-note p {
   margin: 0;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -5670,14 +5670,14 @@ body.auth-locked {
 
 .class-key-idea strong {
   color: var(--coral);
-  font-size: 10px;
+  font-size: 12px;
   text-transform: uppercase;
 }
 
 .class-key-idea p {
   margin: 0;
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.65;
 }
 
@@ -5697,7 +5697,7 @@ body.auth-locked {
 
 .class-profile-list article > span {
   color: var(--coral);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -5719,7 +5719,7 @@ body.auth-locked {
 
 .class-memory-rule span {
   color: var(--ink);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -5745,7 +5745,7 @@ body.auth-locked {
 .class-behavior-block h4 {
   margin: 0 0 7px;
   color: var(--ink);
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .class-behavior-block > div {
@@ -5761,7 +5761,7 @@ body.auth-locked {
   border-radius: 4px;
   background: var(--page);
   color: var(--text);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 700;
 }
 
@@ -5778,7 +5778,7 @@ body.auth-locked {
 .class-general-functions > span,
 .class-area-functions > span {
   color: var(--coral);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -5786,7 +5786,7 @@ body.auth-locked {
 .class-aula-summary > p {
   margin-top: 12px;
   color: var(--text);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .class-aula-summary > div {
@@ -5800,7 +5800,7 @@ body.auth-locked {
   width: 100%;
   margin-bottom: 3px;
   color: var(--ink);
-  font-size: 11px;
+  font-size: 13px;
 }
 
 .class-aula-summary > div span {
@@ -5809,7 +5809,7 @@ body.auth-locked {
   border-radius: 4px;
   background: var(--surface);
   color: var(--green);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 750;
 }
 
@@ -5817,7 +5817,7 @@ body.auth-locked {
 .class-area-functions h4 {
   margin: 10px 0 18px;
   color: var(--ink);
-  font-size: 18px;
+  font-size: 21px;
 }
 
 .class-general-functions ol {
@@ -5826,7 +5826,7 @@ body.auth-locked {
   margin: 0;
   padding-left: 24px;
   color: var(--text);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.65;
 }
 
@@ -5845,7 +5845,7 @@ body.auth-locked {
 
 .class-practice-check > span {
   color: var(--green);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -5854,7 +5854,7 @@ body.auth-locked {
   max-width: 780px;
   margin: 10px 0 18px;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.5;
 }
 
@@ -5871,7 +5871,7 @@ body.auth-locked {
   border-radius: 4px;
   background: var(--surface);
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 750;
 }
 
@@ -5889,7 +5889,7 @@ body.auth-locked {
   min-height: 20px;
   margin: 14px 0 0;
   color: var(--green);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.55;
 }
 
@@ -5928,7 +5928,7 @@ body.auth-locked {
 
 .class-area-functions li p {
   color: var(--text);
-  font-size: 12px;
+  font-size: 14px;
 }
 
 .class-discipline-profiles {
@@ -5961,7 +5961,7 @@ body.auth-locked {
 
 .class-discipline-profiles summary > span {
   color: var(--coral);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 850;
 }
 
@@ -5972,13 +5972,13 @@ body.auth-locked {
 
 .class-discipline-profiles summary strong {
   color: var(--ink);
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .class-discipline-profiles summary small {
   margin-top: 4px;
   color: var(--muted);
-  font-size: 9px;
+  font-size: 11px;
 }
 
 .class-discipline-profiles summary svg {
@@ -6017,7 +6017,7 @@ body.auth-locked {
 .class-profile-columns h5 {
   margin: 0 0 16px;
   color: var(--green);
-  font-size: 11px;
+  font-size: 13px;
   text-transform: uppercase;
 }
 
@@ -6027,7 +6027,7 @@ body.auth-locked {
   margin: 0;
   padding-left: 20px;
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.55;
 }
 
@@ -6049,7 +6049,7 @@ body.auth-locked {
   display: block;
   margin-bottom: 5px;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .class-quiz {
@@ -6081,7 +6081,7 @@ body.auth-locked {
   gap: 10px;
   padding: 0 0 15px;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 800;
   line-height: 1.5;
 }
@@ -6107,7 +6107,7 @@ body.auth-locked {
   border: 1px solid var(--line);
   border-radius: 4px;
   color: var(--text);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.45;
   cursor: pointer;
 }
@@ -6126,14 +6126,14 @@ body.auth-locked {
   padding: 13px 14px;
   background: var(--page);
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.6;
 }
 
 .class-quiz-message {
   min-height: 18px;
   color: var(--coral);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 750;
 }
 
@@ -6146,7 +6146,7 @@ body.auth-locked {
   border-radius: 5px;
   background: var(--primary);
   color: #fff;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -6181,7 +6181,7 @@ body.auth-locked {
 .class-quiz-result p {
   margin: 0 0 18px;
   color: var(--muted);
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6;
 }
 
@@ -6205,7 +6205,7 @@ body.auth-locked {
   border-radius: 4px;
   background: var(--surface);
   color: var(--text);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
 }
 
@@ -6260,7 +6260,7 @@ body.auth-locked {
 .class-source-note span {
   display: block;
   color: var(--coral);
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 850;
   text-transform: uppercase;
 }
@@ -6269,7 +6269,7 @@ body.auth-locked {
   display: block;
   margin: 4px 0 5px;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .class-source-note a {
@@ -6283,7 +6283,7 @@ body.auth-locked {
   border-radius: 5px;
   background: var(--surface);
   color: var(--green);
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 800;
   white-space: nowrap;
 }
