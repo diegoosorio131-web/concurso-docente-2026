@@ -46,6 +46,10 @@ const els = {
   flyerToggle: document.getElementById("flyerToggle"),
   flyerToggles: document.querySelectorAll("[data-flyer-toggle]"),
   flyerToggleLabel: document.getElementById("flyerToggleLabel"),
+  classCatalog: document.getElementById("classCatalog"),
+  classLesson: document.getElementById("classLesson"),
+  classOpenBtn: document.getElementById("classOpenBtn"),
+  classBackBtn: document.getElementById("classBackBtn"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -814,6 +818,17 @@ function setFlyerExpanded(expanded) {
       : "Desplegar flyer completo";
   }
 }
+function setClassLessonOpen(open) {
+  if (!els.classCatalog || !els.classLesson || !els.classOpenBtn) return;
+  els.classCatalog.hidden = open;
+  els.classLesson.hidden = !open;
+  els.classOpenBtn.setAttribute("aria-expanded", String(open));
+  const target = open ? els.classLesson : document.querySelector(".class-heading");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.setTimeout(() => (open ? els.classBackBtn : els.classOpenBtn)?.focus(), 350);
+}
+els.classOpenBtn?.addEventListener("click", () => setClassLessonOpen(true));
+els.classBackBtn?.addEventListener("click", () => setClassLessonOpen(false));
 els.flyerToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";

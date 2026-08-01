@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260801-1">
+    <link rel="stylesheet" href="styles.css?v=20260801-2">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -415,22 +415,96 @@
                 <h1>Clase</h1>
                 <p>Encuentra aqu&iacute; las sesiones y los recursos preparados para tu proceso.</p>
               </div>
-              <div class="class-status"><i aria-hidden="true"></i><span>Espacio habilitado</span></div>
+              <div class="class-status"><i aria-hidden="true"></i><span>1 clase disponible</span></div>
             </header>
 
-            <section class="class-workspace" aria-labelledby="classLibraryTitle">
-              <div class="class-workspace-number" aria-hidden="true">01</div>
-              <div class="class-workspace-copy">
-                <span class="class-workspace-label">Biblioteca de clases</span>
-                <h2 id="classLibraryTitle">Tu pr&oacute;xima clase aparecer&aacute; aqu&iacute;</h2>
-                <p>A&uacute;n no hay sesiones publicadas. Cuando se agregue una clase podr&aacute;s consultar su fecha, tema y material desde este espacio.</p>
+            <section id="classCatalog" class="class-catalog" aria-labelledby="classLibraryTitle">
+              <div class="class-catalog-head">
+                <div>
+                  <span class="class-workspace-label">Biblioteca de clases</span>
+                  <h2 id="classLibraryTitle">Contenido disponible</h2>
+                </div>
+                <span class="class-catalog-count">01</span>
               </div>
-              <div class="class-empty-visual" aria-hidden="true">
-                <span>
-                  <svg viewBox="0 0 24 24"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"/><rect x="3" y="5" width="12" height="14" rx="2"/><path d="M7 9h4M7 13h3"/></svg>
-                </span>
-              </div>
+
+              <article class="class-card">
+                <div class="class-card-index" aria-hidden="true"><span>Clase</span><strong>01</strong></div>
+                <div class="class-card-main">
+                  <div class="class-card-meta"><span>Normativa</span><span>Lectura guiada</span><span>20 min</span></div>
+                  <h3>Manual de Funciones, Requisitos y Competencias</h3>
+                  <p>Comprende c&oacute;mo est&aacute; organizado el manual, qu&eacute; debes revisar seg&uacute;n el cargo y por qu&eacute; es un referente para el concurso docente.</p>
+                </div>
+                <button id="classOpenBtn" class="class-open-btn" type="button" aria-controls="classLesson" aria-expanded="false">
+                  Abrir clase
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+              </article>
             </section>
+
+            <article id="classLesson" class="class-lesson" aria-labelledby="classLessonTitle" hidden>
+              <header class="class-lesson-header">
+                <button id="classBackBtn" class="class-back-btn" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                  Todas las clases
+                </button>
+                <div class="class-lesson-heading">
+                  <div>
+                    <span class="class-lesson-kicker">Clase 01 <i aria-hidden="true"></i> Fundamento normativo</span>
+                    <h2 id="classLessonTitle">Manual de Funciones, Requisitos y Competencias</h2>
+                    <p>Una lectura estrat&eacute;gica de la Resoluci&oacute;n 003842 de 2022 para ubicar tu cargo, reconocer las competencias esperadas y orientar tu preparaci&oacute;n.</p>
+                  </div>
+                  <span class="class-duration"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>20 min</span>
+                </div>
+              </header>
+
+              <section class="class-objectives" aria-labelledby="classObjectivesTitle">
+                <span class="class-section-number" aria-hidden="true">01</span>
+                <div>
+                  <span class="class-section-label">Punto de partida</span>
+                  <h3 id="classObjectivesTitle">Al terminar esta clase podr&aacute;s</h3>
+                  <ul>
+                    <li>Identificar el cap&iacute;tulo y el perfil que corresponden al cargo de tu inter&eacute;s.</li>
+                    <li>Diferenciar funciones, competencias y requisitos m&iacute;nimos.</li>
+                    <li>Usar el manual como mapa para estudiar situaciones propias del ejercicio docente.</li>
+                  </ul>
+                </div>
+              </section>
+
+              <section class="class-content-section" aria-labelledby="classStructureTitle">
+                <div class="class-section-heading">
+                  <span class="class-section-number" aria-hidden="true">02</span>
+                  <div><span class="class-section-label">Estructura del documento</span><h3 id="classStructureTitle">Tres partes que debes reconocer</h3></div>
+                </div>
+                <div class="class-topic-grid">
+                  <article><span>01</span><h4>Directivos docentes</h4><p>Re&uacute;ne los perfiles de rector, director rural y coordinador, con sus funciones, competencias y requisitos.</p></article>
+                  <article><span>02</span><h4>Docentes</h4><p>Desarrolla los cargos de docente de aula y docente orientador, junto con sus funciones generales y espec&iacute;ficas.</p></article>
+                  <article><span>03</span><h4>Disposiciones especiales</h4><p>Incluye reglas necesarias para interpretar y aplicar correctamente los requisitos del manual.</p></article>
+                </div>
+              </section>
+
+              <section class="class-reading-route" aria-labelledby="classRouteTitle">
+                <div class="class-section-heading">
+                  <span class="class-section-number" aria-hidden="true">03</span>
+                  <div><span class="class-section-label">Lectura estrat&eacute;gica</span><h3 id="classRouteTitle">C&oacute;mo estudiar tu perfil</h3></div>
+                </div>
+                <ol>
+                  <li><span>1</span><div><strong>Ubica el cargo</strong><p>Define si revisar&aacute;s un perfil directivo, docente de aula o docente orientador.</p></div></li>
+                  <li><span>2</span><div><strong>Separa cada componente</strong><p>Lee por aparte la funci&oacute;n general, las funciones espec&iacute;ficas, las competencias y los requisitos.</p></div></li>
+                  <li><span>3</span><div><strong>Conecta con la pr&aacute;ctica</strong><p>Relaciona cada funci&oacute;n con decisiones reales de planeaci&oacute;n, evaluaci&oacute;n, convivencia y gesti&oacute;n escolar.</p></div></li>
+                </ol>
+              </section>
+
+              <aside class="class-source-note">
+                <div>
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg>
+                  <div><span>Fuente oficial</span><strong>Resoluci&oacute;n 003842 del 18 de marzo de 2022</strong><p>Consulta siempre el documento completo y verifica futuras modificaciones del Ministerio de Educaci&oacute;n Nacional.</p></div>
+                </div>
+                <a href="https://www.mineducacion.gov.co/1780/articles-409868_pdf.pdf" target="_blank" rel="noreferrer">
+                  Abrir documento del MEN
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg>
+                </a>
+              </aside>
+            </article>
           </section>
 
           <section class="view" id="estudio">
@@ -498,6 +572,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260801-1"></script>
+    <script src="app.js?v=20260801-2"></script>
   </body>
 </html>
