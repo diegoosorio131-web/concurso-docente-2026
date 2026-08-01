@@ -50,6 +50,24 @@ const els = {
   classLesson: document.getElementById("classLesson"),
   classOpenBtn: document.getElementById("classOpenBtn"),
   classBackBtn: document.getElementById("classBackBtn"),
+  classStatusText: document.getElementById("classStatusText"),
+  classModuleButtons: document.querySelectorAll("[data-class-module]"),
+  classModulePanels: document.querySelectorAll("[data-class-panel]"),
+  classProgressText: document.getElementById("classProgressText"),
+  classProgressPercent: document.getElementById("classProgressPercent"),
+  classProgressBar: document.getElementById("classProgressBar"),
+  classPrevModule: document.getElementById("classPrevModule"),
+  classNextModule: document.getElementById("classNextModule"),
+  classNextModuleLabel: document.getElementById("classNextModuleLabel"),
+  classPracticeCheck: document.querySelector("[data-class-check]"),
+  classQuiz: document.getElementById("classQuiz"),
+  classQuizQuestions: document.querySelectorAll("[data-class-quiz-question]"),
+  classQuizMessage: document.getElementById("classQuizMessage"),
+  classQuizResult: document.getElementById("classQuizResult"),
+  classQuizScore: document.getElementById("classQuizScore"),
+  classQuizResultTitle: document.getElementById("classQuizResultTitle"),
+  classQuizResultCopy: document.getElementById("classQuizResultCopy"),
+  classQuizRetry: document.getElementById("classQuizRetry"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -105,6 +123,13 @@ const simulacroState = {
   currentBlockId: null,
   reviewMode: false,
   completed: false
+};
+
+const classLessonState = {
+  current: 0,
+  visited: new Set([0]),
+  completed: false,
+  score: null
 };
 
 function progressStorageKey() {
@@ -818,17 +843,179 @@ function setFlyerExpanded(expanded) {
       : "Desplegar flyer completo";
   }
 }
+
+function classProgressStorageKey() {
+  const base = "concursoDocente2026Class01";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function loadClassLessonProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(classProgressStorageKey()));
+    classLessonState.current = Math.min(4, Math.max(0, Number(saved?.current) || 0));
+    classLessonState.visited = new Set(
+      Array.isArray(saved?.visited)
+        ? saved.visited.filter((index) => Number.isInteger(index) && index >= 0 && index <= 4)
+        : [0]
+    );
+    classLessonState.visited.add(classLessonState.current);
+    classLessonState.completed = Boolean(saved?.completed);
+    classLessonState.score = Number.isInteger(saved?.score) ? saved.score : null;
+  } catch {
+    classLessonState.current = 0;
+    classLessonState.visited = new Set([0]);
+    classLessonState.completed = false;
+    classLessonState.score = null;
+  }
+}
+
+function saveClassLessonProgress() {
+  localStorage.setItem(classProgressStorageKey(), JSON.stringify({
+    current: classLessonState.current,
+    visited: [...classLessonState.visited],
+    completed: classLessonState.completed,
+    score: classLessonState.score
+  }));
+}
+function renderClassModule(index, shouldScroll = true) {
+  const nextIndex = Math.min(4, Math.max(0, index));
+  classLessonState.current = nextIndex;
+  classLessonState.visited.add(nextIndex);
+
+  els.classModuleButtons.forEach((button) => {
+    const moduleIndex = Number(button.dataset.classModule);
+    const active = moduleIndex === nextIndex;
+    button.classList.toggle("active", active);
+    button.classList.toggle("visited", classLessonState.visited.has(moduleIndex));
+    if (active) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  els.classModulePanels.forEach((panel) => {
+    const active = Number(panel.dataset.classPanel) === nextIndex;
+    panel.hidden = !active;
+    panel.classList.toggle("active", active);
+  });
+
+  const progress = Math.round((classLessonState.visited.size / 5) * 100);
+  if (els.classProgressText) els.classProgressText.textContent = `Modulo ${nextIndex + 1} de 5`;
+  if (els.classProgressPercent) els.classProgressPercent.textContent = `${progress}%`;
+  if (els.classProgressBar) {
+    els.classProgressBar.style.width = `${progress}%`;
+    els.classProgressBar.parentElement?.setAttribute("aria-valuenow", String(progress));
+  }
+  if (els.classPrevModule) els.classPrevModule.disabled = nextIndex === 0;
+  if (els.classNextModule) els.classNextModule.hidden = nextIndex === 4;
+  if (els.classNextModuleLabel) {
+    els.classNextModuleLabel.textContent = nextIndex === 3 ? "Ir a la evaluacion" : "Siguiente modulo";
+  }
+  if (els.classStatusText) {
+    els.classStatusText.textContent = classLessonState.completed ? "Clase completada" : "1 clase disponible";
+  }
+  saveClassLessonProgress();
+
+  if (shouldScroll) {
+    document.querySelector(".class-learning-progress")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
 function setClassLessonOpen(open) {
   if (!els.classCatalog || !els.classLesson || !els.classOpenBtn) return;
+  if (open) loadClassLessonProgress();
   els.classCatalog.hidden = open;
   els.classLesson.hidden = !open;
   els.classOpenBtn.setAttribute("aria-expanded", String(open));
+  if (open) renderClassModule(classLessonState.current, false);
   const target = open ? els.classLesson : document.querySelector(".class-heading");
   target?.scrollIntoView({ behavior: "smooth", block: "start" });
   window.setTimeout(() => (open ? els.classBackBtn : els.classOpenBtn)?.focus(), 350);
 }
+
+function resetClassQuiz() {
+  els.classQuiz?.reset();
+  els.classQuizQuestions.forEach((question) => {
+    question.classList.remove("correct", "wrong");
+    const explanation = question.querySelector(".class-quiz-explanation");
+    if (explanation) {
+      explanation.textContent = "";
+      explanation.hidden = true;
+    }
+  });
+  if (els.classQuizMessage) els.classQuizMessage.textContent = "";
+  if (els.classQuizResult) els.classQuizResult.hidden = true;
+  els.classQuiz?.querySelector("button[type='submit']")?.removeAttribute("hidden");
+}
+
 els.classOpenBtn?.addEventListener("click", () => setClassLessonOpen(true));
 els.classBackBtn?.addEventListener("click", () => setClassLessonOpen(false));
+els.classModuleButtons.forEach((button) => {
+  button.addEventListener("click", () => renderClassModule(Number(button.dataset.classModule)));
+});
+els.classPrevModule?.addEventListener("click", () => renderClassModule(classLessonState.current - 1));
+els.classNextModule?.addEventListener("click", () => renderClassModule(classLessonState.current + 1));
+
+els.classPracticeCheck?.querySelectorAll("[data-class-check-answer]").forEach((button) => {
+  button.addEventListener("click", () => {
+    const selected = Number(button.dataset.classCheckAnswer);
+    const feedback = els.classPracticeCheck.querySelector(".class-check-feedback");
+    els.classPracticeCheck.querySelectorAll("[data-class-check-answer]").forEach((option) => {
+      option.classList.toggle("correct", Number(option.dataset.classCheckAnswer) === 2);
+      option.classList.toggle("wrong", option === button && selected !== 2);
+    });
+    if (feedback) {
+      feedback.textContent = selected === 2
+        ? "Correcto. La relacion con las familias y el entorno corresponde a la gestion comunitaria."
+        : "Revisa el foco de la situacion: la relacion con familias y entorno pertenece a la gestion comunitaria.";
+      feedback.dataset.state = selected === 2 ? "correct" : "wrong";
+    }
+  });
+});
+
+els.classQuiz?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const unanswered = [...els.classQuizQuestions].filter((question) => !question.querySelector("input:checked"));
+  if (unanswered.length) {
+    if (els.classQuizMessage) els.classQuizMessage.textContent = `Responde las ${unanswered.length} pregunta${unanswered.length === 1 ? "" : "s"} pendiente${unanswered.length === 1 ? "" : "s"}.`;
+    unanswered[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  let score = 0;
+  els.classQuizQuestions.forEach((question) => {
+    const selected = Number(question.querySelector("input:checked").value);
+    const correct = Number(question.dataset.answer);
+    const isCorrect = selected === correct;
+    const explanation = question.querySelector(".class-quiz-explanation");
+    if (isCorrect) score += 1;
+    question.classList.toggle("correct", isCorrect);
+    question.classList.toggle("wrong", !isCorrect);
+    if (explanation) {
+      explanation.textContent = isCorrect ? explanation.dataset.correct : explanation.dataset.wrong;
+      explanation.hidden = false;
+    }
+  });
+
+  classLessonState.score = score;
+  classLessonState.completed = score >= 4;
+  saveClassLessonProgress();
+  if (els.classStatusText && classLessonState.completed) els.classStatusText.textContent = "Clase completada";
+  if (els.classQuizMessage) els.classQuizMessage.textContent = "";
+  if (els.classQuizScore) els.classQuizScore.textContent = `${score}/5`;
+  if (els.classQuizResultTitle) {
+    els.classQuizResultTitle.textContent = score >= 4 ? "Clase completada" : "Conviene repasar";
+  }
+  if (els.classQuizResultCopy) {
+    els.classQuizResultCopy.textContent = score >= 4
+      ? "Ya diferencias la estructura, las competencias y los requisitos principales del manual."
+      : "Lee las explicaciones, repasa los modulos necesarios y vuelve a intentarlo.";
+  }
+  if (els.classQuizResult) {
+    els.classQuizResult.hidden = false;
+    els.classQuizResult.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  els.classQuiz.querySelector("button[type='submit']")?.setAttribute("hidden", "");
+});
+
+els.classQuizRetry?.addEventListener("click", resetClassQuiz);
 els.flyerToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
