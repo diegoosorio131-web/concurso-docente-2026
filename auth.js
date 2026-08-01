@@ -77,7 +77,7 @@
     });
   }
 
-  async function getCredentialEncryptionKey() {
+  async function getIndexedDatabaseCredentialKey() {
     const database = await openCredentialDatabase();
     try {
       let key = await readCredentialKey(database);
@@ -91,6 +91,28 @@
     }
   }
 
+  async function getDerivedCredentialKey() {
+    const source = new TextEncoder().encode(
+      `${config.supabaseUrl}|${config.supabasePublishableKey}|aula2026-local-credentials`
+    );
+    const digest = await crypto.subtle.digest("SHA-256", source);
+    return crypto.subtle.importKey("raw", digest, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+  }
+
+  async function resolveCredentialEncryptionKey(preferredMode = "") {
+    if (preferredMode === "derived") {
+      return { key: await getDerivedCredentialKey(), mode: "derived" };
+    }
+    if (window.indexedDB) {
+      try {
+        return { key: await getIndexedDatabaseCredentialKey(), mode: "indexeddb" };
+      } catch {
+        // Some privacy modes expose IndexedDB but block its use.
+      }
+    }
+    return { key: await getDerivedCredentialKey(), mode: "derived" };
+  }
+
   function bytesToBase64(bytes) {
     let binary = "";
     bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
@@ -102,13 +124,14 @@
   }
 
   async function saveEncryptedCredential(email, password) {
-    if (!rememberLoginInput.checked || !window.crypto?.subtle || !window.indexedDB) return;
+    if (!rememberLoginInput.checked || !window.crypto?.subtle) return;
     try {
-      const key = await getCredentialEncryptionKey();
+      const { key, mode } = await resolveCredentialEncryptionKey();
       const iv = crypto.getRandomValues(new Uint8Array(12));
       const content = new TextEncoder().encode(JSON.stringify({ email, password }));
       const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, content);
       localStorage.setItem(rememberedCredentialKey, JSON.stringify({
+        mode,
         iv: bytesToBase64(iv),
         data: bytesToBase64(new Uint8Array(encrypted))
       }));
@@ -119,10 +142,10 @@
 
   async function restoreEncryptedCredential() {
     const saved = localStorage.getItem(rememberedCredentialKey);
-    if (!saved || !window.crypto?.subtle || !window.indexedDB) return;
+    if (!saved || !window.crypto?.subtle) return;
     try {
       const payload = JSON.parse(saved);
-      const key = await getCredentialEncryptionKey();
+      const { key } = await resolveCredentialEncryptionKey(payload.mode || "indexeddb");
       const decrypted = await crypto.subtle.decrypt(
         { name: "AES-GCM", iv: base64ToBytes(payload.iv) },
         key,
@@ -270,11 +293,11 @@
           return;
         }
 
-        if (signInData.user && await verifyApproval(client, signInData.user)) {
-          await Promise.allSettled([
-            saveEncryptedCredential(email, password),
-            saveBrowserCredential(email, password)
-          ]);
+        if (signInData.user) {
+          await saveEncryptedCredential(email, password);
+          if (await verifyApproval(client, signInData.user)) {
+            await saveBrowserCredential(email, password);
+          }
         }
         loginBtn.disabled = false;
         loginBtnLabel.textContent = loginLabel;
