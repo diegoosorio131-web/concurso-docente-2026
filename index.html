@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260728-17">
+    <link rel="stylesheet" href="styles.css?v=20260801-1">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -90,6 +90,12 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></svg>
             </span>
             <span>Inicio</span>
+          </button>
+          <button class="tab" data-view="clase" type="button">
+            <span class="tab-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"/><rect x="3" y="5" width="12" height="14" rx="2"/></svg>
+            </span>
+            <span>Clase</span>
           </button>
           <div id="simulacroMenu" class="simulacro-menu">
             <button id="simulacroTab" class="tab" data-view="simulacro" type="button" aria-expanded="false" aria-controls="simulacroSubmenu">
@@ -402,6 +408,31 @@
             </section>
           </section>
 
+          <section class="view" id="clase">
+            <header class="page-heading class-heading">
+              <div>
+                <span class="eyebrow">Aula virtual</span>
+                <h1>Clase</h1>
+                <p>Encuentra aqu&iacute; las sesiones y los recursos preparados para tu proceso.</p>
+              </div>
+              <div class="class-status"><i aria-hidden="true"></i><span>Espacio habilitado</span></div>
+            </header>
+
+            <section class="class-workspace" aria-labelledby="classLibraryTitle">
+              <div class="class-workspace-number" aria-hidden="true">01</div>
+              <div class="class-workspace-copy">
+                <span class="class-workspace-label">Biblioteca de clases</span>
+                <h2 id="classLibraryTitle">Tu pr&oacute;xima clase aparecer&aacute; aqu&iacute;</h2>
+                <p>A&uacute;n no hay sesiones publicadas. Cuando se agregue una clase podr&aacute;s consultar su fecha, tema y material desde este espacio.</p>
+              </div>
+              <div class="class-empty-visual" aria-hidden="true">
+                <span>
+                  <svg viewBox="0 0 24 24"><path d="M15 10l4.55-2.28A1 1 0 0 1 21 8.62v6.76a1 1 0 0 1-1.45.9L15 14"/><rect x="3" y="5" width="12" height="14" rx="2"/><path d="M7 9h4M7 13h3"/></svg>
+                </span>
+              </div>
+            </section>
+          </section>
+
           <section class="view" id="estudio">
             <header class="page-heading">
               <div><span class="eyebrow">Biblioteca personal</span><h1>Estudia con enfoque.</h1><p>Avanza por tu ruta y usa las tarjetas para fijar conceptos clave.</p></div>
@@ -467,6 +498,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260728-7"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260728-15"></script>
+    <script src="app.js?v=20260801-1"></script>
   </body>
 </html>

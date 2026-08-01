@@ -766,6 +766,7 @@ function renderProgress() {
 function switchView(viewId) {
   const viewLabels = {
     inicio: "Inicio",
+    clase: "Clase",
     simulacro: "Simulacros",
     estudio: "Estudiar",
     progreso: "Mi progreso"
