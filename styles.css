@@ -5820,21 +5820,107 @@ body.auth-locked {
   font-size: 21px;
 }
 
-.class-general-functions ol {
+.class-functions-intro {
+  max-width: 720px;
+  margin: -8px 0 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.class-function-groups {
   display: grid;
-  gap: 10px;
-  margin: 0;
-  padding-left: 24px;
+  gap: 8px;
+}
+
+.class-function-groups details {
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+
+.class-function-groups summary {
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 20px;
+  align-items: center;
+  gap: 12px;
+  min-height: 66px;
+  padding: 11px 15px;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.class-function-groups summary::-webkit-details-marker {
+  display: none;
+}
+
+.class-function-groups summary > span {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  place-items: center;
+  border-radius: 4px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 850;
+}
+
+.class-function-groups summary strong,
+.class-function-groups summary small {
+  display: block;
+}
+
+.class-function-groups summary strong {
+  font-size: 15px;
+}
+
+.class-function-groups summary small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.class-function-groups summary i {
+  width: 9px;
+  height: 9px;
+  border-right: 2px solid var(--green);
+  border-bottom: 2px solid var(--green);
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.class-function-groups details[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.class-function-groups details[open] summary i {
+  transform: rotate(225deg);
+}
+
+.class-function-groups ol {
+  display: grid;
+  gap: 0;
+  margin: 0 18px 0 54px;
+  padding: 12px 0 16px 24px;
   color: var(--text);
   font-size: 14px;
   line-height: 1.65;
 }
 
-.class-general-functions > p {
-  margin-top: 16px;
-  padding-top: 14px;
-  border-top: 1px solid var(--line);
-  font-style: italic;
+.class-function-groups li {
+  padding: 9px 4px 9px 7px;
+  border-bottom: 1px solid color-mix(in srgb, var(--line) 70%, transparent);
+}
+
+.class-function-groups li:last-child {
+  border-bottom: 0;
+}
+
+.class-function-groups li::marker {
+  color: var(--coral);
+  font-weight: 850;
 }
 
 .class-practice-check {
@@ -6438,6 +6524,27 @@ body.auth-locked {
   .class-general-functions,
   .class-area-functions {
     padding: 20px 17px;
+  }
+
+  .class-function-groups summary {
+    grid-template-columns: 34px minmax(0, 1fr) 16px;
+    gap: 10px;
+    padding: 11px;
+  }
+
+  .class-function-groups summary > span {
+    width: 34px;
+    height: 34px;
+  }
+
+  .class-function-groups summary strong {
+    font-size: 14px;
+  }
+
+  .class-function-groups ol {
+    margin: 0 10px 0 28px;
+    padding-left: 22px;
+    font-size: 13px;
   }
 
   .class-discipline-profiles summary {
