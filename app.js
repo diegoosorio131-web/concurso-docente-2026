@@ -428,17 +428,17 @@ const classTwoQuizBank = [
   },
   {
     id: "minimum-scores", module: 4,
-    prompt: "Según el texto del Decreto 915, ¿cuáles son los mínimos aprobatorios de la prueba eliminatoria?",
-    options: ["50 para docentes y 60 para directivos", "70 para docentes y 80 para directivos", "80 para docentes y 70 para directivos"],
+    prompt: "¿Cuáles son los mínimos aprobatorios presentados provisionalmente en esta clase?",
+    options: ["50 para docentes y 60 para directivos", "60 para docentes y 70 para directivos", "70 para docentes y 80 para directivos"],
     correct: 1,
-    explanation: "El decreto fija 70/100 para docentes y 80/100 para directivos docentes."
+    explanation: "La clase muestra provisionalmente 60/100 para docentes y 70/100 para directivos, pendiente de incorporar la fuente oficial que respalde el cambio."
   },
   {
     id: "written-weight", module: 4,
     prompt: "Para docentes, la ponderación de aptitudes y competencias básicas no puede ser menor a:",
     options: ["45%", "55%", "70%"],
     correct: 1,
-    explanation: "El 55% es un límite mínimo de ponderación, distinto del mínimo aprobatorio de 70/100."
+    explanation: "El 55% es un límite mínimo de ponderación, distinto del mínimo aprobatorio provisional de 60/100."
   },
   {
     id: "psychotechnical", module: 4,
