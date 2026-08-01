@@ -5259,10 +5259,23 @@ body.auth-locked {
 }
 
 .class-catalog-count {
+  display: grid;
+  justify-items: end;
   color: color-mix(in srgb, var(--muted) 38%, transparent);
+  line-height: 1;
+}
+
+.class-catalog-count strong {
   font-size: 38px;
   font-weight: 800;
-  line-height: 1;
+}
+
+.class-catalog-count small {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .class-card {
@@ -5373,6 +5386,138 @@ body.auth-locked {
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.8;
+}
+
+.class-roadmap {
+  margin-top: 22px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.class-roadmap > summary {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px 4px;
+  color: var(--ink);
+  cursor: pointer;
+  list-style: none;
+}
+
+.class-roadmap > summary::-webkit-details-marker {
+  display: none;
+}
+
+.class-roadmap > summary > div:first-child > span,
+.class-roadmap > summary strong,
+.class-roadmap > summary small {
+  display: block;
+}
+
+.class-roadmap > summary > div:first-child > span {
+  color: var(--coral);
+  font-size: 10px;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.class-roadmap > summary strong {
+  margin-top: 5px;
+  font-size: 18px;
+}
+
+.class-roadmap > summary small {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.class-roadmap-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.class-roadmap-status svg,
+.class-locked-card svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.7;
+}
+
+.class-roadmap-status i {
+  width: 8px;
+  height: 8px;
+  margin-left: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.class-roadmap[open] .class-roadmap-status i {
+  transform: rotate(225deg);
+}
+
+.class-roadmap-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  padding: 2px 0 24px;
+}
+
+.class-locked-card {
+  min-width: 0;
+  min-height: 82px;
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) 17px;
+  align-items: center;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--page) 72%, var(--surface));
+  color: var(--muted);
+}
+
+.class-locked-card > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 11px;
+  font-weight: 850;
+}
+
+.class-locked-card strong,
+.class-locked-card small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.class-locked-card strong {
+  color: var(--text);
+  font-size: 12px;
+}
+
+.class-locked-card small {
+  margin-top: 4px;
+  font-size: 10px;
 }
 
 .class-lesson {
@@ -6379,6 +6524,10 @@ body.auth-locked {
 }
 
 @media (max-width: 1050px) {
+  .class-roadmap-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
   .class-card {
     grid-template-columns: 76px minmax(0, 1fr);
   }
@@ -6432,6 +6581,37 @@ body.auth-locked {
   .class-open-btn {
     width: 100%;
     grid-column: auto;
+  }
+
+  .class-roadmap > summary {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px 2px;
+  }
+
+  .class-roadmap-status {
+    width: 100%;
+  }
+
+  .class-roadmap-status i {
+    margin-left: auto;
+    margin-right: 4px;
+  }
+
+  .class-roadmap-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .class-locked-card {
+    grid-template-columns: 32px minmax(0, 1fr) 16px;
+    gap: 8px;
+    padding: 10px;
+  }
+
+  .class-locked-card > span {
+    width: 32px;
+    height: 32px;
   }
 
   .class-lesson-header {

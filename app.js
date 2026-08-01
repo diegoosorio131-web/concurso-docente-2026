@@ -47,6 +47,7 @@ const els = {
   flyerToggles: document.querySelectorAll("[data-flyer-toggle]"),
   flyerToggleLabel: document.getElementById("flyerToggleLabel"),
   classCatalog: document.getElementById("classCatalog"),
+  classRoadmapGrid: document.getElementById("classRoadmapGrid"),
   classLesson: document.getElementById("classLesson"),
   classOpenBtn: document.getElementById("classOpenBtn"),
   classBackBtn: document.getElementById("classBackBtn"),
@@ -131,6 +132,19 @@ const classLessonState = {
   completed: false,
   score: null
 };
+
+function renderClassRoadmap() {
+  if (!els.classRoadmapGrid) return;
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 57 }, (_, index) => {
+    const classNumber = String(index + 2).padStart(2, "0");
+    return `
+      <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
+        <span>${classNumber}</span>
+        <div><strong>Clase ${classNumber}</strong><small>Contenido por definir</small></div>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+      </article>`;
+  }).join("");
+}
 
 function progressStorageKey() {
   if (!window.AULA_CONFIG?.authEnabled) return storageKey;
@@ -909,7 +923,9 @@ function renderClassModule(index, shouldScroll = true) {
     els.classNextModuleLabel.textContent = nextIndex === 3 ? "Ir a la evaluacion" : "Siguiente modulo";
   }
   if (els.classStatusText) {
-    els.classStatusText.textContent = classLessonState.completed ? "Clase completada" : "1 clase disponible";
+    els.classStatusText.textContent = classLessonState.completed
+      ? "Clase 1 completada · 57 bloqueadas"
+      : "1 disponible · 57 bloqueadas";
   }
   saveClassLessonProgress();
 
@@ -999,7 +1015,9 @@ els.classQuiz?.addEventListener("submit", (event) => {
   classLessonState.score = score;
   classLessonState.completed = score >= passingScore;
   saveClassLessonProgress();
-  if (els.classStatusText && classLessonState.completed) els.classStatusText.textContent = "Clase completada";
+  if (els.classStatusText && classLessonState.completed) {
+    els.classStatusText.textContent = "Clase 1 completada · 57 bloqueadas";
+  }
   if (els.classQuizMessage) els.classQuizMessage.textContent = "";
   if (els.classQuizScore) els.classQuizScore.textContent = `${score}/${total}`;
   if (els.classQuizResultTitle) {
@@ -1105,6 +1123,7 @@ if (els.workspaceDate) {
 applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
 updateSimulacroCounts();
+renderClassRoadmap();
 renderNews();
 renderStudy();
 renderProgress();

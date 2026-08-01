@@ -415,16 +415,16 @@
                 <h1>Clase</h1>
                 <p>Encuentra aqu&iacute; las sesiones y los recursos preparados para tu proceso.</p>
               </div>
-              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">1 clase disponible</span></div>
+              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">1 disponible &middot; 57 bloqueadas</span></div>
             </header>
 
             <section id="classCatalog" class="class-catalog" aria-labelledby="classLibraryTitle">
               <div class="class-catalog-head">
                 <div>
                   <span class="class-workspace-label">Biblioteca de clases</span>
-                  <h2 id="classLibraryTitle">Contenido disponible</h2>
+                  <h2 id="classLibraryTitle">Ruta de aprendizaje</h2>
                 </div>
-                <span class="class-catalog-count">01</span>
+                <span class="class-catalog-count"><strong>58</strong><small>clases</small></span>
               </div>
 
               <article class="class-card">
@@ -439,6 +439,14 @@
                   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                 </button>
               </article>
+
+              <details class="class-roadmap" open>
+                <summary>
+                  <div><span>Pr&oacute;ximamente</span><strong>Clases 02 a 58</strong><small>57 espacios reservados para construir el programa.</small></div>
+                  <div class="class-roadmap-status"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Bloqueadas</span><i aria-hidden="true"></i></div>
+                </summary>
+                <div id="classRoadmapGrid" class="class-roadmap-grid" aria-label="Clases bloqueadas del programa"></div>
+              </details>
             </section>
 
             <article id="classLesson" class="class-lesson" aria-labelledby="classLessonTitle" hidden>
@@ -770,6 +778,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-8"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260801-4"></script>
+    <script src="app.js?v=20260801-5"></script>
   </body>
 </html>
