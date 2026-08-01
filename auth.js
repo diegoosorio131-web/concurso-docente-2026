@@ -26,27 +26,40 @@
     const remember = shouldRememberLogin();
     rememberLoginInput.checked = remember;
     emailInput.value = remember ? localStorage.getItem(rememberedEmailKey) || "" : "";
+    form.autocomplete = remember ? "on" : "off";
   }
 
   function saveLoginPreference(email) {
     const remember = rememberLoginInput.checked;
     localStorage.setItem(rememberPreferenceKey, String(remember));
+    form.autocomplete = remember ? "on" : "off";
     if (remember) localStorage.setItem(rememberedEmailKey, email);
     else localStorage.removeItem(rememberedEmailKey);
   }
 
-  const authStorage = {
-    getItem(key) {
-      return (shouldRememberLogin() ? localStorage : sessionStorage).getItem(key);
-    },
-    setItem(key, value) {
-      (shouldRememberLogin() ? localStorage : sessionStorage).setItem(key, value);
-    },
-    removeItem(key) {
-      localStorage.removeItem(key);
-      sessionStorage.removeItem(key);
+  function clearLegacySession() {
+    try {
+      const projectRef = new URL(config.supabaseUrl).hostname.split(".")[0];
+      const legacySessionKey = `sb-${projectRef}-auth-token`;
+      localStorage.removeItem(legacySessionKey);
+      sessionStorage.removeItem(legacySessionKey);
+    } catch {
+      // Invalid configuration is handled when the Supabase client is created.
     }
-  };
+  }
+
+  async function saveBrowserCredential(email, password) {
+    if (!rememberLoginInput.checked || !window.PasswordCredential || !navigator.credentials?.store) return;
+    try {
+      await navigator.credentials.store(new PasswordCredential({
+        id: email,
+        name: email,
+        password
+      }));
+    } catch {
+      // The browser can still offer its native password-saving prompt.
+    }
+  }
 
   function setAuthenticated(user) {
     window.AULA_USER_ID = user.id;
@@ -106,6 +119,7 @@
   gate.hidden = false;
   document.body.classList.add("auth-locked");
   restoreLoginPreference();
+  clearLegacySession();
 
   window.AULA_AUTH_READY = import("https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm")
     .then(async ({ createClient }) => {
@@ -115,10 +129,9 @@
 
       const client = createClient(config.supabaseUrl, config.supabasePublishableKey, {
         auth: {
-          persistSession: true,
+          persistSession: false,
           autoRefreshToken: true,
-          detectSessionInUrl: true,
-          storage: authStorage
+          detectSessionInUrl: false
         }
       });
       window.AULA_SUPABASE = client;
@@ -141,11 +154,12 @@
         loginBtnLabel.textContent = "Verificando...";
         setMessage("");
         const email = emailInput.value.trim();
+        const password = passwordInput.value;
         saveLoginPreference(email);
 
         const { data: signInData, error: signInError } = await client.auth.signInWithPassword({
           email,
-          password: passwordInput.value
+          password
         });
 
         if (signInError) {
@@ -155,7 +169,9 @@
           return;
         }
 
-        if (signInData.user) await verifyApproval(client, signInData.user);
+        if (signInData.user && await verifyApproval(client, signInData.user)) {
+          await saveBrowserCredential(email, password);
+        }
         loginBtn.disabled = false;
         loginBtnLabel.textContent = loginLabel;
       });
