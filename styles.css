@@ -6283,10 +6283,51 @@ body.auth-locked {
   font-size: 15px;
 }
 
+.class-quiz-overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: 24px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.class-quiz-overview > div {
+  min-width: 0;
+  padding: 18px 20px;
+}
+
+.class-quiz-overview > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.class-quiz-overview strong,
+.class-quiz-overview span {
+  display: block;
+}
+
+.class-quiz-overview strong {
+  color: var(--coral);
+  font-size: 24px;
+  line-height: 1;
+}
+
+.class-quiz-overview span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+}
+
 .class-quiz {
   display: grid;
   gap: 18px;
   margin-top: 30px;
+}
+
+#classQuizQuestions {
+  display: grid;
+  gap: 18px;
 }
 
 .class-quiz fieldset {
@@ -6345,6 +6386,22 @@ body.auth-locked {
 
 .class-quiz label:hover {
   border-color: color-mix(in srgb, var(--green) 48%, var(--line));
+}
+
+.class-quiz label.correct-option {
+  border-color: color-mix(in srgb, var(--green) 56%, var(--line));
+  background: var(--green-soft);
+  color: var(--green);
+}
+
+.class-quiz label.wrong-option {
+  border-color: color-mix(in srgb, var(--coral) 56%, var(--line));
+  background: color-mix(in srgb, var(--coral) 8%, var(--surface));
+  color: var(--coral);
+}
+
+.class-quiz label:has(input:disabled) {
+  cursor: default;
 }
 
 .class-quiz input {
@@ -6743,6 +6800,14 @@ body.auth-locked {
 
   .class-key-idea {
     grid-template-columns: 1fr;
+  }
+
+  .class-quiz-overview > div {
+    padding: 15px 10px;
+  }
+
+  .class-quiz-overview strong {
+    font-size: 21px;
   }
 
   .class-quiz fieldset {

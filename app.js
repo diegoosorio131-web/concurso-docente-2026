@@ -62,7 +62,7 @@ const els = {
   classNextModuleLabel: document.getElementById("classNextModuleLabel"),
   classPracticeCheck: document.querySelector("[data-class-check]"),
   classQuiz: document.getElementById("classQuiz"),
-  classQuizQuestions: document.querySelectorAll("[data-class-quiz-question]"),
+  classQuizQuestions: document.getElementById("classQuizQuestions"),
   classQuizMessage: document.getElementById("classQuizMessage"),
   classQuizResult: document.getElementById("classQuizResult"),
   classQuizScore: document.getElementById("classQuizScore"),
@@ -132,6 +132,208 @@ const classLessonState = {
   completed: false,
   score: null
 };
+
+const classQuizSize = 10;
+const classQuizBank = [
+  {
+    id: "manual-purpose", module: 1,
+    prompt: "¿Qué organiza el Manual de Funciones, Requisitos y Competencias?",
+    options: ["Las funciones, competencias y requisitos de los cargos", "Únicamente los salarios del personal", "El calendario académico de cada institución"],
+    correct: 0,
+    explanation: "El manual permite identificar qué exige cada cargo en funciones, competencias, formación y experiencia."
+  },
+  {
+    id: "manual-cnsc", module: 1,
+    prompt: "¿Para qué utiliza la CNSC este manual en un concurso docente?",
+    options: ["Para reemplazar el PEI", "Para verificar requisitos y orientar el diseño de las pruebas", "Para asignar directamente las vacantes"],
+    correct: 1,
+    explanation: "La CNSC debe considerarlo al verificar requisitos y al estructurar las pruebas del proceso de selección."
+  },
+  {
+    id: "manual-first-step", module: 1,
+    prompt: "¿Cuál es el primer paso para estudiar correctamente el manual?",
+    options: ["Identificar el cargo exacto al que se aspira", "Memorizar todos los títulos profesionales", "Leer solamente las disposiciones generales"],
+    correct: 0,
+    explanation: "Identificar primero el cargo evita mezclar funciones y requisitos de perfiles diferentes."
+  },
+  {
+    id: "manual-resolution", module: 1,
+    prompt: "¿Qué norma adoptó el manual trabajado en esta clase?",
+    options: ["La Resolución 003842 de 2022", "La Ley 115 de 1994 exclusivamente", "El Decreto Ley 1278 de 2002 sin resolución posterior"],
+    correct: 0,
+    explanation: "La Resolución 003842 del 18 de marzo de 2022 adoptó el nuevo manual estudiado."
+  },
+  {
+    id: "manual-pei", module: 1,
+    prompt: "¿Qué relación existe entre el manual y el Proyecto Educativo Institucional (PEI)?",
+    options: ["El manual elimina la autonomía institucional", "El manual reemplaza el PEI", "El manual define los cargos, pero varias funciones se desarrollan conforme al PEI"],
+    correct: 2,
+    explanation: "El manual no reemplaza el PEI; las funciones docentes se articulan con la planeación y las orientaciones institucionales."
+  },
+  {
+    id: "structure-chapters", module: 2,
+    prompt: "¿En qué capítulo del manual se ubican los docentes de aula?",
+    options: ["Capítulo de cargos docentes", "Capítulo de directivos docentes", "Capítulo de disposiciones presupuestales"],
+    correct: 0,
+    explanation: "Los docentes de preescolar, primaria y área de conocimiento pertenecen al capítulo de cargos docentes."
+  },
+  {
+    id: "academic-competence", module: 2,
+    prompt: "¿Cuál pertenece a la gestión académica?",
+    options: ["Negociación y mediación", "Evaluación del aprendizaje", "Interacción con la comunidad y el entorno"],
+    correct: 1,
+    explanation: "La evaluación del aprendizaje es una de las cuatro competencias de la gestión académica."
+  },
+  {
+    id: "administrative-competence", module: 2,
+    prompt: "Un docente aprovecha adecuadamente materiales, equipos y apoyos pedagógicos. ¿Qué gestión predomina?",
+    options: ["Gestión administrativa", "Gestión comunitaria", "Competencia comportamental"],
+    correct: 0,
+    explanation: "El uso eficiente de recursos pedagógicos forma parte de la gestión administrativa."
+  },
+  {
+    id: "community-competence", module: 2,
+    prompt: "La comunicación permanente con familias y el aprovechamiento del entorno corresponden principalmente a:",
+    options: ["Gestión comunitaria", "Gestión académica", "Gestión administrativa"],
+    correct: 0,
+    explanation: "La gestión comunitaria reúne la comunicación institucional y la interacción con familias, comunidad y entorno."
+  },
+  {
+    id: "behavioral-competence", module: 2,
+    prompt: "¿Cuál es una competencia comportamental del docente de aula?",
+    options: ["Evaluación del aprendizaje", "Trabajo en equipo", "Uso eficiente de recursos pedagógicos"],
+    correct: 1,
+    explanation: "Trabajo en equipo describe una forma de actuación; las otras opciones son competencias funcionales."
+  },
+  {
+    id: "functional-areas", module: 2,
+    prompt: "¿En cuántas áreas de gestión se demuestran las competencias funcionales docentes?",
+    options: ["Dos", "Tres", "Cinco"],
+    correct: 1,
+    explanation: "Las competencias funcionales se agrupan en gestión académica, administrativa y comunitaria."
+  },
+  {
+    id: "aula-types", module: 3,
+    prompt: "¿Cuáles son los tres tipos de cargos de docente de aula descritos por el manual?",
+    options: ["Preescolar, primaria y área de conocimiento", "Rector, coordinador y orientador", "Primaria, rectoría y supervisión"],
+    correct: 0,
+    explanation: "El apartado comprende docentes de preescolar, básica primaria y áreas de conocimiento de básica y media."
+  },
+  {
+    id: "aula-assignment", module: 3,
+    prompt: "¿Qué caracteriza principalmente al docente de aula?",
+    options: ["Cumplir una asignación académica mediante asignaturas o proyectos pedagógicos", "Ejercer exclusivamente funciones administrativas", "Definir por sí solo el plan de estudios institucional"],
+    correct: 0,
+    explanation: "El docente de aula cumple una asignación académica en las horas y condiciones previstas por las normas."
+  },
+  {
+    id: "general-planning", module: 3,
+    prompt: "La revisión de lineamientos académicos debe realizarse conforme a:",
+    options: ["Las preferencias personales del docente", "El PEI, el Plan Operativo Anual y los objetivos institucionales", "Únicamente los resultados de una prueba externa"],
+    correct: 1,
+    explanation: "La función general número 2 vincula los lineamientos con el PEI, el Plan Operativo Anual y los objetivos institucionales."
+  },
+  {
+    id: "general-quality", module: 3,
+    prompt: "¿Quién define los referentes de calidad y la normatividad que el docente debe conocer y actualizar?",
+    options: ["Cada estudiante", "El Ministerio de Educación Nacional", "Solo el consejo de padres"],
+    correct: 1,
+    explanation: "El manual exige actualizarse en los referentes de calidad y la normatividad definidos por el MEN para el nivel educativo."
+  },
+  {
+    id: "general-environments", module: 3,
+    prompt: "Un docente organiza equipos en los que los estudiantes toman decisiones y se apoyan entre sí. ¿Qué función aplica?",
+    options: ["Construir ambientes de aprendizaje autónomo y cooperativo", "Limitar el aprendizaje al trabajo individual", "Delegar la evaluación a las familias"],
+    correct: 0,
+    explanation: "La función general número 7 promueve ambientes que desarrollen autonomía y cooperación."
+  },
+  {
+    id: "general-assessment", module: 3,
+    prompt: "¿Cómo debe realizarse el seguimiento, evaluación y retroalimentación?",
+    options: ["Con un enfoque integral, flexible y formativo", "Solo con una prueba final", "Con criterios distintos para cada estudiante sin justificación"],
+    correct: 0,
+    explanation: "La función general número 12 exige un enfoque integral, flexible y formativo."
+  },
+  {
+    id: "general-reports", module: 3,
+    prompt: "¿A quiénes debe presentar el docente informes regulares sobre la situación personal y académica?",
+    options: ["Únicamente al rector", "A estudiantes y familias o acudientes", "Solamente a la secretaría de educación"],
+    correct: 1,
+    explanation: "La función número 13 contempla informes a estudiantes y familias o acudientes durante y al cierre de los periodos."
+  },
+  {
+    id: "general-ict", module: 3,
+    prompt: "¿Para qué debe utilizar el docente las TIC y los recursos de apoyo pedagógico?",
+    options: ["Para reemplazar toda interacción presencial", "Para el desarrollo de su práctica educativa", "Solo para diligenciar la matrícula"],
+    correct: 1,
+    explanation: "La función número 17 integra recursos didácticos, TIC y apoyos institucionales a la práctica educativa."
+  },
+  {
+    id: "general-inclusion", module: 3,
+    prompt: "Un docente identifica una necesidad especial en un estudiante. ¿Qué debe hacer?",
+    options: ["Ignorarla hasta finalizar el periodo", "Atender oportunamente desde su rol y activar las rutas institucionales", "Trasladar toda la responsabilidad a la familia"],
+    correct: 1,
+    explanation: "La función número 27 exige atención oportuna desde el rol docente y activación de las rutas establecidas."
+  },
+  {
+    id: "area-siee", module: 4,
+    prompt: "¿Qué debe hacer el docente de área respecto del SIEE?",
+    options: ["Conocerlo para seguir y evaluar el trabajo en el aula", "Modificarlo individualmente", "Aplicarlo únicamente al finalizar el año"],
+    correct: 0,
+    explanation: "La primera función específica del docente de área es conocer el SIEE para el seguimiento y evaluación del aula."
+  },
+  {
+    id: "area-leveling", module: 4,
+    prompt: "¿Cuándo se plantean actividades de apoyo y nivelación?",
+    options: ["Sin revisar evidencias previas", "Después de analizar el proceso formativo del estudiante", "Solo cuando lo solicita otro docente"],
+    correct: 1,
+    explanation: "El manual exige analizar previamente el proceso formativo antes de definir apoyos y nivelación."
+  },
+  {
+    id: "area-didactics", module: 4,
+    prompt: "¿Qué debe considerar la planeación académica del docente de área?",
+    options: ["Las estrategias didácticas propias de la disciplina", "Solamente actividades administrativas", "Un método idéntico para todas las áreas"],
+    correct: 0,
+    explanation: "La planeación debe reconocer las estrategias didácticas propias de la disciplina o área de conocimiento."
+  },
+  {
+    id: "area-application", module: 4,
+    prompt: "Relacionar un concepto de química con una situación cotidiana responde a la función de:",
+    options: ["Orientar la reflexión y aplicación práctica del conocimiento", "Sustituir el currículo institucional", "Evitar experiencias fuera del texto guía"],
+    correct: 0,
+    explanation: "El docente de área debe vincular los conocimientos disciplinares con situaciones de aula y experiencias cotidianas."
+  },
+  {
+    id: "area-interdisciplinary", module: 4,
+    prompt: "¿Qué busca el trabajo conjunto con docentes de otras áreas?",
+    options: ["Articular y enriquecer el trabajo interdisciplinario", "Eliminar las diferencias entre disciplinas", "Reducir la planeación a una sola asignatura"],
+    correct: 0,
+    explanation: "La quinta función específica promueve espacios conjuntos para articular y enriquecer el trabajo interdisciplinario."
+  },
+  {
+    id: "area-common-functions", module: 4,
+    prompt: "¿Por qué Ciencias Naturales y Química comparten las cinco funciones específicas?",
+    options: ["Porque pertenecen al cargo de docente de área de conocimiento", "Porque tienen exactamente los mismos títulos habilitantes", "Porque son cargos directivos"],
+    correct: 0,
+    explanation: "Comparten las funciones del docente de área, aunque cada perfil tiene su propio listado de títulos habilitantes."
+  },
+  {
+    id: "area-unlisted-degree", module: 4,
+    prompt: "Si un título no aparece expresamente en el perfil, ¿quién puede conceptuar sobre su habilitación?",
+    options: ["El aspirante por interpretación propia", "El Ministerio de Educación Nacional", "Cualquier institución educativa"],
+    correct: 1,
+    explanation: "La competencia para conceptuar sobre un título no listado corresponde al Ministerio de Educación Nacional."
+  },
+  {
+    id: "chemistry-degree", module: 4,
+    prompt: "¿Cuál aparece entre los títulos profesionales del perfil de Ciencias Naturales - Química?",
+    options: ["Bacteriología", "Arquitectura", "Contaduría pública"],
+    correct: 0,
+    explanation: "Bacteriología figura expresamente entre los títulos profesionales universitarios habilitantes de ese perfil."
+  }
+];
+
+let currentClassQuizAttempt = [];
 
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
@@ -946,16 +1148,83 @@ function setClassLessonOpen(open) {
   window.setTimeout(() => (open ? els.classBackBtn : els.classOpenBtn)?.focus(), 350);
 }
 
-function resetClassQuiz() {
-  els.classQuiz?.reset();
-  els.classQuizQuestions.forEach((question) => {
-    question.classList.remove("correct", "wrong");
-    const explanation = question.querySelector(".class-quiz-explanation");
-    if (explanation) {
-      explanation.textContent = "";
-      explanation.hidden = true;
-    }
+function classQuizSignatureStorageKey() {
+  const base = "concursoDocente2026Class01QuizSignature";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function createClassQuizAttempt() {
+  const distribution = new Map([[1, 2], [2, 2], [3, 3], [4, 3]]);
+  let selected = [...distribution.entries()].flatMap(([module, amount]) => (
+    shuffleItems(classQuizBank.filter((question) => question.module === module)).slice(0, amount)
+  ));
+  selected = shuffleItems(selected).slice(0, classQuizSize);
+
+  const previousSignature = localStorage.getItem(classQuizSignatureStorageKey());
+  let signature = selected.map((question) => question.id).join("|");
+  if (signature === previousSignature && selected.length > 1) {
+    selected = [...selected.slice(1), selected[0]];
+    signature = selected.map((question) => question.id).join("|");
+  }
+  localStorage.setItem(classQuizSignatureStorageKey(), signature);
+
+  return selected.map((question) => {
+    const options = shuffleItems(question.options.map((text, index) => ({
+      text,
+      isCorrect: index === question.correct
+    })));
+    return {
+      ...question,
+      options: options.map((option) => option.text),
+      correct: options.findIndex((option) => option.isCorrect)
+    };
   });
+}
+
+function getClassQuizQuestionElements() {
+  return [...(els.classQuizQuestions?.querySelectorAll("[data-class-quiz-question]") || [])];
+}
+
+function renderClassQuizQuestions() {
+  if (!els.classQuizQuestions) return;
+  currentClassQuizAttempt = createClassQuizAttempt();
+  const fragment = document.createDocumentFragment();
+
+  currentClassQuizAttempt.forEach((question, questionIndex) => {
+    const fieldset = document.createElement("fieldset");
+    fieldset.dataset.classQuizQuestion = "";
+    fieldset.dataset.answer = String(question.correct);
+
+    const legend = document.createElement("legend");
+    const number = document.createElement("span");
+    number.textContent = String(questionIndex + 1);
+    legend.append(number, document.createTextNode(question.prompt));
+    fieldset.append(legend);
+
+    question.options.forEach((option, optionIndex) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      const copy = document.createElement("span");
+      input.type = "radio";
+      input.name = `classQuiz${questionIndex + 1}`;
+      input.value = String(optionIndex);
+      copy.textContent = option;
+      label.append(input, copy);
+      fieldset.append(label);
+    });
+
+    const explanation = document.createElement("p");
+    explanation.className = "class-quiz-explanation";
+    explanation.hidden = true;
+    fieldset.append(explanation);
+    fragment.append(fieldset);
+  });
+
+  els.classQuizQuestions.replaceChildren(fragment);
+}
+
+function resetClassQuiz() {
+  renderClassQuizQuestions();
   if (els.classQuizMessage) els.classQuizMessage.textContent = "";
   if (els.classQuizResult) els.classQuizResult.hidden = true;
   els.classQuiz?.querySelector("button[type='submit']")?.removeAttribute("hidden");
@@ -988,7 +1257,8 @@ els.classPracticeCheck?.querySelectorAll("[data-class-check-answer]").forEach((b
 
 els.classQuiz?.addEventListener("submit", (event) => {
   event.preventDefault();
-  const unanswered = [...els.classQuizQuestions].filter((question) => !question.querySelector("input:checked"));
+  const questionElements = getClassQuizQuestionElements();
+  const unanswered = questionElements.filter((question) => !question.querySelector("input:checked"));
   if (unanswered.length) {
     if (els.classQuizMessage) els.classQuizMessage.textContent = `Responde las ${unanswered.length} pregunta${unanswered.length === 1 ? "" : "s"} pendiente${unanswered.length === 1 ? "" : "s"}.`;
     unanswered[0].scrollIntoView({ behavior: "smooth", block: "center" });
@@ -996,21 +1266,29 @@ els.classQuiz?.addEventListener("submit", (event) => {
   }
 
   let score = 0;
-  els.classQuizQuestions.forEach((question) => {
+  questionElements.forEach((question, questionIndex) => {
     const selected = Number(question.querySelector("input:checked").value);
     const correct = Number(question.dataset.answer);
     const isCorrect = selected === correct;
     const explanation = question.querySelector(".class-quiz-explanation");
+    const attemptQuestion = currentClassQuizAttempt[questionIndex];
     if (isCorrect) score += 1;
     question.classList.toggle("correct", isCorrect);
     question.classList.toggle("wrong", !isCorrect);
+    question.querySelectorAll("label").forEach((label, optionIndex) => {
+      label.classList.toggle("correct-option", optionIndex === correct);
+      label.classList.toggle("wrong-option", optionIndex === selected && !isCorrect);
+    });
+    question.querySelectorAll("input").forEach((input) => { input.disabled = true; });
     if (explanation) {
-      explanation.textContent = isCorrect ? explanation.dataset.correct : explanation.dataset.wrong;
+      explanation.textContent = isCorrect
+        ? `Correcto. ${attemptQuestion.explanation}`
+        : `La respuesta correcta es “${attemptQuestion.options[correct]}”. ${attemptQuestion.explanation}`;
       explanation.hidden = false;
     }
   });
 
-  const total = els.classQuizQuestions.length;
+  const total = questionElements.length;
   const passingScore = Math.ceil(total * 0.8);
   classLessonState.score = score;
   classLessonState.completed = score >= passingScore;
@@ -1035,7 +1313,10 @@ els.classQuiz?.addEventListener("submit", (event) => {
   els.classQuiz.querySelector("button[type='submit']")?.setAttribute("hidden", "");
 });
 
-els.classQuizRetry?.addEventListener("click", resetClassQuiz);
+els.classQuizRetry?.addEventListener("click", () => {
+  resetClassQuiz();
+  els.classQuiz?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
 els.flyerToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
@@ -1124,6 +1405,7 @@ applyTheme(localStorage.getItem(themeKey) || "light");
 setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
 updateSimulacroCounts();
 renderClassRoadmap();
+renderClassQuizQuestions();
 renderNews();
 renderStudy();
 renderProgress();
