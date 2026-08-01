@@ -51,6 +51,9 @@ const els = {
   classLesson: document.getElementById("classLesson"),
   classOpenBtn: document.getElementById("classOpenBtn"),
   classBackBtn: document.getElementById("classBackBtn"),
+  classTwoLesson: document.getElementById("classTwoLesson"),
+  classTwoOpenBtn: document.getElementById("classTwoOpenBtn"),
+  classTwoBackBtn: document.getElementById("classTwoBackBtn"),
   classStatusText: document.getElementById("classStatusText"),
   classModuleButtons: document.querySelectorAll("[data-class-module]"),
   classModulePanels: document.querySelectorAll("[data-class-panel]"),
@@ -69,6 +72,22 @@ const els = {
   classQuizResultTitle: document.getElementById("classQuizResultTitle"),
   classQuizResultCopy: document.getElementById("classQuizResultCopy"),
   classQuizRetry: document.getElementById("classQuizRetry"),
+  classTwoModuleButtons: document.querySelectorAll("[data-class-two-module]"),
+  classTwoModulePanels: document.querySelectorAll("[data-class-two-panel]"),
+  classTwoProgressText: document.getElementById("classTwoProgressText"),
+  classTwoProgressPercent: document.getElementById("classTwoProgressPercent"),
+  classTwoProgressBar: document.getElementById("classTwoProgressBar"),
+  classTwoPrevModule: document.getElementById("classTwoPrevModule"),
+  classTwoNextModule: document.getElementById("classTwoNextModule"),
+  classTwoNextModuleLabel: document.getElementById("classTwoNextModuleLabel"),
+  classTwoQuiz: document.getElementById("classTwoQuiz"),
+  classTwoQuizQuestions: document.getElementById("classTwoQuizQuestions"),
+  classTwoQuizMessage: document.getElementById("classTwoQuizMessage"),
+  classTwoQuizResult: document.getElementById("classTwoQuizResult"),
+  classTwoQuizScore: document.getElementById("classTwoQuizScore"),
+  classTwoQuizResultTitle: document.getElementById("classTwoQuizResultTitle"),
+  classTwoQuizResultCopy: document.getElementById("classTwoQuizResultCopy"),
+  classTwoQuizRetry: document.getElementById("classTwoQuizRetry"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -335,10 +354,157 @@ const classQuizBank = [
 
 let currentClassQuizAttempt = [];
 
+const classTwoLessonState = {
+  current: 0,
+  visited: new Set([0]),
+  completed: false,
+  score: null
+};
+
+const classTwoQuizSize = 8;
+const classTwoQuizBank = [
+  {
+    id: "scope", module: 1,
+    prompt: "¿A qué vacantes aplica el procedimiento regulado por el Decreto 915 de 2016?",
+    options: ["A vacantes definitivas docentes y directivas docentes para población mayoritaria", "A cualquier empleo público nacional", "Solo a encargos temporales"],
+    correct: 0,
+    explanation: "El ámbito comprende vacantes definitivas de docentes y directivos docentes administradas por entidades territoriales certificadas para población mayoritaria."
+  },
+  {
+    id: "principles", module: 1,
+    prompt: "¿Cuál de los siguientes es un principio expreso del concurso?",
+    options: ["Reserva absoluta", "Transparencia", "Libre designación"],
+    correct: 1,
+    explanation: "Transparencia integra el listado de principios junto con igualdad, oportunidad, publicidad, objetividad y otros."
+  },
+  {
+    id: "first-stage", module: 2,
+    prompt: "¿Cuál es la primera etapa de la estructura del concurso?",
+    options: ["Entrevista", "Determinación de vacantes definitivas", "Nombramiento en período de prueba"],
+    correct: 1,
+    explanation: "El proceso comienza con la determinación de las vacantes definitivas que respaldarán la convocatoria."
+  },
+  {
+    id: "requirements-stage", module: 2,
+    prompt: "¿Quiénes presentan documentos para la verificación de requisitos?",
+    options: ["Todos los inscritos antes de las pruebas", "Solo quienes aprobaron aptitudes y competencias básicas", "Únicamente quienes ya están en lista de elegibles"],
+    correct: 1,
+    explanation: "La recepción documental y verificación de requisitos se realiza para quienes superaron la prueba eliminatoria."
+  },
+  {
+    id: "binding-call", module: 3,
+    prompt: "¿Qué valor tiene la convocatoria dentro del concurso?",
+    options: ["Es una recomendación", "Es la norma obligatoria que regula el concurso", "Solo informa la fecha de las pruebas"],
+    correct: 1,
+    explanation: "La convocatoria es obligatoria para personas, entidades e instituciones participantes."
+  },
+  {
+    id: "call-changes", module: 3,
+    prompt: "Iniciadas las inscripciones, ¿qué puede modificar la CNSC en la convocatoria?",
+    options: ["Los requisitos mínimos del cargo", "El sitio, hora o fecha de las pruebas", "El carácter eliminatorio de una prueba ya anunciada"],
+    correct: 1,
+    explanation: "Después de iniciar inscripciones solo pueden modificarse sitio, hora o fecha de las pruebas, con la divulgación exigida."
+  },
+  {
+    id: "registration-term", module: 3,
+    prompt: "¿Cuál es el término mínimo para realizar la inscripción?",
+    options: ["Cinco días hábiles", "Diez días calendario", "Quince días calendario"],
+    correct: 2,
+    explanation: "El artículo 2.4.1.1.8 establece un término no menor de quince días calendario."
+  },
+  {
+    id: "registration-data", module: 3,
+    prompt: "Una vez efectuada la inscripción, la información suministrada:",
+    options: ["Puede actualizarse en cualquier momento", "No puede modificarse ni actualizarse", "Solo puede cambiarse después de la prueba"],
+    correct: 1,
+    explanation: "La información se entiende suministrada bajo juramento y no puede modificarse después de completar la inscripción."
+  },
+  {
+    id: "eliminatory-test", module: 4,
+    prompt: "¿Cuál es la única prueba de carácter eliminatorio?",
+    options: ["Entrevista", "Valoración de antecedentes", "Aptitudes y competencias básicas"],
+    correct: 2,
+    explanation: "Las demás pruebas son clasificatorias; aptitudes y competencias básicas determina quién continúa."
+  },
+  {
+    id: "minimum-scores", module: 4,
+    prompt: "Según el texto del Decreto 915, ¿cuáles son los mínimos aprobatorios de la prueba eliminatoria?",
+    options: ["50 para docentes y 60 para directivos", "70 para docentes y 80 para directivos", "80 para docentes y 70 para directivos"],
+    correct: 1,
+    explanation: "El decreto fija 70/100 para docentes y 80/100 para directivos docentes."
+  },
+  {
+    id: "written-weight", module: 4,
+    prompt: "Para docentes, la ponderación de aptitudes y competencias básicas no puede ser menor a:",
+    options: ["45%", "55%", "70%"],
+    correct: 1,
+    explanation: "El 55% es un límite mínimo de ponderación, distinto del mínimo aprobatorio de 70/100."
+  },
+  {
+    id: "psychotechnical", module: 4,
+    prompt: "¿Qué caracteriza a la prueba psicotécnica para docentes?",
+    options: ["Es eliminatoria y pesa mínimo 55%", "Es clasificatoria y su peso no supera 10%", "Solo verifica títulos académicos"],
+    correct: 1,
+    explanation: "La psicotécnica es clasificatoria, valora actitudes y motivaciones, y para docentes no puede superar el 10%."
+  },
+  {
+    id: "test-components", module: 4,
+    prompt: "¿Cuál es un componente mínimo de aptitudes y competencias básicas?",
+    options: ["Lectura crítica", "Administración presupuestal avanzada", "Legislación tributaria"],
+    correct: 0,
+    explanation: "Lectura crítica integra los componentes mínimos junto con razonamiento cuantitativo, competencias blandas y pedagógicas."
+  },
+  {
+    id: "antecedents-access", module: 4,
+    prompt: "La valoración de antecedentes y la entrevista se aplican a quienes:",
+    options: ["Solo pagaron los derechos de participación", "Cumplen requisitos y aprobaron la prueba eliminatoria", "Obtuvieron el primer lugar antes de la entrevista"],
+    correct: 1,
+    explanation: "Son pruebas clasificatorias reservadas a aspirantes que acreditan requisitos y superan aptitudes y competencias básicas."
+  },
+  {
+    id: "eligible-validity", module: 5,
+    prompt: "¿Cuánto dura la lista territorial de elegibles desde su firmeza?",
+    options: ["Un año", "Dos años", "Cuatro años"],
+    correct: 1,
+    explanation: "La lista de elegibles tiene una vigencia de dos años contados desde su firmeza."
+  },
+  {
+    id: "vacancy-hearing", module: 5,
+    prompt: "¿Cómo se realiza la escogencia de vacante en audiencia pública?",
+    options: ["Por orden de llegada", "En orden descendente de la lista y para el cargo concursado", "Mediante sorteo entre todos los inscritos"],
+    correct: 1,
+    explanation: "La elección respeta el orden de mérito y el cargo docente o directivo para el cual se concursó."
+  },
+  {
+    id: "appointment-deadlines", module: 5,
+    prompt: "Comunicado el nombramiento, ¿qué plazos tiene el designado?",
+    options: ["Cinco días hábiles para aceptar y diez adicionales para posesionarse", "Quince días para aceptar y cinco para posesionarse", "Treinta días sin distinción"],
+    correct: 0,
+    explanation: "El decreto concede cinco días hábiles para aceptar y diez días hábiles adicionales para tomar posesión."
+  },
+  {
+    id: "non-licensed", module: 5,
+    prompt: "¿Qué debe acreditar adicionalmente un profesional no licenciado para inscribirse en el escalafón?",
+    options: ["Posgrado en educación en curso o terminado, o programa de pedagogía", "Cinco años obligatorios como directivo", "Una segunda carrera profesional de cualquier área"],
+    correct: 0,
+    explanation: "Debe acreditar la ruta pedagógica prevista: posgrado en educación o programa de pedagogía bajo responsabilidad de una institución de educación superior."
+  }
+];
+
+let currentClassTwoQuizAttempt = [];
+
+function updateClassStatusText() {
+  if (!els.classStatusText) return;
+  const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed);
+  if (completed === 2) els.classStatusText.textContent = "2 clases completadas · 56 bloqueadas";
+  else if (completed === 1) els.classStatusText.textContent = "1 completada · 1 disponible · 56 bloqueadas";
+  else els.classStatusText.textContent = "2 disponibles · 56 bloqueadas";
+}
+
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
-  els.classRoadmapGrid.innerHTML = Array.from({ length: 57 }, (_, index) => {
-    const classNumber = String(index + 2).padStart(2, "0");
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 56 }, (_, index) => {
+    const classNumber = String(index + 3).padStart(2, "0");
     return `
       <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
         <span>${classNumber}</span>
@@ -1124,11 +1290,7 @@ function renderClassModule(index, shouldScroll = true) {
   if (els.classNextModuleLabel) {
     els.classNextModuleLabel.textContent = nextIndex === 3 ? "Ir a la evaluacion" : "Siguiente modulo";
   }
-  if (els.classStatusText) {
-    els.classStatusText.textContent = classLessonState.completed
-      ? "Clase 1 completada · 57 bloqueadas"
-      : "1 disponible · 57 bloqueadas";
-  }
+  updateClassStatusText();
   saveClassLessonProgress();
 
   if (shouldScroll) {
@@ -1138,9 +1300,13 @@ function renderClassModule(index, shouldScroll = true) {
 
 function setClassLessonOpen(open) {
   if (!els.classCatalog || !els.classLesson || !els.classOpenBtn) return;
-  if (open) loadClassLessonProgress();
+  if (open) {
+    loadClassLessonProgress();
+    loadClassTwoProgress();
+  }
   els.classCatalog.hidden = open;
   els.classLesson.hidden = !open;
+  if (els.classTwoLesson) els.classTwoLesson.hidden = true;
   els.classOpenBtn.setAttribute("aria-expanded", String(open));
   if (open) renderClassModule(classLessonState.current, false);
   const target = open ? els.classLesson : document.querySelector(".class-heading");
@@ -1293,9 +1459,7 @@ els.classQuiz?.addEventListener("submit", (event) => {
   classLessonState.score = score;
   classLessonState.completed = score >= passingScore;
   saveClassLessonProgress();
-  if (els.classStatusText && classLessonState.completed) {
-    els.classStatusText.textContent = "Clase 1 completada · 57 bloqueadas";
-  }
+  updateClassStatusText();
   if (els.classQuizMessage) els.classQuizMessage.textContent = "";
   if (els.classQuizScore) els.classQuizScore.textContent = `${score}/${total}`;
   if (els.classQuizResultTitle) {
@@ -1317,6 +1481,247 @@ els.classQuizRetry?.addEventListener("click", () => {
   resetClassQuiz();
   els.classQuiz?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
+
+function classTwoProgressStorageKey() {
+  const base = "concursoDocente2026Class02v1";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function loadClassTwoProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(classTwoProgressStorageKey()));
+    classTwoLessonState.current = Math.min(5, Math.max(0, Number(saved?.current) || 0));
+    classTwoLessonState.visited = new Set(
+      Array.isArray(saved?.visited)
+        ? saved.visited.filter((index) => Number.isInteger(index) && index >= 0 && index <= 5)
+        : [0]
+    );
+    classTwoLessonState.visited.add(classTwoLessonState.current);
+    classTwoLessonState.completed = Boolean(saved?.completed);
+    classTwoLessonState.score = Number.isInteger(saved?.score) ? saved.score : null;
+  } catch {
+    classTwoLessonState.current = 0;
+    classTwoLessonState.visited = new Set([0]);
+    classTwoLessonState.completed = false;
+    classTwoLessonState.score = null;
+  }
+}
+
+function saveClassTwoProgress() {
+  localStorage.setItem(classTwoProgressStorageKey(), JSON.stringify({
+    current: classTwoLessonState.current,
+    visited: [...classTwoLessonState.visited],
+    completed: classTwoLessonState.completed,
+    score: classTwoLessonState.score
+  }));
+}
+
+function renderClassTwoModule(index, shouldScroll = true) {
+  const nextIndex = Math.min(5, Math.max(0, index));
+  classTwoLessonState.current = nextIndex;
+  classTwoLessonState.visited.add(nextIndex);
+
+  els.classTwoModuleButtons.forEach((button) => {
+    const moduleIndex = Number(button.dataset.classTwoModule);
+    const active = moduleIndex === nextIndex;
+    button.classList.toggle("active", active);
+    button.classList.toggle("visited", classTwoLessonState.visited.has(moduleIndex));
+    if (active) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  els.classTwoModulePanels.forEach((panel) => {
+    const active = Number(panel.dataset.classTwoPanel) === nextIndex;
+    panel.hidden = !active;
+    panel.classList.toggle("active", active);
+  });
+
+  const progress = Math.round((classTwoLessonState.visited.size / 6) * 100);
+  if (els.classTwoProgressText) els.classTwoProgressText.textContent = `Modulo ${nextIndex + 1} de 6`;
+  if (els.classTwoProgressPercent) els.classTwoProgressPercent.textContent = `${progress}%`;
+  if (els.classTwoProgressBar) {
+    els.classTwoProgressBar.style.width = `${progress}%`;
+    els.classTwoProgressBar.parentElement?.setAttribute("aria-valuenow", String(progress));
+  }
+  if (els.classTwoPrevModule) els.classTwoPrevModule.disabled = nextIndex === 0;
+  if (els.classTwoNextModule) els.classTwoNextModule.hidden = nextIndex === 5;
+  if (els.classTwoNextModuleLabel) {
+    els.classTwoNextModuleLabel.textContent = nextIndex === 4 ? "Ir a la evaluacion" : "Siguiente modulo";
+  }
+  saveClassTwoProgress();
+  updateClassStatusText();
+
+  if (shouldScroll) {
+    els.classTwoLesson?.querySelector(".class-learning-progress")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function setClassTwoLessonOpen(open) {
+  if (!els.classCatalog || !els.classTwoLesson || !els.classTwoOpenBtn) return;
+  if (open) {
+    loadClassLessonProgress();
+    loadClassTwoProgress();
+  }
+  els.classCatalog.hidden = open;
+  if (els.classLesson) els.classLesson.hidden = true;
+  els.classTwoLesson.hidden = !open;
+  els.classTwoOpenBtn.setAttribute("aria-expanded", String(open));
+  if (open) renderClassTwoModule(classTwoLessonState.current, false);
+  const target = open ? els.classTwoLesson : document.querySelector(".class-heading");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.setTimeout(() => (open ? els.classTwoBackBtn : els.classTwoOpenBtn)?.focus(), 350);
+}
+
+function classTwoQuizSignatureStorageKey() {
+  const base = "concursoDocente2026Class02QuizSignature";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function createClassTwoQuizAttempt() {
+  const distribution = new Map([[1, 1], [2, 1], [3, 2], [4, 2], [5, 2]]);
+  let selected = [...distribution.entries()].flatMap(([module, amount]) => (
+    shuffleItems(classTwoQuizBank.filter((question) => question.module === module)).slice(0, amount)
+  ));
+  selected = shuffleItems(selected).slice(0, classTwoQuizSize);
+
+  const previousSignature = localStorage.getItem(classTwoQuizSignatureStorageKey());
+  let signature = selected.map((question) => question.id).join("|");
+  if (signature === previousSignature && selected.length > 1) {
+    selected = [...selected.slice(1), selected[0]];
+    signature = selected.map((question) => question.id).join("|");
+  }
+  localStorage.setItem(classTwoQuizSignatureStorageKey(), signature);
+
+  return selected.map((question) => {
+    const options = shuffleItems(question.options.map((text, index) => ({
+      text,
+      isCorrect: index === question.correct
+    })));
+    return {
+      ...question,
+      options: options.map((option) => option.text),
+      correct: options.findIndex((option) => option.isCorrect)
+    };
+  });
+}
+
+function getClassTwoQuizQuestionElements() {
+  return [...(els.classTwoQuizQuestions?.querySelectorAll("[data-class-two-quiz-question]") || [])];
+}
+
+function renderClassTwoQuizQuestions() {
+  if (!els.classTwoQuizQuestions) return;
+  currentClassTwoQuizAttempt = createClassTwoQuizAttempt();
+  const fragment = document.createDocumentFragment();
+
+  currentClassTwoQuizAttempt.forEach((question, questionIndex) => {
+    const fieldset = document.createElement("fieldset");
+    fieldset.dataset.classTwoQuizQuestion = "";
+    fieldset.dataset.answer = String(question.correct);
+    const legend = document.createElement("legend");
+    const number = document.createElement("span");
+    number.textContent = String(questionIndex + 1);
+    legend.append(number, document.createTextNode(question.prompt));
+    fieldset.append(legend);
+
+    question.options.forEach((option, optionIndex) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      const copy = document.createElement("span");
+      input.type = "radio";
+      input.name = `classTwoQuiz${questionIndex + 1}`;
+      input.value = String(optionIndex);
+      copy.textContent = option;
+      label.append(input, copy);
+      fieldset.append(label);
+    });
+
+    const explanation = document.createElement("p");
+    explanation.className = "class-quiz-explanation";
+    explanation.hidden = true;
+    fieldset.append(explanation);
+    fragment.append(fieldset);
+  });
+  els.classTwoQuizQuestions.replaceChildren(fragment);
+}
+
+function resetClassTwoQuiz() {
+  renderClassTwoQuizQuestions();
+  if (els.classTwoQuizMessage) els.classTwoQuizMessage.textContent = "";
+  if (els.classTwoQuizResult) els.classTwoQuizResult.hidden = true;
+  els.classTwoQuiz?.querySelector("button[type='submit']")?.removeAttribute("hidden");
+}
+
+els.classTwoOpenBtn?.addEventListener("click", () => setClassTwoLessonOpen(true));
+els.classTwoBackBtn?.addEventListener("click", () => setClassTwoLessonOpen(false));
+els.classTwoModuleButtons.forEach((button) => {
+  button.addEventListener("click", () => renderClassTwoModule(Number(button.dataset.classTwoModule)));
+});
+els.classTwoPrevModule?.addEventListener("click", () => renderClassTwoModule(classTwoLessonState.current - 1));
+els.classTwoNextModule?.addEventListener("click", () => renderClassTwoModule(classTwoLessonState.current + 1));
+
+els.classTwoQuiz?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const questionElements = getClassTwoQuizQuestionElements();
+  const unanswered = questionElements.filter((question) => !question.querySelector("input:checked"));
+  if (unanswered.length) {
+    if (els.classTwoQuizMessage) {
+      els.classTwoQuizMessage.textContent = `Responde las ${unanswered.length} pregunta${unanswered.length === 1 ? "" : "s"} pendiente${unanswered.length === 1 ? "" : "s"}.`;
+    }
+    unanswered[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  let score = 0;
+  questionElements.forEach((question, questionIndex) => {
+    const selected = Number(question.querySelector("input:checked").value);
+    const correct = Number(question.dataset.answer);
+    const isCorrect = selected === correct;
+    const explanation = question.querySelector(".class-quiz-explanation");
+    const attemptQuestion = currentClassTwoQuizAttempt[questionIndex];
+    if (isCorrect) score += 1;
+    question.classList.toggle("correct", isCorrect);
+    question.classList.toggle("wrong", !isCorrect);
+    question.querySelectorAll("label").forEach((label, optionIndex) => {
+      label.classList.toggle("correct-option", optionIndex === correct);
+      label.classList.toggle("wrong-option", optionIndex === selected && !isCorrect);
+    });
+    question.querySelectorAll("input").forEach((input) => { input.disabled = true; });
+    if (explanation) {
+      explanation.textContent = isCorrect
+        ? `Correcto. ${attemptQuestion.explanation}`
+        : `La respuesta correcta es “${attemptQuestion.options[correct]}”. ${attemptQuestion.explanation}`;
+      explanation.hidden = false;
+    }
+  });
+
+  const total = questionElements.length;
+  const passingScore = Math.ceil(total * 0.75);
+  classTwoLessonState.score = score;
+  classTwoLessonState.completed = score >= passingScore;
+  saveClassTwoProgress();
+  updateClassStatusText();
+  if (els.classTwoQuizMessage) els.classTwoQuizMessage.textContent = "";
+  if (els.classTwoQuizScore) els.classTwoQuizScore.textContent = `${score}/${total}`;
+  if (els.classTwoQuizResultTitle) {
+    els.classTwoQuizResultTitle.textContent = score >= passingScore ? "Clase completada" : "Conviene repasar";
+  }
+  if (els.classTwoQuizResultCopy) {
+    els.classTwoQuizResultCopy.textContent = score >= passingScore
+      ? "Ya reconoces la estructura del concurso, las pruebas y los momentos posteriores a la lista de elegibles."
+      : "Lee las explicaciones, revisa los módulos necesarios y genera un nuevo intento.";
+  }
+  if (els.classTwoQuizResult) {
+    els.classTwoQuizResult.hidden = false;
+    els.classTwoQuizResult.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  els.classTwoQuiz.querySelector("button[type='submit']")?.setAttribute("hidden", "");
+});
+
+els.classTwoQuizRetry?.addEventListener("click", () => {
+  resetClassTwoQuiz();
+  els.classTwoQuiz?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 els.flyerToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
@@ -1406,6 +1811,7 @@ setSidebarCollapsed(localStorage.getItem(sidebarKey) === "collapsed");
 updateSimulacroCounts();
 renderClassRoadmap();
 renderClassQuizQuestions();
+renderClassTwoQuizQuestions();
 renderNews();
 renderStudy();
 renderProgress();

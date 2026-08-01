@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260801-6">
+    <link rel="stylesheet" href="styles.css?v=20260801-7">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -415,7 +415,7 @@
                 <h1>Clase</h1>
                 <p>Encuentra aqu&iacute; las sesiones y los recursos preparados para tu proceso.</p>
               </div>
-              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">1 disponible &middot; 57 bloqueadas</span></div>
+              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">2 disponibles &middot; 56 bloqueadas</span></div>
             </header>
 
             <section id="classCatalog" class="class-catalog" aria-labelledby="classLibraryTitle">
@@ -440,9 +440,22 @@
                 </button>
               </article>
 
+              <article class="class-card class-card-two">
+                <div class="class-card-index" aria-hidden="true"><span>Clase</span><strong>02</strong></div>
+                <div class="class-card-main">
+                  <div class="class-card-meta"><span>Normativa</span><span>Ruta del concurso</span><span>40 min</span></div>
+                  <h3>Decreto 915 de 2016</h3>
+                  <p>Comprende las etapas del concurso docente, las reglas de convocatoria e inscripci&oacute;n, las pruebas, las listas de elegibles y el per&iacute;odo de prueba.</p>
+                </div>
+                <button id="classTwoOpenBtn" class="class-open-btn" type="button" aria-controls="classTwoLesson" aria-expanded="false">
+                  Abrir clase
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+              </article>
+
               <details class="class-roadmap" open>
                 <summary>
-                  <div><span>Pr&oacute;ximamente</span><strong>Clases 02 a 58</strong><small>57 espacios reservados para construir el programa.</small></div>
+                  <div><span>Pr&oacute;ximamente</span><strong>Clases 03 a 58</strong><small>56 espacios reservados para construir el programa.</small></div>
                   <div class="class-roadmap-status"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Bloqueadas</span><i aria-hidden="true"></i></div>
                 </summary>
                 <div id="classRoadmapGrid" class="class-roadmap-grid" aria-label="Clases bloqueadas del programa"></div>
@@ -662,6 +675,170 @@
                 </div>
               </div>
             </article>
+
+            <article id="classTwoLesson" class="class-lesson" aria-labelledby="classTwoLessonTitle" hidden>
+              <header class="class-lesson-header">
+                <button id="classTwoBackBtn" class="class-back-btn" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                  Todas las clases
+                </button>
+                <div class="class-lesson-heading">
+                  <div>
+                    <span class="class-lesson-kicker">Clase 02 <i aria-hidden="true"></i> Procedimiento de selecci&oacute;n</span>
+                    <h2 id="classTwoLessonTitle">Decreto 915 de 2016</h2>
+                    <p>Una ruta guiada por las reglas del concurso de ingreso al sistema especial de carrera docente: convocatoria, pruebas, listas de elegibles, per&iacute;odo de prueba y escalaf&oacute;n.</p>
+                  </div>
+                  <span class="class-duration"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>40 min</span>
+                </div>
+              </header>
+
+              <div class="class-learning-progress">
+                <div><span id="classTwoProgressText">M&oacute;dulo 1 de 6</span><strong id="classTwoProgressPercent">17%</strong></div>
+                <div role="progressbar" aria-label="Avance de la Clase 2" aria-valuemin="0" aria-valuemax="100" aria-valuenow="17"><span id="classTwoProgressBar"></span></div>
+              </div>
+
+              <div class="class-learning-shell">
+                <nav class="class-module-nav" aria-label="Contenido de la Clase 2">
+                  <button class="active" type="button" data-class-two-module="0" aria-current="step"><span>01</span><div><strong>Qu&eacute; regula</strong><small>Alcance y principios</small></div></button>
+                  <button type="button" data-class-two-module="1"><span>02</span><div><strong>Las 12 etapas</strong><small>Ruta del concurso</small></div></button>
+                  <button type="button" data-class-two-module="2"><span>03</span><div><strong>Inscripci&oacute;n</strong><small>Reglas y plazos</small></div></button>
+                  <button type="button" data-class-two-module="3"><span>04</span><div><strong>Las pruebas</strong><small>Car&aacute;cter y peso</small></div></button>
+                  <button type="button" data-class-two-module="4"><span>05</span><div><strong>Despu&eacute;s</strong><small>Lista y nombramiento</small></div></button>
+                  <button type="button" data-class-two-module="5"><span>06</span><div><strong>Comprueba</strong><small>Evaluaci&oacute;n final</small></div></button>
+                </nav>
+
+                <div class="class-module-stage">
+                  <section class="class-module active" data-class-two-panel="0" aria-labelledby="classTwoModuleOneTitle">
+                    <span class="class-module-kicker">M&oacute;dulo 01</span>
+                    <h3 id="classTwoModuleOneTitle">El decreto que organiza la ruta del concurso</h3>
+                    <p class="class-module-lead">El Decreto 915 del 1 de junio de 2016 reglament&oacute; el Decreto Ley 1278 de 2002, subrog&oacute; el cap&iacute;tulo del Decreto 1075 de 2015 dedicado al concurso docente y actualiz&oacute; reglas del escalaf&oacute;n.</p>
+
+                    <div class="class-definition-grid decree-definition-grid">
+                      <article><span>Aplica a</span><h4>Vacantes definitivas</h4><p>Cargos docentes y directivos docentes administrados por entidades territoriales certificadas que prestan el servicio a poblaci&oacute;n mayoritaria.</p></article>
+                      <article><span>No comprende</span><h4>Procesos etnoeducativos especiales</h4><p>La selecci&oacute;n de etnoeducadores en los casos se&ntilde;alados por el decreto se rige por las normas especiales expedidas para ese fin.</p></article>
+                    </div>
+
+                    <div class="class-behavior-block decree-principles"><h4>Principios del concurso</h4><p>Son criterios que deben orientar todo el proceso de selecci&oacute;n por m&eacute;rito.</p><div><span>Igualdad</span><span>Oportunidad</span><span>Publicidad</span><span>Objetividad</span><span>Imparcialidad</span><span>Confiabilidad</span><span>Transparencia</span><span>Eficacia</span><span>Eficiencia</span><span>Econom&iacute;a</span></div></div>
+
+                    <div class="class-key-idea"><strong>Idea clave</strong><p>El decreto establece el marco general. La convocatoria de la CNSC es la norma particular que regula cada concurso y obliga a aspirantes, entidades e instituciones participantes.</p></div>
+                  </section>
+
+                  <section class="class-module" data-class-two-panel="1" aria-labelledby="classTwoModuleTwoTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 02</span>
+                    <h3 id="classTwoModuleTwoTitle">Las 12 etapas en orden</h3>
+                    <p class="class-module-lead">Comprender la secuencia permite ubicar qu&eacute; ocurre antes de las pruebas, cu&aacute;ndo se verifican los requisitos y en qu&eacute; momento se adquieren derechos de carrera.</p>
+
+                    <ol class="decree-stage-list">
+                      <li><span>01</span><div><strong>Vacantes definitivas</strong><p>Determinaci&oacute;n y reporte de los cargos que ser&aacute;n objeto del proceso.</p></div></li>
+                      <li><span>02</span><div><strong>Convocatoria</strong><p>Adopci&oacute;n del acto administrativo y divulgaci&oacute;n.</p></div></li>
+                      <li><span>03</span><div><strong>Inscripci&oacute;n</strong><p>Registro de aspirantes y publicaci&oacute;n de admitidos a las pruebas.</p></div></li>
+                      <li><span>04</span><div><strong>Primeras pruebas</strong><p>Aptitudes y competencias b&aacute;sicas, junto con la prueba psicot&eacute;cnica.</p></div></li>
+                      <li><span>05</span><div><strong>Resultados y reclamaciones</strong><p>Publicaci&oacute;n de resultados individuales de las primeras pruebas.</p></div></li>
+                      <li><span>06</span><div><strong>Documentos y requisitos</strong><p>Recepci&oacute;n, verificaci&oacute;n, publicaci&oacute;n y reclamaciones.</p></div></li>
+                      <li><span>07</span><div><strong>Antecedentes y entrevista</strong><p>Se aplican a quienes aprobaron y cumplen los requisitos del cargo.</p></div></li>
+                      <li><span>08</span><div><strong>Nuevos resultados</strong><p>Publicaci&oacute;n y reclamaciones de antecedentes y entrevista.</p></div></li>
+                      <li><span>09</span><div><strong>Consolidaci&oacute;n</strong><p>Resultado total del concurso, publicaci&oacute;n y aclaraciones.</p></div></li>
+                      <li><span>10</span><div><strong>Lista de elegibles</strong><p>Conformaci&oacute;n, adopci&oacute;n y publicaci&oacute;n en estricto orden de m&eacute;rito.</p></div></li>
+                      <li><span>11</span><div><strong>Per&iacute;odo de prueba</strong><p>Nombramiento y evaluaci&oacute;n del desempe&ntilde;o durante el per&iacute;odo.</p></div></li>
+                      <li><span>12</span><div><strong>Escalaf&oacute;n</strong><p>Inscripci&oacute;n o actualizaci&oacute;n despu&eacute;s de superar el per&iacute;odo de prueba.</p></div></li>
+                    </ol>
+
+                    <div class="class-memory-rule"><span>Convocatoria</span><i></i><span>Pruebas</span><i></i><span>Lista</span><i></i><span>Per&iacute;odo</span><i></i><span>Escalaf&oacute;n</span></div>
+                  </section>
+
+                  <section class="class-module" data-class-two-panel="2" aria-labelledby="classTwoModuleThreeTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 03</span>
+                    <h3 id="classTwoModuleThreeTitle">Convocatoria e inscripci&oacute;n: reglas que no conviene pasar por alto</h3>
+                    <p class="class-module-lead">La convocatoria identifica cargos, vacantes, requisitos, pruebas, ponderaciones, reclamaciones, listas y condiciones del per&iacute;odo de prueba.</p>
+
+                    <div class="decree-rule-grid">
+                      <article><span>Antes de inscripciones</span><strong>La CNSC puede modificar o complementar la convocatoria.</strong><p>Los cambios deben divulgarse por los medios previstos.</p></article>
+                      <article><span>Despu&eacute;s de iniciar inscripciones</span><strong>Solo puede cambiar el sitio, hora o fecha de las pruebas.</strong><p>Debe informarse con al menos cinco d&iacute;as de anticipaci&oacute;n.</p></article>
+                      <article><span>Plazo de inscripci&oacute;n</span><strong>No puede ser menor de 15 d&iacute;as calendario.</strong><p>La persona debe completar el procedimiento dentro del t&eacute;rmino definido.</p></article>
+                      <article><span>Responsabilidad</span><strong>La informaci&oacute;n se suministra bajo juramento.</strong><p>Una vez efectuada la inscripci&oacute;n, no puede modificarse ni actualizarse.</p></article>
+                    </div>
+
+                    <div class="class-warning"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg><div><strong>Verifica antes de confirmar</strong><p>La verificaci&oacute;n documental ocurre despu&eacute;s de aprobar la prueba eliminatoria. Haber podido inscribirse no significa que los requisitos ya hayan sido validados.</p></div></div>
+                  </section>
+
+                  <section class="class-module" data-class-two-panel="3" aria-labelledby="classTwoModuleFourTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 04</span>
+                    <h3 id="classTwoModuleFourTitle">Cuatro pruebas, funciones diferentes</h3>
+                    <p class="class-module-lead">El Decreto 915 distingue entre la prueba que permite continuar o quedar por fuera y las pruebas que aportan puntaje a la clasificaci&oacute;n.</p>
+
+                    <div class="decree-score-callout">
+                      <div><span>Docentes</span><strong>70/100</strong><small>M&iacute;nimo aprobatorio en aptitudes y competencias b&aacute;sicas</small></div>
+                      <div><span>Directivos docentes</span><strong>80/100</strong><small>M&iacute;nimo aprobatorio en aptitudes y competencias b&aacute;sicas</small></div>
+                    </div>
+
+                    <div class="decree-test-grid">
+                      <article class="eliminatory"><span>Eliminatoria</span><h4>Aptitudes y competencias b&aacute;sicas</h4><p>Peso no menor al 55% para docentes y al 45% para directivos docentes.</p></article>
+                      <article><span>Clasificatoria</span><h4>Prueba psicot&eacute;cnica</h4><p>Peso no mayor al 10% para docentes ni al 15% para directivos.</p></article>
+                      <article><span>Clasificatoria</span><h4>Valoraci&oacute;n de antecedentes</h4><p>Peso no superior al 30% para docentes ni al 35% para directivos.</p></article>
+                      <article><span>Clasificatoria</span><h4>Entrevista</h4><p>Peso no superior al 10% para docentes ni al 15% para directivos.</p></article>
+                    </div>
+
+                    <div class="class-general-functions decree-components">
+                      <span>Componentes m&iacute;nimos de la prueba eliminatoria</span>
+                      <h4>Qu&eacute; debe evaluar</h4>
+                      <ol><li>Lectura cr&iacute;tica.</li><li>Razonamiento cuantitativo.</li><li>Competencias blandas: liderazgo, &eacute;tica, trabajo en equipo y ciudadan&iacute;a.</li><li>Competencias pedag&oacute;gicas para evaluar, formar y ense&ntilde;ar.</li></ol>
+                    </div>
+
+                    <div class="class-warning decree-current-rule"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg><div><strong>No confundas un borrador con una norma expedida</strong><p>Esta clase presenta el texto vigente del Decreto 915 de 2016 registrado por SUIN. Cualquier propuesta de cambiar m&iacute;nimos o ponderaciones solo producir&aacute; efectos cuando sea expedida y publicada oficialmente. La convocatoria definir&aacute; la distribuci&oacute;n exacta dentro de los l&iacute;mites normativos aplicables.</p></div></div>
+                  </section>
+
+                  <section class="class-module" data-class-two-panel="4" aria-labelledby="classTwoModuleFiveTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 05</span>
+                    <h3 id="classTwoModuleFiveTitle">De la lista de elegibles a los derechos de carrera</h3>
+                    <p class="class-module-lead">Aprobar las pruebas no cierra el proceso. Todav&iacute;a deben consolidarse resultados, conformarse la lista, escogerse la vacante y superarse el per&iacute;odo de prueba.</p>
+
+                    <div class="decree-endgame">
+                      <article><span>01</span><div><strong>Lista territorial de elegibles</strong><p>Se organiza en estricto orden de puntaje final y tiene vigencia de dos a&ntilde;os desde su firmeza.</p></div></article>
+                      <article><span>02</span><div><strong>Audiencia de escogencia</strong><p>Cada elegible escoge vacante en orden descendente y respetando el cargo para el que concurs&oacute;.</p></div></article>
+                      <article><span>03</span><div><strong>Nombramiento</strong><p>La entidad territorial debe expedirlo dentro de los cinco d&iacute;as siguientes a la audiencia.</p></div></article>
+                      <article><span>04</span><div><strong>Aceptaci&oacute;n y posesi&oacute;n</strong><p>Hay cinco d&iacute;as h&aacute;biles para aceptar y diez d&iacute;as h&aacute;biles adicionales para posesionarse. La pr&oacute;rroga justificada no puede superar 45 d&iacute;as calendario.</p></div></article>
+                      <article><span>05</span><div><strong>Per&iacute;odo de prueba</strong><p>Al finalizar se eval&uacute;a al educador. Durante este per&iacute;odo no puede ser trasladado, salvo por razones de seguridad.</p></div></article>
+                      <article><span>06</span><div><strong>Escalaf&oacute;n y carrera</strong><p>Quien supera el per&iacute;odo adquiere derechos de carrera y es inscrito o actualizado en el escalaf&oacute;n seg&uacute;n las reglas aplicables.</p></div></article>
+                    </div>
+
+                    <div class="class-key-idea"><strong>Profesional no licenciado</strong><p>Para la inscripci&oacute;n en el escalaf&oacute;n debe acreditar, al quedar en firme la evaluaci&oacute;n satisfactoria del per&iacute;odo de prueba, que cursa o se gradu&oacute; de un posgrado en educaci&oacute;n, o que realiz&oacute; un programa de pedagog&iacute;a bajo responsabilidad de una instituci&oacute;n de educaci&oacute;n superior.</p></div>
+
+                    <aside class="class-source-note">
+                      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg><div><span>Fuente oficial</span><strong>Decreto 915 del 1 de junio de 2016</strong><p>Estado de vigencia consultado en SUIN Juriscol. Contrasta siempre con la convocatoria aplicable.</p></div></div>
+                      <div class="decree-source-links"><a href="https://www.suin-juriscol.gov.co/viewDocument.asp?id=30021624" target="_blank" rel="noreferrer">Abrir en SUIN<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a><a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=70453" target="_blank" rel="noreferrer">Abrir en Funci&oacute;n P&uacute;blica<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
+                    </aside>
+                  </section>
+
+                  <section class="class-module" data-class-two-panel="5" aria-labelledby="classTwoModuleSixTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 06</span>
+                    <h3 id="classTwoModuleSixTitle">Comprueba la ruta normativa</h3>
+                    <p class="class-module-lead">Cada intento selecciona ocho preguntas sobre etapas, inscripci&oacute;n, pruebas, listas y per&iacute;odo de prueba.</p>
+
+                    <div class="class-quiz-overview" aria-label="Caracter&iacute;sticas de la evaluaci&oacute;n de la Clase 2">
+                      <div><strong>8</strong><span>Preguntas por intento</span></div>
+                      <div><strong>18</strong><span>Preguntas en el banco</span></div>
+                      <div><strong>75%</strong><span>Puntaje para aprobar</span></div>
+                    </div>
+
+                    <form id="classTwoQuiz" class="class-quiz">
+                      <div id="classTwoQuizQuestions"></div>
+                      <div id="classTwoQuizMessage" class="class-quiz-message" aria-live="polite"></div>
+                      <button class="class-quiz-submit" type="submit">Calificar evaluaci&oacute;n</button>
+                    </form>
+
+                    <div id="classTwoQuizResult" class="class-quiz-result" hidden>
+                      <span>Resultado de la Clase 2</span><strong id="classTwoQuizScore">0/8</strong><h4 id="classTwoQuizResultTitle"></h4><p id="classTwoQuizResultCopy"></p>
+                      <button id="classTwoQuizRetry" type="button">Generar nuevo intento</button>
+                    </div>
+                  </section>
+
+                  <footer class="class-module-controls">
+                    <button id="classTwoPrevModule" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Anterior</button>
+                    <button id="classTwoNextModule" class="primary" type="button"><span id="classTwoNextModuleLabel">Siguiente m&oacute;dulo</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                  </footer>
+                </div>
+              </div>
+            </article>
           </section>
 
           <section class="view" id="estudio">
@@ -729,6 +906,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260801-6"></script>
+    <script src="app.js?v=20260801-7"></script>
   </body>
 </html>
