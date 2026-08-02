@@ -2580,28 +2580,80 @@ body.sidebar-collapsed .sidebar-open {
 }
 
 .simulacro-panel-action {
-  align-items: center;
   border-top: 1px solid var(--line);
-  display: flex;
-  justify-content: space-between;
   margin-top: 34px;
   padding-top: 20px;
 }
 
-.simulacro-panel-action > div {
-  display: grid;
+.simulacro-list-heading {
+  align-items: end;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
-.simulacro-panel-action strong {
+.simulacro-list-heading > span {
   color: var(--ink);
-  font-size: 1.35rem;
-  line-height: 1;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
 }
 
-.simulacro-panel-action span {
+.simulacro-list-heading small {
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.simulacro-entry {
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 38px minmax(0, 1fr) auto;
+  min-height: 76px;
+  padding: 12px 0;
+}
+
+.simulacro-entry.locked {
+  opacity: 0.72;
+}
+
+.simulacro-entry-number {
+  align-items: center;
+  background: var(--primary-soft);
+  border-radius: 6px;
+  color: var(--primary);
+  display: flex;
+  font-size: 0.68rem;
+  font-weight: 800;
+  height: 38px;
+  justify-content: center;
+  margin: 0;
+  width: 38px;
+}
+
+.simulacro-entry-copy {
+  display: grid;
+  min-width: 0;
+}
+
+.simulacro-entry-copy strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.3;
+}
+
+.simulacro-entry-copy > span {
   color: var(--muted);
   font-size: 0.68rem;
   margin-top: 4px;
+}
+
+.simulacro-entry-copy b {
+  color: var(--text);
+  font-size: inherit;
 }
 
 .simulacro-panel-action .btn svg {
@@ -3140,12 +3192,26 @@ body.sidebar-collapsed .sidebar-open {
 
 @media (max-width: 560px) {
   .simulacro-panel-action {
-    align-items: stretch;
-    display: grid;
-    gap: 16px;
+    margin-top: 28px;
   }
 
-  .simulacro-panel-action .btn {
+  .simulacro-list-heading {
+    align-items: start;
+    display: grid;
+    gap: 3px;
+  }
+
+  .simulacro-entry {
+    grid-template-columns: 34px minmax(0, 1fr);
+  }
+
+  .simulacro-entry-number {
+    height: 34px;
+    width: 34px;
+  }
+
+  .simulacro-entry .btn {
+    grid-column: 1 / -1;
     width: 100%;
   }
 
