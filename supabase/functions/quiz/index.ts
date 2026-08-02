@@ -61,16 +61,27 @@ Deno.serve(async (request) => {
 
   const url = new URL(request.url);
   const category = url.searchParams.get("category");
-  if (!["pedagogica", "especificos", "razonamiento"].includes(category || "")) {
+  const categoryFilters: Record<string, { source: string; topic?: string; excludeTopic?: string }> = {
+    lectura_critica: { source: "razonamiento" },
+    razonamiento_cuantitativo: { source: "razonamiento" },
+    competencias_blandas: { source: "pedagogica", topic: "Competencias comportamentales docentes" },
+    competencias_pedagogicas: { source: "pedagogica", excludeTopic: "Competencias comportamentales docentes" }
+  };
+  const categoryFilter = category ? categoryFilters[category] : null;
+  if (!categoryFilter) {
     return json({ error: "Categoria no valida." }, 400);
   }
 
-  const { data: questions, error: questionsError } = await admin
+  let questionsQuery = admin
     .from("quiz_questions")
     .select("*")
-    .eq("category", category)
+    .eq("category", categoryFilter.source)
     .eq("active", true)
     .order("sequence");
+  if (categoryFilter.topic) questionsQuery = questionsQuery.eq("topic", categoryFilter.topic);
+  if (categoryFilter.excludeTopic) questionsQuery = questionsQuery.neq("topic", categoryFilter.excludeTopic);
+
+  const { data: questions, error: questionsError } = await questionsQuery;
 
   if (questionsError) return json({ error: "No fue posible cargar el simulacro." }, 500);
 

@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260801-7">
+    <link rel="stylesheet" href="styles.css?v=20260801-8">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -106,14 +106,20 @@
               <svg class="submenu-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
             </button>
             <div id="simulacroSubmenu" class="simulacro-submenu" hidden>
-              <button class="simulacro-subcategory active" type="button" data-simulacro-shortcut="pedagogica" aria-current="true">
-                <span aria-hidden="true">01</span>Competencia pedag&oacute;gica
+              <button class="simulacro-subcategory active" type="button" data-simulacro-shortcut="lectura_critica" aria-current="true">
+                <span aria-hidden="true">01</span>Lectura cr&iacute;tica
               </button>
-              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="especificos">
-                <span aria-hidden="true">02</span>Conocimientos espec&iacute;ficos
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="razonamiento_cuantitativo">
+                <span aria-hidden="true">02</span>Razonamiento cuantitativo
               </button>
-              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="razonamiento">
-                <span aria-hidden="true">03</span>Razonamiento + lectura cr&iacute;tica
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="competencias_blandas">
+                <span aria-hidden="true">03</span>Competencias blandas
+              </button>
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="competencias_pedagogicas">
+                <span aria-hidden="true">04</span>Competencias pedag&oacute;gicas
+              </button>
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="ofimatica">
+                <span aria-hidden="true">05</span>Ofim&aacute;tica
               </button>
             </div>
           </div>
@@ -274,65 +280,100 @@
                 <h1>Simulacros</h1>
                 <p>Selecciona el componente que quieres preparar para el Concurso Docente 2026.</p>
               </div>
-              <div class="date-chip"><span>Ruta</span><strong>3 categorias</strong></div>
+              <div class="date-chip"><span>Ruta</span><strong>4 m&iacute;nimos + Ofim&aacute;tica</strong></div>
             </header>
 
             <section class="simulacro-browser" aria-label="Contenido del simulacro seleccionado">
               <div class="simulacro-category-panels">
-                  <article id="simulacroPanelPedagogica" class="simulacro-category-panel" data-simulacro-panel="pedagogica">
+                  <article id="simulacroPanelLectura" class="simulacro-category-panel" data-simulacro-panel="lectura_critica">
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">01</span>
                       <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
                     </div>
-                    <h2>Competencia pedag&oacute;gica</h2>
-                    <p>Situaciones relacionadas con planeaci&oacute;n, evaluaci&oacute;n, inclusi&oacute;n y toma de decisiones en el aula.</p>
-                    <div class="simulacro-topics" aria-label="Temas de competencia pedagogica">
-                      <span>Planeaci&oacute;n</span><span>Evaluaci&oacute;n</span><span>Inclusi&oacute;n</span><span>Convivencia</span>
+                    <h2>Lectura cr&iacute;tica</h2>
+                    <p>Comprensi&oacute;n de textos, identificaci&oacute;n de argumentos, inferencias y evaluaci&oacute;n de evidencias.</p>
+                    <div class="simulacro-topics" aria-label="Temas de lectura critica">
+                      <span>Comprensi&oacute;n</span><span>Inferencias</span><span>Argumentaci&oacute;n</span><span>Evidencias</span>
                     </div>
                     <div class="simulacro-panel-action">
-                      <div><strong data-simulacro-count="pedagogica">95</strong><span>preguntas</span></div>
-                      <button class="btn btn-primary" type="button" data-start-simulacro="pedagogica">
+                      <div><strong data-simulacro-count="lectura_critica">25</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="lectura_critica">
                         Comenzar
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                       </button>
                     </div>
                   </article>
 
-                  <article id="simulacroPanelEspecificos" class="simulacro-category-panel" data-simulacro-panel="especificos" hidden>
+                  <article id="simulacroPanelRazonamiento" class="simulacro-category-panel" data-simulacro-panel="razonamiento_cuantitativo" hidden>
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">02</span>
                       <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
                     </div>
-                    <h2>Conocimientos espec&iacute;ficos</h2>
-                    <p>Contenidos asociados con el saber disciplinar, la did&aacute;ctica del &aacute;rea y su aplicaci&oacute;n en contextos educativos.</p>
-                    <div class="simulacro-topics" aria-label="Temas de conocimientos especificos">
-                      <span>Saber disciplinar</span><span>Did&aacute;ctica</span><span>Aplicaci&oacute;n</span>
+                    <h2>Razonamiento cuantitativo</h2>
+                    <p>Interpretaci&oacute;n de datos, proporciones, porcentajes y decisiones sustentadas en informaci&oacute;n num&eacute;rica.</p>
+                    <div class="simulacro-topics" aria-label="Temas de razonamiento cuantitativo">
+                      <span>Datos</span><span>Proporciones</span><span>Porcentajes</span><span>Resoluci&oacute;n de problemas</span>
                     </div>
                     <div class="simulacro-panel-action">
-                      <div><strong data-simulacro-count="especificos">4</strong><span>preguntas</span></div>
-                      <button class="btn btn-primary" type="button" data-start-simulacro="especificos">
+                      <div><strong data-simulacro-count="razonamiento_cuantitativo">25</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="razonamiento_cuantitativo">
                         Comenzar
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                       </button>
                     </div>
                   </article>
 
-                  <article id="simulacroPanelRazonamiento" class="simulacro-category-panel" data-simulacro-panel="razonamiento" hidden>
+                  <article id="simulacroPanelBlandas" class="simulacro-category-panel" data-simulacro-panel="competencias_blandas" hidden>
                     <div class="simulacro-panel-top">
                       <span class="simulacro-panel-number">03</span>
                       <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
                     </div>
-                    <h2>Razonamiento + lectura cr&iacute;tica</h2>
-                    <p>Ejercicios de comprensi&oacute;n textual, an&aacute;lisis de argumentos, inferencias y relaciones l&oacute;gicas.</p>
-                    <div class="simulacro-topics" aria-label="Temas de razonamiento y lectura critica">
-                      <span>Comprensi&oacute;n</span><span>Inferencias</span><span>Argumentaci&oacute;n</span><span>Razonamiento cuantitativo</span>
+                    <h2>Competencias blandas</h2>
+                    <p>Situaciones que valoran la actuaci&oacute;n profesional, la convivencia y la toma responsable de decisiones.</p>
+                    <div class="simulacro-topics" aria-label="Temas de competencias blandas">
+                      <span>Liderazgo</span><span>&Eacute;tica</span><span>Trabajo en equipo</span><span>Ciudadan&iacute;a</span>
                     </div>
                     <div class="simulacro-panel-action">
-                      <div><strong data-simulacro-count="razonamiento">25</strong><span>preguntas</span></div>
-                      <button class="btn btn-primary" type="button" data-start-simulacro="razonamiento">
+                      <div><strong data-simulacro-count="competencias_blandas">25</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="competencias_blandas">
                         Comenzar
                         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                       </button>
+                    </div>
+                  </article>
+
+                  <article id="simulacroPanelPedagogicas" class="simulacro-category-panel" data-simulacro-panel="competencias_pedagogicas" hidden>
+                    <div class="simulacro-panel-top">
+                      <span class="simulacro-panel-number">04</span>
+                      <span class="simulacro-panel-status available"><i aria-hidden="true"></i> Disponible</span>
+                    </div>
+                    <h2>Competencias pedag&oacute;gicas</h2>
+                    <p>Decisiones sobre evaluaci&oacute;n, formaci&oacute;n, ense&ntilde;anza, inclusi&oacute;n y acompa&ntilde;amiento del aprendizaje.</p>
+                    <div class="simulacro-topics" aria-label="Temas de competencias pedagogicas">
+                      <span>Evaluar</span><span>Formar</span><span>Ense&ntilde;ar</span><span>Inclusi&oacute;n</span>
+                    </div>
+                    <div class="simulacro-panel-action">
+                      <div><strong data-simulacro-count="competencias_pedagogicas">70</strong><span>preguntas</span></div>
+                      <button class="btn btn-primary" type="button" data-start-simulacro="competencias_pedagogicas">
+                        Comenzar
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                      </button>
+                    </div>
+                  </article>
+
+                  <article id="simulacroPanelOfimatica" class="simulacro-category-panel" data-simulacro-panel="ofimatica" hidden>
+                    <div class="simulacro-panel-top">
+                      <span class="simulacro-panel-number">05</span>
+                      <span class="simulacro-panel-status additional"><i aria-hidden="true"></i> Adicional &middot; En preparaci&oacute;n</span>
+                    </div>
+                    <h2>Ofim&aacute;tica</h2>
+                    <p>Componente adicional para practicar herramientas digitales aplicadas al trabajo docente.</p>
+                    <div class="simulacro-topics" aria-label="Temas de ofimatica">
+                      <span>Documentos</span><span>Hojas de c&aacute;lculo</span><span>Presentaciones</span><span>Seguridad digital</span>
+                    </div>
+                    <div class="simulacro-panel-action">
+                      <div><strong>0</strong><span>preguntas</span></div>
+                      <button class="btn btn-secondary" type="button" disabled>Pr&oacute;ximamente</button>
                     </div>
                   </article>
               </div>
@@ -906,6 +947,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260801-8"></script>
+    <script src="app.js?v=20260801-9"></script>
   </body>
 </html>

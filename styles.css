@@ -2236,12 +2236,20 @@ body.sidebar-collapsed .sidebar-open {
   padding: 30px;
 }
 
-.simulacro-category-panel[data-simulacro-panel="especificos"] {
+.simulacro-category-panel[data-simulacro-panel="razonamiento_cuantitativo"] {
   border-top-color: var(--blue);
 }
 
-.simulacro-category-panel[data-simulacro-panel="razonamiento"] {
+.simulacro-category-panel[data-simulacro-panel="competencias_blandas"] {
+  border-top-color: var(--yellow);
+}
+
+.simulacro-category-panel[data-simulacro-panel="competencias_pedagogicas"] {
   border-top-color: var(--green);
+}
+
+.simulacro-category-panel[data-simulacro-panel="ofimatica"] {
+  border-top-color: var(--line-strong);
 }
 
 .simulacro-category-panel[hidden] {
@@ -2561,6 +2569,14 @@ body.sidebar-collapsed .sidebar-open {
 
 .simulacro-panel-status.available i {
   background: var(--green);
+}
+
+.simulacro-panel-status.additional {
+  color: var(--muted);
+}
+
+.simulacro-panel-status.additional i {
+  background: var(--line-strong);
 }
 
 .simulacro-panel-action {
@@ -5079,8 +5095,10 @@ body.auth-locked {
     right: 12px;
     bottom: 78px;
     left: 12px;
+    top: auto;
     width: auto;
     display: grid;
+    align-content: start;
     gap: 3px;
     padding: 10px;
     border: 1px solid rgba(255, 255, 255, .13);

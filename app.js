@@ -582,9 +582,11 @@ function selectSimulacroCategory(category) {
 
 function simulacroCategoryLabel(category) {
   return {
-    pedagogica: "Competencia pedagogica",
-    especificos: "Conocimientos especificos",
-    razonamiento: "Razonamiento + lectura critica"
+    lectura_critica: "Lectura critica",
+    razonamiento_cuantitativo: "Razonamiento cuantitativo",
+    competencias_blandas: "Competencias blandas",
+    competencias_pedagogicas: "Competencias pedagogicas",
+    ofimatica: "Ofimatica"
   }[category] || "Simulacro";
 }
 
@@ -1091,7 +1093,12 @@ function labelCategory(category) {
     competencias: "Competencias",
     especificos: "Conocimientos especificos",
     lectura: "Lectura critica",
-    razonamiento: "Razonamiento + lectura critica"
+    razonamiento: "Razonamiento + lectura critica",
+    lectura_critica: "Lectura critica",
+    razonamiento_cuantitativo: "Razonamiento cuantitativo",
+    competencias_blandas: "Competencias blandas",
+    competencias_pedagogicas: "Competencias pedagogicas",
+    ofimatica: "Ofimatica"
   }[category] || "General";
 }
 function renderStudy() {
