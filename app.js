@@ -543,6 +543,20 @@ const classThreeQuizBank = [
     explanation: "Primero se ingresa al servicio; la inscripción en el escalafón procede después de superar el período de prueba."
   },
   {
+    id: "statute-scope-case", module: 1,
+    prompt: "Una docente universitaria privada pregunta si el Decreto 1278 regula directamente su vinculación. ¿Cuál es la respuesta adecuada?",
+    options: ["No; el ámbito estudiado se refiere a docentes y directivos docentes estatales de preescolar, básica y media", "Sí; regula toda relación docente pública o privada", "Sí, pero únicamente si tiene maestría"],
+    correct: 0,
+    explanation: "El artículo 2 delimita la aplicación a las vinculaciones estatales señaladas. La docencia universitaria privada no entra automáticamente en ese ámbito."
+  },
+  {
+    id: "career-rights-order", module: 1,
+    prompt: "Camila ganó el concurso y fue nombrada en período de prueba. ¿Qué falta para adquirir derechos de carrera?",
+    options: ["Superar satisfactoriamente el período de prueba y quedar inscrita en el escalafón", "Cumplir solamente el primer mes de servicio", "Solicitar una designación provisional"],
+    correct: 0,
+    explanation: "Concurso, período de prueba satisfactorio e inscripción en el escalafón forman la secuencia para adquirir derechos de carrera."
+  },
+  {
     id: "education-professionals", module: 2,
     prompt: "¿Cuál grupo está reconocido como profesional de la educación por el estatuto?",
     options: ["Licenciados, profesionales no licenciados legalmente habilitados y normalistas superiores", "Únicamente licenciados con doctorado", "Cualquier bachiller sin formación adicional"],
@@ -562,6 +576,20 @@ const classThreeQuizBank = [
     options: ["La gestión, orientación y conducción institucional", "La sustitución de todas las funciones del docente de aula", "La administración de entidades privadas"],
     correct: 0,
     explanation: "La función directiva se concentra en dirección, planeación, coordinación, administración y orientación del servicio educativo."
+  },
+  {
+    id: "non-lecture-activities", module: 2,
+    prompt: "Una docente afirma que atender a las familias no forma parte de su función porque ocurre fuera de la clase. ¿Es correcto?",
+    options: ["No; la función también comprende actividades curriculares no lectivas y atención a la comunidad", "Sí; la función termina al finalizar la asignación académica", "Sí; únicamente corresponde al rector"],
+    correct: 0,
+    explanation: "El artículo 4 incluye atención a la comunidad, planeación, evaluación y otras actividades institucionales, no solo la enseñanza directa."
+  },
+  {
+    id: "directive-cargos", module: 2,
+    prompt: "¿Cuál de los siguientes corresponde a un cargo directivo docente reconocido por el estatuto?",
+    options: ["Coordinador", "Secretario administrativo", "Representante estudiantil"],
+    correct: 0,
+    explanation: "El coordinador ejerce función directiva docente. Los otros roles no adquieren esa condición por el solo nombre del cargo."
   },
   {
     id: "open-competition", module: 3,
@@ -585,6 +613,20 @@ const classThreeQuizBank = [
     explanation: "El artículo 31 establece como satisfactoria una calificación igual o superior al 60%."
   },
   {
+    id: "eligible-list-effect", module: 3,
+    prompt: "Aparecer en una lista de elegibles, ¿produce por sí solo la inscripción inmediata en el escalafón?",
+    options: ["No; todavía deben surtirse el nombramiento, el período de prueba y su evaluación satisfactoria", "Sí; la lista reemplaza todas las etapas posteriores", "Sí, siempre que la persona acepte cualquier vacante"],
+    correct: 0,
+    explanation: "La lista permite continuar el proceso de provisión, pero no reemplaza el período de prueba ni la inscripción posterior."
+  },
+  {
+    id: "directive-probation-effect", module: 3,
+    prompt: "Un directivo no supera el período de prueba y ya estaba inscrito en el escalafón como docente. ¿Qué efecto contempla el artículo 31?",
+    options: ["Regresa a la docencia cuando exista vacante", "Obtiene automáticamente otro cargo directivo", "Asciende al siguiente nivel salarial"],
+    correct: 0,
+    explanation: "Si ya estaba inscrito, el directivo regresa a la docencia cuando exista vacante; si no lo estaba, procede el retiro del servicio."
+  },
+  {
     id: "grade-one", module: 4,
     prompt: "¿Qué formación se asocia con el grado 1 del escalafón?",
     options: ["Normalista superior o tecnólogo en educación", "Únicamente doctorado", "Cualquier título técnico no educativo"],
@@ -606,25 +648,88 @@ const classThreeQuizBank = [
     explanation: "Cada uno de los tres grados contiene cuatro niveles salariales identificados con las letras A, B, C y D."
   },
   {
-    id: "evaluation-types", module: 5,
+    id: "relocation-concept", module: 4,
+    prompt: "Una educadora pasa de 2A a 2B. ¿Cómo se denomina ese movimiento?",
+    options: ["Reubicación de nivel salarial", "Ascenso de grado", "Nuevo ingreso a la carrera"],
+    correct: 0,
+    explanation: "Cambiar al nivel siguiente dentro del mismo grado es reubicación. El ascenso implica pasar a otro grado."
+  },
+  {
+    id: "promotion-concept", module: 4,
+    prompt: "¿Qué elemento distingue un ascenso de una reubicación salarial?",
+    options: ["El ascenso supone pasar a otro grado del escalafón", "El ascenso cambia únicamente de A a B", "La reubicación exige retirarse de la carrera"],
+    correct: 0,
+    explanation: "El grado cambia en el ascenso; la reubicación ocurre entre niveles salariales del mismo grado."
+  },
+  {
+    id: "right-association", module: 5,
+    prompt: "¿Cuál es un derecho expresamente reconocido por el artículo 37 del Decreto 1278?",
+    options: ["Asociarse libremente", "Omitir la evaluación anual", "Permanecer en el cargo sin importar el desempeño"],
+    correct: 0,
+    explanation: "La libre asociación es un derecho expreso. La evaluación sigue siendo obligatoria cuando corresponde y la permanencia está sujeta a las condiciones legales."
+  },
+  {
+    id: "conditional-permanence", module: 5,
+    prompt: "¿Cómo debe entenderse el derecho de permanencia en el cargo?",
+    options: ["Se mantiene mientras trabajo y conducta sean satisfactorios y no exista una causal legal de retiro", "Es absoluto desde el nombramiento provisional", "Impide toda evaluación del desempeño"],
+    correct: 0,
+    explanation: "La estabilidad de carrera no es absoluta: depende del desempeño, la conducta y las demás condiciones previstas en la ley."
+  },
+  {
+    id: "ethical-values", module: 5,
+    prompt: "¿Cuál conjunto refleja valores del artículo 39?",
+    options: ["Responsabilidad, honestidad, justicia, respeto y transparencia", "Competencia comercial, reserva y rentabilidad", "Obediencia partidista y proselitismo"],
+    correct: 0,
+    explanation: "El marco ético docente destaca responsabilidad, honestidad, conocimiento, justicia, respeto y transparencia."
+  },
+  {
+    id: "unenforceable-articles", module: 5,
+    prompt: "¿Cómo deben estudiarse actualmente los artículos 41 y 42 del Decreto 1278?",
+    options: ["Como disposiciones declaradas inexequibles, no como una lista autónoma vigente", "Como el único catálogo disciplinario aplicable", "Como reglas que sustituyen la Constitución y la ley"],
+    correct: 0,
+    explanation: "La Sentencia C-1157 de 2003 declaró inexequibles esos artículos. Las responsabilidades vigentes se buscan en las fuentes actuales aplicables."
+  },
+  {
+    id: "disciplinary-source-case", module: 5,
+    prompt: "Ante una posible falta disciplinaria de un docente, ¿cuál es el análisis correcto?",
+    options: ["Identificar la conducta y contrastarla con la Constitución, la ley disciplinaria, los reglamentos y el manual aplicable", "Citar únicamente el artículo 42 anulado", "Aplicar una sanción sin procedimiento"],
+    correct: 0,
+    explanation: "La conducta debe relacionarse con una fuente vigente y tramitarse mediante el procedimiento competente; una disposición inexequible no basta."
+  },
+  {
+    id: "evaluation-types", module: 6,
     prompt: "¿Cuáles son los tres tipos de evaluación señalados por el estatuto?",
     options: ["Período de prueba, desempeño anual y competencias", "Ingreso, entrevista y retiro", "Autoevaluación, coevaluación y examen final"],
     correct: 0,
     explanation: "El artículo 27 contempla evaluación de período de prueba, evaluación ordinaria periódica de desempeño anual y evaluación de competencias."
   },
   {
-    id: "annual-service", module: 5,
+    id: "annual-service", module: 6,
     prompt: "¿Cuándo se aplica la evaluación anual de desempeño según el tiempo servido en el establecimiento?",
     options: ["Cuando se han servido más de tres meses durante el año académico", "Solo después de diez años", "Desde el primer día sin excepción"],
     correct: 0,
     explanation: "La evaluación anual se realiza a quienes hayan servido en el establecimiento por un término superior a tres meses durante el año académico."
   },
   {
-    id: "competency-purpose", module: 5,
-    prompt: "En el texto del estatuto, ¿con qué propósito se relaciona la evaluación de competencias?",
-    options: ["Ascender de grado o cambiar de nivel salarial", "Evitar el concurso de ingreso", "Reemplazar el período de prueba"],
+    id: "annual-consecutive-result", module: 6,
+    prompt: "Un docente obtiene menos del 60% en la evaluación anual durante dos años consecutivos. ¿Qué consecuencia establece el artículo 36?",
+    options: ["Exclusión del escalafón y retiro del servicio", "Ascenso automático al grado siguiente", "Repetición sin ningún efecto de permanencia"],
     correct: 0,
-    explanation: "La evaluación de competencias se vincula al avance en el escalafón; debe interpretarse junto con la reglamentación posterior vigente."
+    explanation: "Dos evaluaciones anuales consecutivas no satisfactorias producen la exclusión del escalafón y el retiro del docente. Para directivos existen reglas diferenciadas."
+  },
+  {
+    id: "probation-components", module: 6,
+    prompt: "Laura obtiene 70% en desempeño y 55% en competencias específicas durante el período de prueba. ¿Lo supera?",
+    options: ["No; debe alcanzar por lo menos 60% en los componentes exigidos", "Sí; basta promediar ambos resultados", "Sí; cualquier resultado superior a 50% es suficiente"],
+    correct: 0,
+    explanation: "La evaluación satisfactoria exige al menos 60% en desempeño y competencias específicas; el 55% no cumple el mínimo."
+  },
+  {
+    id: "decree-953-current", module: 6,
+    prompt: "¿Qué norma actualizó en 2025 la reglamentación de la evaluación para ascenso y reubicación de educadores del Decreto 1278?",
+    options: ["Decreto 953 de 2025", "Decreto 915 de 2016", "Resolución 003842 de 2022"],
+    correct: 0,
+    explanation: "El Decreto 953 de 2025 subrogó el capítulo correspondiente del Decreto 1075 y mantuvo el carácter diagnóstico formativo del proceso."
   }
 ];
 
@@ -1881,7 +1986,7 @@ function classThreeProgressStorageKey() {
 function loadClassThreeProgress() {
   try {
     const saved = JSON.parse(localStorage.getItem(classThreeProgressStorageKey()));
-    classThreeLessonState.current = Math.min(5, Math.max(0, Number(saved?.current) || 0));
+    classThreeLessonState.current = Math.min(6, Math.max(0, Number(saved?.current) || 0));
     classThreeLessonState.visited = new Set(
       Array.isArray(saved?.visited)
         ? saved.visited.filter((index) => Number.isInteger(index) && index >= 0 && index <= 5)
@@ -1926,17 +2031,17 @@ function renderClassThreeModule(index, shouldScroll = true) {
     panel.classList.toggle("active", active);
   });
 
-  const progress = Math.round((classThreeLessonState.visited.size / 6) * 100);
-  if (els.classThreeProgressText) els.classThreeProgressText.textContent = `Modulo ${nextIndex + 1} de 6`;
+  const progress = Math.round((classThreeLessonState.visited.size / 7) * 100);
+  if (els.classThreeProgressText) els.classThreeProgressText.textContent = `Modulo ${nextIndex + 1} de 7`;
   if (els.classThreeProgressPercent) els.classThreeProgressPercent.textContent = `${progress}%`;
   if (els.classThreeProgressBar) {
     els.classThreeProgressBar.style.width = `${progress}%`;
     els.classThreeProgressBar.parentElement?.setAttribute("aria-valuenow", String(progress));
   }
   if (els.classThreePrevModule) els.classThreePrevModule.disabled = nextIndex === 0;
-  if (els.classThreeNextModule) els.classThreeNextModule.hidden = nextIndex === 5;
+  if (els.classThreeNextModule) els.classThreeNextModule.hidden = nextIndex === 6;
   if (els.classThreeNextModuleLabel) {
-    els.classThreeNextModuleLabel.textContent = nextIndex === 4 ? "Ir a la evaluacion" : "Siguiente modulo";
+    els.classThreeNextModuleLabel.textContent = nextIndex === 5 ? "Ir a la evaluacion" : "Siguiente modulo";
   }
   saveClassThreeProgress();
   updateClassStatusText();
@@ -1970,7 +2075,7 @@ function classThreeQuizSignatureStorageKey() {
 }
 
 function createClassThreeQuizAttempt() {
-  const distribution = new Map([[1, 2], [2, 1], [3, 2], [4, 1], [5, 2]]);
+  const distribution = new Map([[1, 1], [2, 1], [3, 2], [4, 1], [5, 1], [6, 2]]);
   let selected = [...distribution.entries()].flatMap(([module, amount]) => (
     shuffleItems(classThreeQuizBank.filter((question) => question.module === module)).slice(0, amount)
   ));
@@ -2100,7 +2205,7 @@ els.classThreeQuiz?.addEventListener("submit", (event) => {
   }
   if (els.classThreeQuizResultCopy) {
     els.classThreeQuizResultCopy.textContent = score >= passingScore
-      ? "Ya diferencias el ingreso al servicio, los derechos de carrera, el escalafón y los tipos de evaluación."
+      ? "Ya diferencias el ingreso, el escalafón, los derechos, el marco ético y la regulación vigente de la evaluación."
       : "Lee las explicaciones, revisa los módulos necesarios y genera un nuevo intento.";
   }
   if (els.classThreeQuizResult) {
