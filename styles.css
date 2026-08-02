@@ -5446,6 +5446,10 @@ body.auth-locked {
   color: var(--green);
 }
 
+.class-card-three .class-card-index strong {
+  color: var(--blue);
+}
+
 .class-card-index {
   height: 116px;
   display: grid;
@@ -6538,6 +6542,10 @@ body.auth-locked {
   color: #fff;
 }
 
+.statute-grade-callout {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
 .decree-score-callout > div {
   min-width: 0;
   padding: 24px;
@@ -6693,7 +6701,8 @@ body.auth-locked {
 }
 
 #classQuizQuestions,
-#classTwoQuizQuestions {
+#classTwoQuizQuestions,
+#classThreeQuizQuestions {
   display: grid;
   gap: 18px;
 }

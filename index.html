@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260802-3">
+    <link rel="stylesheet" href="styles.css?v=20260802-4">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -502,7 +502,7 @@
                 <h1>Clase</h1>
                 <p>Encuentra aqu&iacute; las sesiones y los recursos preparados para tu proceso.</p>
               </div>
-              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">2 disponibles &middot; 56 bloqueadas</span></div>
+              <div class="class-status"><i aria-hidden="true"></i><span id="classStatusText">3 disponibles &middot; 55 bloqueadas</span></div>
             </header>
 
             <section id="classCatalog" class="class-catalog" aria-labelledby="classLibraryTitle">
@@ -540,9 +540,22 @@
                 </button>
               </article>
 
+              <article class="class-card class-card-three">
+                <div class="class-card-index" aria-hidden="true"><span>Clase</span><strong>03</strong></div>
+                <div class="class-card-main">
+                  <div class="class-card-meta"><span>Normativa</span><span>Carrera docente</span><span>45 min</span></div>
+                  <h3>Decreto Ley 1278 de 2002</h3>
+                  <p>Comprende el Estatuto de Profesionalizaci&oacute;n Docente: ingreso, per&iacute;odo de prueba, escalaf&oacute;n, evaluaci&oacute;n, permanencia y desarrollo profesional.</p>
+                </div>
+                <button id="classThreeOpenBtn" class="class-open-btn" type="button" aria-controls="classThreeLesson" aria-expanded="false">
+                  Abrir clase
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </button>
+              </article>
+
               <details class="class-roadmap" open>
                 <summary>
-                  <div><span>Pr&oacute;ximamente</span><strong>Clases 03 a 58</strong><small>56 espacios reservados para construir el programa.</small></div>
+                  <div><span>Pr&oacute;ximamente</span><strong>Clases 04 a 58</strong><small>55 espacios reservados para construir el programa.</small></div>
                   <div class="class-roadmap-status"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Bloqueadas</span><i aria-hidden="true"></i></div>
                 </summary>
                 <div id="classRoadmapGrid" class="class-roadmap-grid" aria-label="Clases bloqueadas del programa"></div>
@@ -926,6 +939,158 @@
                 </div>
               </div>
             </article>
+
+            <article id="classThreeLesson" class="class-lesson" aria-labelledby="classThreeLessonTitle" hidden>
+              <header class="class-lesson-header">
+                <button id="classThreeBackBtn" class="class-back-btn" type="button">
+                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                  Todas las clases
+                </button>
+                <div class="class-lesson-heading">
+                  <div>
+                    <span class="class-lesson-kicker">Clase 03 <i aria-hidden="true"></i> Estatuto profesional</span>
+                    <h2 id="classThreeLessonTitle">Decreto Ley 1278 de 2002</h2>
+                    <p>Una lectura aplicada del Estatuto de Profesionalizaci&oacute;n Docente para comprender qui&eacute;nes lo integran, c&oacute;mo se ingresa a la carrera y qu&eacute; papel cumplen el escalaf&oacute;n y la evaluaci&oacute;n.</p>
+                  </div>
+                  <span class="class-duration"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>45 min</span>
+                </div>
+              </header>
+
+              <div class="class-learning-progress">
+                <div><span id="classThreeProgressText">M&oacute;dulo 1 de 6</span><strong id="classThreeProgressPercent">17%</strong></div>
+                <div role="progressbar" aria-label="Avance de la Clase 3" aria-valuemin="0" aria-valuemax="100" aria-valuenow="17"><span id="classThreeProgressBar"></span></div>
+              </div>
+
+              <div class="class-learning-shell">
+                <nav class="class-module-nav" aria-label="Contenido de la Clase 3">
+                  <button class="active" type="button" data-class-three-module="0" aria-current="step"><span>01</span><div><strong>El estatuto</strong><small>Objeto y aplicaci&oacute;n</small></div></button>
+                  <button type="button" data-class-three-module="1"><span>02</span><div><strong>La profesi&oacute;n</strong><small>Funciones y cargos</small></div></button>
+                  <button type="button" data-class-three-module="2"><span>03</span><div><strong>El ingreso</strong><small>Concurso y prueba</small></div></button>
+                  <button type="button" data-class-three-module="3"><span>04</span><div><strong>Escalaf&oacute;n</strong><small>Grados y niveles</small></div></button>
+                  <button type="button" data-class-three-module="4"><span>05</span><div><strong>Evaluaci&oacute;n</strong><small>Permanencia y avance</small></div></button>
+                  <button type="button" data-class-three-module="5"><span>06</span><div><strong>Comprueba</strong><small>Evaluaci&oacute;n final</small></div></button>
+                </nav>
+
+                <div class="class-module-stage">
+                  <section class="class-module active" data-class-three-panel="0" aria-labelledby="classThreeModuleOneTitle">
+                    <span class="class-module-kicker">M&oacute;dulo 01</span>
+                    <h3 id="classThreeModuleOneTitle">El estatuto que organiza la carrera docente</h3>
+                    <p class="class-module-lead">El Decreto Ley 1278 de 2002 regula la relaci&oacute;n del Estado con los educadores a su servicio y conecta cinco momentos: ingreso, permanencia, desarrollo profesional, ascenso y retiro.</p>
+
+                    <div class="class-definition-grid decree-definition-grid">
+                      <article><span>Finalidad</span><h4>Idoneidad y calidad</h4><p>Reconoce la formaci&oacute;n, la experiencia, el desempe&ntilde;o y las competencias como atributos esenciales del ejercicio docente.</p></article>
+                      <article><span>Aplicaci&oacute;n</span><h4>Nuevas vinculaciones</h4><p>Se aplica a quienes se vinculan desde su vigencia como docentes o directivos docentes estatales en preescolar, b&aacute;sica o media, y a quienes sean asimilados conforme a la norma.</p></article>
+                    </div>
+
+                    <div class="class-memory-rule"><span>Ingreso</span><i></i><span>Prueba</span><i></i><span>Escalaf&oacute;n</span><i></i><span>Permanencia</span></div>
+                    <div class="class-key-idea"><strong>Idea clave</strong><p>Ingresar al servicio no equivale todav&iacute;a a estar inscrito en el escalaf&oacute;n. Primero se ocupa el cargo en per&iacute;odo de prueba y, al superarlo satisfactoriamente, se adquieren derechos de carrera y procede la inscripci&oacute;n.</p></div>
+                  </section>
+
+                  <section class="class-module" data-class-three-panel="1" aria-labelledby="classThreeModuleTwoTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 02</span>
+                    <h3 id="classThreeModuleTwoTitle">Qui&eacute;n es profesional de la educaci&oacute;n y qu&eacute; funci&oacute;n cumple</h3>
+                    <p class="class-module-lead">El estatuto no reduce la docencia a dictar una clase. Define perfiles habilitados y una funci&oacute;n profesional que integra planeaci&oacute;n, ense&ntilde;anza, evaluaci&oacute;n y actividades institucionales.</p>
+
+                    <div class="class-profile-list">
+                      <article><span>Perfil 01</span><div><h4>Licenciado en educaci&oacute;n</h4><p>T&iacute;tulo profesional expedido por una instituci&oacute;n de educaci&oacute;n superior.</p></div></article>
+                      <article><span>Perfil 02</span><div><h4>Profesional con t&iacute;tulo diferente</h4><p>Puede ejercer cuando se encuentra legalmente habilitado y cumple la formaci&oacute;n pedag&oacute;gica exigible.</p></div></article>
+                      <article><span>Perfil 03</span><div><h4>Normalista superior</h4><p>Integra expresamente la definici&oacute;n de profesionales de la educaci&oacute;n del estatuto.</p></div></article>
+                    </div>
+
+                    <div class="decree-test-grid">
+                      <article class="eliminatory"><span>Funci&oacute;n docente</span><h4>Proceso educativo directo</h4><p>Diagn&oacute;stico, planificaci&oacute;n, ejecuci&oacute;n y evaluaci&oacute;n de la ense&ntilde;anza-aprendizaje y de sus resultados, dentro del PEI.</p></article>
+                      <article><span>Actividades curriculares</span><h4>M&aacute;s all&aacute; del aula</h4><p>Preparaci&oacute;n, evaluaci&oacute;n, disciplina, reuniones, orientaci&oacute;n estudiantil, atenci&oacute;n a familias y actividades formativas, culturales o deportivas.</p></article>
+                      <article><span>Funci&oacute;n directiva</span><h4>Gesti&oacute;n institucional</h4><p>Direcci&oacute;n, planeaci&oacute;n, coordinaci&oacute;n, administraci&oacute;n, orientaci&oacute;n y programaci&oacute;n del servicio educativo.</p></article>
+                      <article><span>Cargos directivos</span><h4>Responsabilidad diferenciada</h4><p>El estatuto reconoce cargos como director rural, coordinador y rector, con funciones propias de conducci&oacute;n institucional.</p></article>
+                    </div>
+                  </section>
+
+                  <section class="class-module" data-class-three-panel="2" aria-labelledby="classThreeModuleThreeTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 03</span>
+                    <h3 id="classThreeModuleThreeTitle">Del concurso a los derechos de carrera</h3>
+                    <p class="class-module-lead">El ingreso a un cargo estatal de carrera se fundamenta en el m&eacute;rito y exige una secuencia. La Clase 2 desarrolla las reglas detalladas del concurso; aqu&iacute; se estudia su efecto dentro del estatuto.</p>
+
+                    <div class="decree-endgame">
+                      <article><span>01</span><div><strong>Concurso abierto</strong><p>Eval&uacute;a aptitudes, experiencia, competencias, relaciones interpersonales y condiciones de personalidad para conformar la lista de elegibles.</p></div></article>
+                      <article><span>02</span><div><strong>Lista y nombramiento</strong><p>La selecci&oacute;n permite el nombramiento en per&iacute;odo de prueba en una vacante del cargo concursado.</p></div></article>
+                      <article><span>03</span><div><strong>Servicio m&iacute;nimo</strong><p>La evaluaci&oacute;n procede cuando se ha desempe&ntilde;ado el cargo por lo menos cuatro meses durante el a&ntilde;o acad&eacute;mico.</p></div></article>
+                      <article><span>04</span><div><strong>Evaluaci&oacute;n del per&iacute;odo</strong><p>Comprende desempe&ntilde;o laboral y competencias espec&iacute;ficas. La calificaci&oacute;n satisfactoria es igual o superior al 60%.</p></div></article>
+                      <article><span>05</span><div><strong>Derechos de carrera</strong><p>Al superar el per&iacute;odo de prueba se adquieren derechos de carrera y se realiza la inscripci&oacute;n en el escalaf&oacute;n seg&uacute;n el t&iacute;tulo acreditado.</p></div></article>
+                    </div>
+
+                    <div class="class-warning"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20z"/><path d="M12 9v5M12 18h.01"/></svg><div><strong>No confundas dos puntajes</strong><p>El 60% de este m&oacute;dulo corresponde a la evaluaci&oacute;n del per&iacute;odo de prueba. No es el puntaje de la prueba eliminatoria del concurso de ingreso.</p></div></div>
+                  </section>
+
+                  <section class="class-module" data-class-three-panel="3" aria-labelledby="classThreeModuleFourTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 04</span>
+                    <h3 id="classThreeModuleFourTitle">El escalaf&oacute;n: tres grados y cuatro niveles salariales</h3>
+                    <p class="class-module-lead">El escalaf&oacute;n clasifica a docentes y directivos estatales seg&uacute;n formaci&oacute;n acad&eacute;mica, experiencia, responsabilidad, desempe&ntilde;o y competencias.</p>
+
+                    <div class="decree-score-callout statute-grade-callout">
+                      <div><span>Grado 1</span><strong>1A&ndash;1D</strong><small>Normalista superior o tecn&oacute;logo en educaci&oacute;n, seg&uacute;n los requisitos aplicables.</small></div>
+                      <div><span>Grado 2</span><strong>2A&ndash;2D</strong><small>Licenciado o profesional no licenciado legalmente habilitado.</small></div>
+                      <div><span>Grado 3</span><strong>3A&ndash;3D</strong><small>Licenciado o profesional con maestr&iacute;a o doctorado en un &aacute;rea af&iacute;n.</small></div>
+                    </div>
+
+                    <div class="class-general-functions decree-components">
+                      <span>Lectura del escalaf&oacute;n</span>
+                      <h4>Grado no es lo mismo que nivel</h4>
+                      <ol><li>El <strong>grado</strong> se relaciona principalmente con la formaci&oacute;n acad&eacute;mica acreditada.</li><li>Los niveles salariales de cada grado son <strong>A, B, C y D</strong>.</li><li>La <strong>reubicaci&oacute;n</strong> es el paso al nivel siguiente dentro del mismo grado.</li><li>El <strong>ascenso</strong> implica pasar a otro grado, cumpliendo los requisitos normativos.</li></ol>
+                    </div>
+
+                    <div class="class-key-idea"><strong>Punto de entrada</strong><p>La primera inscripci&oacute;n se realiza en el nivel salarial A del grado que corresponda al t&iacute;tulo acreditado, sin perjuicio de las reglas especiales y modificaciones aplicables.</p></div>
+                  </section>
+
+                  <section class="class-module" data-class-three-panel="4" aria-labelledby="classThreeModuleFiveTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 05</span>
+                    <h3 id="classThreeModuleFiveTitle">Evaluar para ingresar, permanecer y avanzar</h3>
+                    <p class="class-module-lead">La carrera docente est&aacute; ligada a la evaluaci&oacute;n permanente. Cada tipo de evaluaci&oacute;n cumple una finalidad diferente y produce efectos distintos.</p>
+
+                    <div class="decree-rule-grid">
+                      <article><span>Per&iacute;odo de prueba</span><strong>Define el ingreso a la carrera.</strong><p>Valora desempe&ntilde;o y competencias espec&iacute;ficas al terminar el a&ntilde;o acad&eacute;mico, si se cumpli&oacute; el tiempo m&iacute;nimo de servicio.</p></article>
+                      <article><span>Desempe&ntilde;o anual</span><strong>Valora funciones y resultados.</strong><p>Se aplica al finalizar el a&ntilde;o a quien haya servido en el establecimiento por m&aacute;s de tres meses.</p></article>
+                      <article><span>Competencias</span><strong>Se relaciona con ascenso o reubicaci&oacute;n.</strong><p>El texto del estatuto la prev&eacute; para quienes voluntariamente buscan avanzar; su aplicaci&oacute;n debe leerse junto con la reglamentaci&oacute;n posterior vigente.</p></article>
+                      <article><span>Principios</span><strong>Objetividad y transparencia.</strong><p>La evaluaci&oacute;n debe ser pertinente, confiable, universal, concurrente y permitir participaci&oacute;n.</p></article>
+                    </div>
+
+                    <div class="class-behavior-block decree-principles"><h4>Qu&eacute; busca comprobar</h4><p>No se limita a una calificaci&oacute;n aislada.</p><div><span>Preparaci&oacute;n profesional</span><span>Compromiso</span><span>Competencias</span><span>Responsabilidad</span><span>Calidad</span><span>Resultados</span></div></div>
+
+                    <aside class="class-source-note">
+                      <div><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h9l5 5v15H6z"/><path d="M14 2v6h6M9 13h7M9 17h7"/></svg><div><span>Fuente oficial</span><strong>Decreto Ley 1278 del 19 de junio de 2002</strong><p>Consulta el texto, sus notas de vigencia, modificaciones, reglamentaciones y decisiones judiciales antes de aplicar una regla a un caso concreto.</p></div></div>
+                      <div class="decree-source-links"><a href="https://www.suin-juriscol.gov.co/viewDocument.asp?ruta=Decretos%2F1257729" target="_blank" rel="noreferrer">Abrir en SUIN<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a><a href="https://www.funcionpublica.gov.co/eva/gestornormativo/norma.php?i=5353" target="_blank" rel="noreferrer">Abrir en Funci&oacute;n P&uacute;blica<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a></div>
+                    </aside>
+                  </section>
+
+                  <section class="class-module" data-class-three-panel="5" aria-labelledby="classThreeModuleSixTitle" hidden>
+                    <span class="class-module-kicker">M&oacute;dulo 06</span>
+                    <h3 id="classThreeModuleSixTitle">Comprueba el Estatuto de Profesionalizaci&oacute;n Docente</h3>
+                    <p class="class-module-lead">Cada intento selecciona ocho preguntas y cambia tanto su orden como el orden de las opciones.</p>
+
+                    <div class="class-quiz-overview" aria-label="Caracter&iacute;sticas de la evaluaci&oacute;n de la Clase 3">
+                      <div><strong>8</strong><span>Preguntas por intento</span></div>
+                      <div><strong>15</strong><span>Preguntas en el banco</span></div>
+                      <div><strong>75%</strong><span>Puntaje para aprobar</span></div>
+                    </div>
+
+                    <form id="classThreeQuiz" class="class-quiz">
+                      <div id="classThreeQuizQuestions"></div>
+                      <div id="classThreeQuizMessage" class="class-quiz-message" aria-live="polite"></div>
+                      <button class="class-quiz-submit" type="submit">Calificar evaluaci&oacute;n</button>
+                    </form>
+
+                    <div id="classThreeQuizResult" class="class-quiz-result" hidden>
+                      <span>Resultado de la Clase 3</span><strong id="classThreeQuizScore">0/8</strong><h4 id="classThreeQuizResultTitle"></h4><p id="classThreeQuizResultCopy"></p>
+                      <button id="classThreeQuizRetry" type="button">Generar nuevo intento</button>
+                    </div>
+                  </section>
+
+                  <footer class="class-module-controls">
+                    <button id="classThreePrevModule" type="button" disabled><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>Anterior</button>
+                    <button id="classThreeNextModule" class="primary" type="button"><span id="classThreeNextModuleLabel">Siguiente m&oacute;dulo</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                  </footer>
+                </div>
+              </div>
+            </article>
           </section>
 
           <section class="view" id="estudio">
@@ -993,6 +1158,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260802-1"></script>
+    <script src="app.js?v=20260802-2"></script>
   </body>
 </html>

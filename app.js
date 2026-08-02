@@ -88,6 +88,25 @@ const els = {
   classTwoQuizResultTitle: document.getElementById("classTwoQuizResultTitle"),
   classTwoQuizResultCopy: document.getElementById("classTwoQuizResultCopy"),
   classTwoQuizRetry: document.getElementById("classTwoQuizRetry"),
+  classThreeLesson: document.getElementById("classThreeLesson"),
+  classThreeOpenBtn: document.getElementById("classThreeOpenBtn"),
+  classThreeBackBtn: document.getElementById("classThreeBackBtn"),
+  classThreeModuleButtons: document.querySelectorAll("[data-class-three-module]"),
+  classThreeModulePanels: document.querySelectorAll("[data-class-three-panel]"),
+  classThreeProgressText: document.getElementById("classThreeProgressText"),
+  classThreeProgressPercent: document.getElementById("classThreeProgressPercent"),
+  classThreeProgressBar: document.getElementById("classThreeProgressBar"),
+  classThreePrevModule: document.getElementById("classThreePrevModule"),
+  classThreeNextModule: document.getElementById("classThreeNextModule"),
+  classThreeNextModuleLabel: document.getElementById("classThreeNextModuleLabel"),
+  classThreeQuiz: document.getElementById("classThreeQuiz"),
+  classThreeQuizQuestions: document.getElementById("classThreeQuizQuestions"),
+  classThreeQuizMessage: document.getElementById("classThreeQuizMessage"),
+  classThreeQuizResult: document.getElementById("classThreeQuizResult"),
+  classThreeQuizScore: document.getElementById("classThreeQuizScore"),
+  classThreeQuizResultTitle: document.getElementById("classThreeQuizResultTitle"),
+  classThreeQuizResultCopy: document.getElementById("classThreeQuizResultCopy"),
+  classThreeQuizRetry: document.getElementById("classThreeQuizRetry"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -493,18 +512,137 @@ const classTwoQuizBank = [
 
 let currentClassTwoQuizAttempt = [];
 
+const classThreeLessonState = {
+  current: 0,
+  visited: new Set([0]),
+  completed: false,
+  score: null
+};
+
+const classThreeQuizSize = 8;
+const classThreeQuizBank = [
+  {
+    id: "statute-purpose", module: 1,
+    prompt: "¿Cuál es el objeto principal del Decreto Ley 1278 de 2002?",
+    options: ["Expedir el Estatuto de Profesionalización Docente", "Definir únicamente el calendario escolar", "Regular exclusivamente la educación privada"],
+    correct: 0,
+    explanation: "El decreto establece el Estatuto de Profesionalización Docente y regula la relación del Estado con los educadores a su servicio."
+  },
+  {
+    id: "statute-application", module: 1,
+    prompt: "¿A quiénes se aplica principalmente este estatuto?",
+    options: ["A quienes se vinculan desde su vigencia como docentes o directivos docentes estatales", "A todo trabajador público sin distinción", "Solo a docentes universitarios"],
+    correct: 0,
+    explanation: "Su ámbito comprende las nuevas vinculaciones estatales en preescolar, básica y media, además de quienes sean asimilados conforme a la norma."
+  },
+  {
+    id: "service-vs-scale", module: 1,
+    prompt: "Una persona nombrada en período de prueba, ¿ya está inscrita automáticamente en el escalafón?",
+    options: ["Sí, desde la posesión", "No; debe superar satisfactoriamente el período de prueba", "Solo si renuncia a la evaluación"],
+    correct: 1,
+    explanation: "Primero se ingresa al servicio; la inscripción en el escalafón procede después de superar el período de prueba."
+  },
+  {
+    id: "education-professionals", module: 2,
+    prompt: "¿Cuál grupo está reconocido como profesional de la educación por el estatuto?",
+    options: ["Licenciados, profesionales no licenciados legalmente habilitados y normalistas superiores", "Únicamente licenciados con doctorado", "Cualquier bachiller sin formación adicional"],
+    correct: 0,
+    explanation: "El artículo 3 incluye expresamente esos tres perfiles dentro de la profesión educativa."
+  },
+  {
+    id: "teaching-function", module: 2,
+    prompt: "¿Qué integra la función docente definida por el Decreto 1278?",
+    options: ["Diagnóstico, planeación, ejecución y evaluación de la enseñanza-aprendizaje", "Solo vigilancia disciplinaria", "Únicamente elaboración de informes administrativos"],
+    correct: 0,
+    explanation: "La función docente es profesional y comprende directamente el proceso sistemático de enseñanza-aprendizaje y sus resultados."
+  },
+  {
+    id: "directive-function", module: 2,
+    prompt: "¿Qué caracteriza principalmente la función directiva docente?",
+    options: ["La gestión, orientación y conducción institucional", "La sustitución de todas las funciones del docente de aula", "La administración de entidades privadas"],
+    correct: 0,
+    explanation: "La función directiva se concentra en dirección, planeación, coordinación, administración y orientación del servicio educativo."
+  },
+  {
+    id: "open-competition", module: 3,
+    prompt: "¿Cuál es el mecanismo ordinario de ingreso a un cargo estatal de carrera docente?",
+    options: ["Concurso abierto de méritos", "Designación discrecional permanente", "Elección por las familias"],
+    correct: 0,
+    explanation: "El ingreso se fundamenta en el mérito demostrado mediante concurso abierto."
+  },
+  {
+    id: "probation-months", module: 3,
+    prompt: "¿Qué tiempo mínimo debe haberse servido el cargo para la evaluación del período de prueba en el año académico?",
+    options: ["Dos meses", "Cuatro meses", "Doce meses completos"],
+    correct: 1,
+    explanation: "La evaluación procede si el educador ha servido el cargo por un período no menor de cuatro meses durante el respectivo año académico."
+  },
+  {
+    id: "probation-score", module: 3,
+    prompt: "¿Qué calificación se considera satisfactoria en la evaluación del período de prueba?",
+    options: ["50% o más", "60% o más", "80% obligatorio"],
+    correct: 1,
+    explanation: "El artículo 31 establece como satisfactoria una calificación igual o superior al 60%."
+  },
+  {
+    id: "grade-one", module: 4,
+    prompt: "¿Qué formación se asocia con el grado 1 del escalafón?",
+    options: ["Normalista superior o tecnólogo en educación", "Únicamente doctorado", "Cualquier título técnico no educativo"],
+    correct: 0,
+    explanation: "El grado 1 corresponde a normalistas superiores y tecnólogos en educación en los términos del estatuto."
+  },
+  {
+    id: "grade-three", module: 4,
+    prompt: "¿Qué requisito académico distingue al grado 3?",
+    options: ["Maestría o doctorado en un área afín", "Solo experiencia sin título", "Un curso de menos de cien horas"],
+    correct: 0,
+    explanation: "El grado 3 exige título de licenciado o profesional y maestría o doctorado en un área afín."
+  },
+  {
+    id: "salary-levels", module: 4,
+    prompt: "¿Cuáles son los niveles salariales dentro de cada grado?",
+    options: ["A, B, C y D", "I, II y III", "Básico y avanzado únicamente"],
+    correct: 0,
+    explanation: "Cada uno de los tres grados contiene cuatro niveles salariales identificados con las letras A, B, C y D."
+  },
+  {
+    id: "evaluation-types", module: 5,
+    prompt: "¿Cuáles son los tres tipos de evaluación señalados por el estatuto?",
+    options: ["Período de prueba, desempeño anual y competencias", "Ingreso, entrevista y retiro", "Autoevaluación, coevaluación y examen final"],
+    correct: 0,
+    explanation: "El artículo 27 contempla evaluación de período de prueba, evaluación ordinaria periódica de desempeño anual y evaluación de competencias."
+  },
+  {
+    id: "annual-service", module: 5,
+    prompt: "¿Cuándo se aplica la evaluación anual de desempeño según el tiempo servido en el establecimiento?",
+    options: ["Cuando se han servido más de tres meses durante el año académico", "Solo después de diez años", "Desde el primer día sin excepción"],
+    correct: 0,
+    explanation: "La evaluación anual se realiza a quienes hayan servido en el establecimiento por un término superior a tres meses durante el año académico."
+  },
+  {
+    id: "competency-purpose", module: 5,
+    prompt: "En el texto del estatuto, ¿con qué propósito se relaciona la evaluación de competencias?",
+    options: ["Ascender de grado o cambiar de nivel salarial", "Evitar el concurso de ingreso", "Reemplazar el período de prueba"],
+    correct: 0,
+    explanation: "La evaluación de competencias se vincula al avance en el escalafón; debe interpretarse junto con la reglamentación posterior vigente."
+  }
+];
+
+let currentClassThreeQuizAttempt = [];
+
 function updateClassStatusText() {
   if (!els.classStatusText) return;
-  const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed);
-  if (completed === 2) els.classStatusText.textContent = "2 clases completadas · 56 bloqueadas";
-  else if (completed === 1) els.classStatusText.textContent = "1 completada · 1 disponible · 56 bloqueadas";
-  else els.classStatusText.textContent = "2 disponibles · 56 bloqueadas";
+  const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed) + Number(classThreeLessonState.completed);
+  const available = 3 - completed;
+  if (available === 0) els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
+  else if (completed === 0) els.classStatusText.textContent = "3 disponibles · 55 bloqueadas";
+  else els.classStatusText.textContent = `${completed} completada${completed === 1 ? "" : "s"} · ${available} disponible${available === 1 ? "" : "s"} · 55 bloqueadas`;
 }
 
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
-  els.classRoadmapGrid.innerHTML = Array.from({ length: 56 }, (_, index) => {
-    const classNumber = String(index + 3).padStart(2, "0");
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 55 }, (_, index) => {
+    const classNumber = String(index + 4).padStart(2, "0");
     return `
       <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
         <span>${classNumber}</span>
@@ -1312,10 +1450,12 @@ function setClassLessonOpen(open) {
   if (open) {
     loadClassLessonProgress();
     loadClassTwoProgress();
+    loadClassThreeProgress();
   }
   els.classCatalog.hidden = open;
   els.classLesson.hidden = !open;
   if (els.classTwoLesson) els.classTwoLesson.hidden = true;
+  if (els.classThreeLesson) els.classThreeLesson.hidden = true;
   els.classOpenBtn.setAttribute("aria-expanded", String(open));
   if (open) renderClassModule(classLessonState.current, false);
   const target = open ? els.classLesson : document.querySelector(".class-heading");
@@ -1569,10 +1709,12 @@ function setClassTwoLessonOpen(open) {
   if (open) {
     loadClassLessonProgress();
     loadClassTwoProgress();
+    loadClassThreeProgress();
   }
   els.classCatalog.hidden = open;
   if (els.classLesson) els.classLesson.hidden = true;
   els.classTwoLesson.hidden = !open;
+  if (els.classThreeLesson) els.classThreeLesson.hidden = true;
   els.classTwoOpenBtn.setAttribute("aria-expanded", String(open));
   if (open) renderClassTwoModule(classTwoLessonState.current, false);
   const target = open ? els.classTwoLesson : document.querySelector(".class-heading");
@@ -1731,6 +1873,248 @@ els.classTwoQuizRetry?.addEventListener("click", () => {
   els.classTwoQuiz?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
+function classThreeProgressStorageKey() {
+  const base = "concursoDocente2026Class03v1";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function loadClassThreeProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(classThreeProgressStorageKey()));
+    classThreeLessonState.current = Math.min(5, Math.max(0, Number(saved?.current) || 0));
+    classThreeLessonState.visited = new Set(
+      Array.isArray(saved?.visited)
+        ? saved.visited.filter((index) => Number.isInteger(index) && index >= 0 && index <= 5)
+        : [0]
+    );
+    classThreeLessonState.visited.add(classThreeLessonState.current);
+    classThreeLessonState.completed = Boolean(saved?.completed);
+    classThreeLessonState.score = Number.isInteger(saved?.score) ? saved.score : null;
+  } catch {
+    classThreeLessonState.current = 0;
+    classThreeLessonState.visited = new Set([0]);
+    classThreeLessonState.completed = false;
+    classThreeLessonState.score = null;
+  }
+}
+
+function saveClassThreeProgress() {
+  localStorage.setItem(classThreeProgressStorageKey(), JSON.stringify({
+    current: classThreeLessonState.current,
+    visited: [...classThreeLessonState.visited],
+    completed: classThreeLessonState.completed,
+    score: classThreeLessonState.score
+  }));
+}
+
+function renderClassThreeModule(index, shouldScroll = true) {
+  const nextIndex = Math.min(5, Math.max(0, index));
+  classThreeLessonState.current = nextIndex;
+  classThreeLessonState.visited.add(nextIndex);
+
+  els.classThreeModuleButtons.forEach((button) => {
+    const moduleIndex = Number(button.dataset.classThreeModule);
+    const active = moduleIndex === nextIndex;
+    button.classList.toggle("active", active);
+    button.classList.toggle("visited", classThreeLessonState.visited.has(moduleIndex));
+    if (active) button.setAttribute("aria-current", "step");
+    else button.removeAttribute("aria-current");
+  });
+  els.classThreeModulePanels.forEach((panel) => {
+    const active = Number(panel.dataset.classThreePanel) === nextIndex;
+    panel.hidden = !active;
+    panel.classList.toggle("active", active);
+  });
+
+  const progress = Math.round((classThreeLessonState.visited.size / 6) * 100);
+  if (els.classThreeProgressText) els.classThreeProgressText.textContent = `Modulo ${nextIndex + 1} de 6`;
+  if (els.classThreeProgressPercent) els.classThreeProgressPercent.textContent = `${progress}%`;
+  if (els.classThreeProgressBar) {
+    els.classThreeProgressBar.style.width = `${progress}%`;
+    els.classThreeProgressBar.parentElement?.setAttribute("aria-valuenow", String(progress));
+  }
+  if (els.classThreePrevModule) els.classThreePrevModule.disabled = nextIndex === 0;
+  if (els.classThreeNextModule) els.classThreeNextModule.hidden = nextIndex === 5;
+  if (els.classThreeNextModuleLabel) {
+    els.classThreeNextModuleLabel.textContent = nextIndex === 4 ? "Ir a la evaluacion" : "Siguiente modulo";
+  }
+  saveClassThreeProgress();
+  updateClassStatusText();
+
+  if (shouldScroll) {
+    els.classThreeLesson?.querySelector(".class-learning-progress")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+}
+
+function setClassThreeLessonOpen(open) {
+  if (!els.classCatalog || !els.classThreeLesson || !els.classThreeOpenBtn) return;
+  if (open) {
+    loadClassLessonProgress();
+    loadClassTwoProgress();
+    loadClassThreeProgress();
+  }
+  els.classCatalog.hidden = open;
+  if (els.classLesson) els.classLesson.hidden = true;
+  if (els.classTwoLesson) els.classTwoLesson.hidden = true;
+  els.classThreeLesson.hidden = !open;
+  els.classThreeOpenBtn.setAttribute("aria-expanded", String(open));
+  if (open) renderClassThreeModule(classThreeLessonState.current, false);
+  const target = open ? els.classThreeLesson : document.querySelector(".class-heading");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.setTimeout(() => (open ? els.classThreeBackBtn : els.classThreeOpenBtn)?.focus(), 350);
+}
+
+function classThreeQuizSignatureStorageKey() {
+  const base = "concursoDocente2026Class03QuizSignature";
+  return window.AULA_USER_ID ? `${base}:${window.AULA_USER_ID}` : base;
+}
+
+function createClassThreeQuizAttempt() {
+  const distribution = new Map([[1, 2], [2, 1], [3, 2], [4, 1], [5, 2]]);
+  let selected = [...distribution.entries()].flatMap(([module, amount]) => (
+    shuffleItems(classThreeQuizBank.filter((question) => question.module === module)).slice(0, amount)
+  ));
+  selected = shuffleItems(selected).slice(0, classThreeQuizSize);
+
+  const previousSignature = localStorage.getItem(classThreeQuizSignatureStorageKey());
+  let signature = selected.map((question) => question.id).join("|");
+  if (signature === previousSignature && selected.length > 1) {
+    selected = [...selected.slice(1), selected[0]];
+    signature = selected.map((question) => question.id).join("|");
+  }
+  localStorage.setItem(classThreeQuizSignatureStorageKey(), signature);
+
+  return selected.map((question) => {
+    const options = shuffleItems(question.options.map((text, index) => ({
+      text,
+      isCorrect: index === question.correct
+    })));
+    return {
+      ...question,
+      options: options.map((option) => option.text),
+      correct: options.findIndex((option) => option.isCorrect)
+    };
+  });
+}
+
+function getClassThreeQuizQuestionElements() {
+  return [...(els.classThreeQuizQuestions?.querySelectorAll("[data-class-three-quiz-question]") || [])];
+}
+
+function renderClassThreeQuizQuestions() {
+  if (!els.classThreeQuizQuestions) return;
+  currentClassThreeQuizAttempt = createClassThreeQuizAttempt();
+  const fragment = document.createDocumentFragment();
+
+  currentClassThreeQuizAttempt.forEach((question, questionIndex) => {
+    const fieldset = document.createElement("fieldset");
+    fieldset.dataset.classThreeQuizQuestion = "";
+    fieldset.dataset.answer = String(question.correct);
+    const legend = document.createElement("legend");
+    const number = document.createElement("span");
+    number.textContent = String(questionIndex + 1);
+    legend.append(number, document.createTextNode(question.prompt));
+    fieldset.append(legend);
+
+    question.options.forEach((option, optionIndex) => {
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      const copy = document.createElement("span");
+      input.type = "radio";
+      input.name = `classThreeQuiz${questionIndex + 1}`;
+      input.value = String(optionIndex);
+      copy.textContent = option;
+      label.append(input, copy);
+      fieldset.append(label);
+    });
+
+    const explanation = document.createElement("p");
+    explanation.className = "class-quiz-explanation";
+    explanation.hidden = true;
+    fieldset.append(explanation);
+    fragment.append(fieldset);
+  });
+  els.classThreeQuizQuestions.replaceChildren(fragment);
+}
+
+function resetClassThreeQuiz() {
+  renderClassThreeQuizQuestions();
+  if (els.classThreeQuizMessage) els.classThreeQuizMessage.textContent = "";
+  if (els.classThreeQuizResult) els.classThreeQuizResult.hidden = true;
+  els.classThreeQuiz?.querySelector("button[type='submit']")?.removeAttribute("hidden");
+}
+
+els.classThreeOpenBtn?.addEventListener("click", () => setClassThreeLessonOpen(true));
+els.classThreeBackBtn?.addEventListener("click", () => setClassThreeLessonOpen(false));
+els.classThreeModuleButtons.forEach((button) => {
+  button.addEventListener("click", () => renderClassThreeModule(Number(button.dataset.classThreeModule)));
+});
+els.classThreePrevModule?.addEventListener("click", () => renderClassThreeModule(classThreeLessonState.current - 1));
+els.classThreeNextModule?.addEventListener("click", () => renderClassThreeModule(classThreeLessonState.current + 1));
+
+els.classThreeQuiz?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const questionElements = getClassThreeQuizQuestionElements();
+  const unanswered = questionElements.filter((question) => !question.querySelector("input:checked"));
+  if (unanswered.length) {
+    if (els.classThreeQuizMessage) {
+      els.classThreeQuizMessage.textContent = `Responde las ${unanswered.length} pregunta${unanswered.length === 1 ? "" : "s"} pendiente${unanswered.length === 1 ? "" : "s"}.`;
+    }
+    unanswered[0].scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
+
+  let score = 0;
+  questionElements.forEach((question, questionIndex) => {
+    const selected = Number(question.querySelector("input:checked").value);
+    const correct = Number(question.dataset.answer);
+    const isCorrect = selected === correct;
+    const explanation = question.querySelector(".class-quiz-explanation");
+    const attemptQuestion = currentClassThreeQuizAttempt[questionIndex];
+    if (isCorrect) score += 1;
+    question.classList.toggle("correct", isCorrect);
+    question.classList.toggle("wrong", !isCorrect);
+    question.querySelectorAll("label").forEach((label, optionIndex) => {
+      label.classList.toggle("correct-option", optionIndex === correct);
+      label.classList.toggle("wrong-option", optionIndex === selected && !isCorrect);
+    });
+    question.querySelectorAll("input").forEach((input) => { input.disabled = true; });
+    if (explanation) {
+      explanation.textContent = isCorrect
+        ? `Correcto. ${attemptQuestion.explanation}`
+        : `La respuesta correcta es “${attemptQuestion.options[correct]}”. ${attemptQuestion.explanation}`;
+      explanation.hidden = false;
+    }
+  });
+
+  const total = questionElements.length;
+  const passingScore = Math.ceil(total * 0.75);
+  classThreeLessonState.score = score;
+  classThreeLessonState.completed = score >= passingScore;
+  saveClassThreeProgress();
+  updateClassStatusText();
+  if (els.classThreeQuizMessage) els.classThreeQuizMessage.textContent = "";
+  if (els.classThreeQuizScore) els.classThreeQuizScore.textContent = `${score}/${total}`;
+  if (els.classThreeQuizResultTitle) {
+    els.classThreeQuizResultTitle.textContent = score >= passingScore ? "Clase completada" : "Conviene repasar";
+  }
+  if (els.classThreeQuizResultCopy) {
+    els.classThreeQuizResultCopy.textContent = score >= passingScore
+      ? "Ya diferencias el ingreso al servicio, los derechos de carrera, el escalafón y los tipos de evaluación."
+      : "Lee las explicaciones, revisa los módulos necesarios y genera un nuevo intento.";
+  }
+  if (els.classThreeQuizResult) {
+    els.classThreeQuizResult.hidden = false;
+    els.classThreeQuizResult.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  els.classThreeQuiz.querySelector("button[type='submit']")?.setAttribute("hidden", "");
+});
+
+els.classThreeQuizRetry?.addEventListener("click", () => {
+  resetClassThreeQuiz();
+  els.classThreeQuiz?.scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 els.flyerToggles.forEach((toggle) => {
   toggle.addEventListener("click", () => {
     const expanded = els.flyerToggle.getAttribute("aria-expanded") === "true";
@@ -1805,6 +2189,10 @@ document.addEventListener("keydown", (event) => {
 });
 window.addEventListener("aula:auth", (event) => {
   if (!event.detail?.user) return;
+  loadClassLessonProgress();
+  loadClassTwoProgress();
+  loadClassThreeProgress();
+  updateClassStatusText();
   renderStudy();
   renderProgress();
 });
@@ -1821,6 +2209,7 @@ updateSimulacroCounts();
 renderClassRoadmap();
 renderClassQuizQuestions();
 renderClassTwoQuizQuestions();
+renderClassThreeQuizQuestions();
 renderNews();
 renderStudy();
 renderProgress();
