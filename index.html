@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260802-1">
+    <link rel="stylesheet" href="styles.css?v=20260802-2">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -120,6 +120,9 @@
               </button>
               <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="ofimatica">
                 <span aria-hidden="true">05</span>Ofim&aacute;tica
+              </button>
+              <button class="simulacro-subcategory" type="button" data-simulacro-shortcut="conocimientos_especificos">
+                <span aria-hidden="true">06</span>Conocimientos espec&iacute;ficos
               </button>
             </div>
           </div>
@@ -280,7 +283,7 @@
                 <h1>Simulacros</h1>
                 <p>Selecciona el componente que quieres preparar para el Concurso Docente 2026.</p>
               </div>
-              <div class="date-chip"><span>Ruta</span><strong>4 m&iacute;nimos + Ofim&aacute;tica</strong></div>
+              <div class="date-chip"><span>Ruta</span><strong>4 m&iacute;nimos + 2 adicionales</strong></div>
             </header>
 
             <section class="simulacro-browser" aria-label="Contenido del simulacro seleccionado">
@@ -382,6 +385,41 @@
                         <div class="simulacro-entry-copy"><strong>Simulacro de ofim&aacute;tica</strong><span><b>0</b> preguntas &middot; En preparaci&oacute;n</span></div>
                         <button class="btn btn-secondary" type="button" disabled>Pr&oacute;ximamente</button>
                       </div>
+                    </div>
+                  </article>
+
+                  <article id="simulacroPanelEspecificos" class="simulacro-category-panel" data-simulacro-panel="conocimientos_especificos" hidden>
+                    <div class="simulacro-panel-top">
+                      <span class="simulacro-panel-number">06</span>
+                      <span class="simulacro-panel-status additional"><i aria-hidden="true"></i> Componente adicional</span>
+                    </div>
+                    <h2>Conocimientos espec&iacute;ficos</h2>
+                    <p>Preparaci&oacute;n disciplinar organizada por el &aacute;rea de conocimiento a la que aspira el docente.</p>
+
+                    <div class="specific-track-list" aria-label="Subcategorias de conocimientos especificos">
+                      <section class="specific-track" aria-labelledby="chemistryTrackTitle">
+                        <div class="specific-track-heading">
+                          <span aria-hidden="true">01</span>
+                          <div><h3 id="chemistryTrackTitle">Qu&iacute;mica</h3><p>Materia, estructura at&oacute;mica, enlaces, reacciones, estequiometr&iacute;a y qu&iacute;mica org&aacute;nica.</p></div>
+                        </div>
+                        <div class="simulacro-entry locked">
+                          <span class="simulacro-entry-number" aria-hidden="true">01</span>
+                          <div class="simulacro-entry-copy"><strong>Simulacro de Qu&iacute;mica</strong><span><b>0</b> preguntas &middot; En preparaci&oacute;n</span></div>
+                          <button class="btn btn-secondary" type="button" disabled>Pr&oacute;ximamente</button>
+                        </div>
+                      </section>
+
+                      <section class="specific-track" aria-labelledby="naturalSciencesTrackTitle">
+                        <div class="specific-track-heading">
+                          <span aria-hidden="true">02</span>
+                          <div><h3 id="naturalSciencesTrackTitle">Ciencias Naturales</h3><p>Biolog&iacute;a, ecolog&iacute;a, ambiente, f&iacute;sica escolar e indagaci&oacute;n cient&iacute;fica.</p></div>
+                        </div>
+                        <div class="simulacro-entry locked">
+                          <span class="simulacro-entry-number" aria-hidden="true">01</span>
+                          <div class="simulacro-entry-copy"><strong>Simulacro de Ciencias Naturales</strong><span><b>0</b> preguntas &middot; En preparaci&oacute;n</span></div>
+                          <button class="btn btn-secondary" type="button" disabled>Pr&oacute;ximamente</button>
+                        </div>
+                      </section>
                     </div>
                   </article>
               </div>
@@ -955,6 +993,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260801-9"></script>
+    <script src="app.js?v=20260802-1"></script>
   </body>
 </html>

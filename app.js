@@ -586,7 +586,8 @@ function simulacroCategoryLabel(category) {
     razonamiento_cuantitativo: "Razonamiento cuantitativo",
     competencias_blandas: "Competencias blandas",
     competencias_pedagogicas: "Competencias pedagogicas",
-    ofimatica: "Ofimatica"
+    ofimatica: "Ofimatica",
+    conocimientos_especificos: "Conocimientos especificos"
   }[category] || "Simulacro";
 }
 
@@ -1098,7 +1099,8 @@ function labelCategory(category) {
     razonamiento_cuantitativo: "Razonamiento cuantitativo",
     competencias_blandas: "Competencias blandas",
     competencias_pedagogicas: "Competencias pedagogicas",
-    ofimatica: "Ofimatica"
+    ofimatica: "Ofimatica",
+    conocimientos_especificos: "Conocimientos especificos"
   }[category] || "General";
 }
 function renderStudy() {

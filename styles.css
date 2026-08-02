@@ -2252,6 +2252,10 @@ body.sidebar-collapsed .sidebar-open {
   border-top-color: var(--line-strong);
 }
 
+.simulacro-category-panel[data-simulacro-panel="conocimientos_especificos"] {
+  border-top-color: var(--blue);
+}
+
 .simulacro-category-panel[hidden] {
   display: none;
 }
@@ -2654,6 +2658,59 @@ body.sidebar-collapsed .sidebar-open {
 .simulacro-entry-copy b {
   color: var(--text);
   font-size: inherit;
+}
+
+.specific-track-list {
+  border-top: 1px solid var(--line);
+  display: grid;
+  margin-top: 30px;
+}
+
+.specific-track {
+  padding: 22px 0;
+}
+
+.specific-track + .specific-track {
+  border-top: 1px solid var(--line);
+}
+
+.specific-track-heading {
+  align-items: start;
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 38px minmax(0, 1fr);
+  margin-bottom: 16px;
+}
+
+.specific-track-heading > span {
+  align-items: center;
+  background: var(--blue-soft);
+  border-radius: 6px;
+  color: var(--blue);
+  display: flex;
+  font-size: 0.68rem;
+  font-weight: 800;
+  height: 38px;
+  justify-content: center;
+  width: 38px;
+}
+
+.specific-track-heading h3 {
+  color: var(--ink);
+  font-size: 1.02rem;
+  line-height: 1.3;
+  margin: 0 0 4px;
+}
+
+.specific-track-heading p {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.specific-track .simulacro-entry {
+  margin-left: 52px;
 }
 
 .simulacro-panel-action .btn svg {
@@ -3213,6 +3270,10 @@ body.sidebar-collapsed .sidebar-open {
   .simulacro-entry .btn {
     grid-column: 1 / -1;
     width: 100%;
+  }
+
+  .specific-track .simulacro-entry {
+    margin-left: 0;
   }
 
   .simulacro-situation summary {
