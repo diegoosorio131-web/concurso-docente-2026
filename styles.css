@@ -4098,7 +4098,8 @@ body.auth-locked {
   border-left: 2px solid transparent;
   border-radius: 6px;
   color: rgba(255, 255, 255, .68);
-  font-size: 13px;
+  font-size: 15px;
+  font-weight: 700;
   padding: 0 12px;
 }
 
@@ -4132,6 +4133,7 @@ body.auth-locked {
 .simulacro-subcategory {
   border-left-color: rgba(255, 255, 255, .13);
   color: rgba(255, 255, 255, .58);
+  font-size: 13px;
 }
 
 .simulacro-subcategory:hover {
@@ -5194,7 +5196,7 @@ body.auth-locked {
     padding: 4px 2px;
     border: 0;
     border-top: 2px solid transparent;
-    font-size: 10px;
+    font-size: 11px;
     text-align: center;
   }
 
@@ -5241,7 +5243,7 @@ body.auth-locked {
   .simulacro-subcategory {
     min-height: 44px;
     padding: 7px 10px;
-    font-size: 11px;
+    font-size: 13px;
   }
 
   .page {
