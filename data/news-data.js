@@ -1,6 +1,15 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-02T12:13:16.371Z",
+  "generatedAt": "2026-08-03T13:47:47.664Z",
   "items": [
+    {
+      "source": "MEN",
+      "title": "Ministerio de Educación fortalece las competencias de comunicación pública de la ciencia de estudiantes y docentes en el Encuentro Regional de las Olimpiadas STEM+ Colombia 2026 - ",
+      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/430077:Ministerio-de-Educacion-fortalece-las-competencias-de-comunicacion-publica-de-la-ciencia-de-estudiantes-y-docentes-en-el-Encuentro-Regional-de-las-Olimpiadas-STEM+-Colombia-2026",
+      "summary": "Ministerio de Educación fortalece las competencias de comunicación pública de la ciencia de estudiantes y docentes en el Encuentro Regional de las Olimpiadas STEM+ Colombia 2026 Con actividades de formación en narrativa digital, expresión corporal y producción",
+      "date": "2026-08-01",
+      "image": "assets/news/feature.jpg",
+      "topic": "Actualidad educativa"
+    },
     {
       "source": "MEN",
       "date": "2026-04-01",
