@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260805-2">
+    <link rel="stylesheet" href="styles.css?v=20260805-3">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -1150,20 +1150,68 @@
           </section>
 
           <section class="view" id="estudio">
-            <header class="page-heading">
-              <div><span class="eyebrow">Biblioteca personal</span><h1>Estudia con enfoque.</h1><p>Avanza por tu ruta y usa las tarjetas para fijar conceptos clave.</p></div>
-              <div class="date-chip"><span>Metodo</span><strong>Repaso activo</strong></div>
+            <header class="page-heading study-heading">
+              <div><span class="eyebrow">Centro de estudio</span><h1>Tu sesi&oacute;n de hoy.</h1><p>Contin&uacute;a tu ruta, refuerza conceptos y convierte los errores en aprendizaje.</p></div>
+              <div class="date-chip"><span>M&eacute;todo</span><strong>Repaso activo</strong></div>
             </header>
-            <div class="content-grid">
-              <article class="content-panel">
-                <div class="content-panel-head"><span class="panel-index">01</span><div><h2>Ruta de preparacion</h2><p>Marca cada paso cuando lo completes.</p></div></div>
-                <div id="studyPlan" class="checklist"></div>
-              </article>
-              <article class="content-panel accent-panel">
-                <div class="content-panel-head"><span class="panel-index">02</span><div><h2>Tarjetas de memoria</h2><p>Toca una tarjeta para revelar la respuesta.</p></div></div>
-                <div id="flashcards" class="flashcards"></div>
-              </article>
-            </div>
+
+            <section class="study-today" aria-labelledby="studyTodayTitle">
+              <div class="study-today-copy">
+                <span class="study-kicker">Sesi&oacute;n recomendada</span>
+                <h2 id="studyTodayTitle">Contin&uacute;a donde quedaste</h2>
+                <p id="studyTodayDescription">Tu siguiente actividad aparecer&aacute; aqu&iacute;.</p>
+                <button id="studyContinueBtn" class="btn btn-primary" type="button">Continuar ruta<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+              </div>
+              <div class="study-today-metrics" aria-label="Resumen de estudio">
+                <div><span>Ruta completada</span><strong id="studyCompletionMetric">0%</strong></div>
+                <div><span>Racha actual</span><strong id="studyStreakMetric">0 d&iacute;as</strong></div>
+                <div><span>&Uacute;ltimo resultado</span><strong id="studyScoreMetric">Sin intento</strong></div>
+              </div>
+            </section>
+
+            <nav class="study-tabs" role="tablist" aria-label="Herramientas de estudio">
+              <button class="study-tab active" type="button" role="tab" aria-selected="true" aria-controls="studyRoutePanel" data-study-view="route">Ruta de estudio</button>
+              <button class="study-tab" type="button" role="tab" aria-selected="false" aria-controls="studyCardsPanel" data-study-view="cards">Tarjetas</button>
+              <button class="study-tab" type="button" role="tab" aria-selected="false" aria-controls="studyErrorsPanel" data-study-view="errors">Mis errores</button>
+            </nav>
+
+            <section id="studyRoutePanel" class="study-panel active" role="tabpanel" data-study-panel="route">
+              <header class="study-section-heading">
+                <div><span class="panel-index">01</span><h2>Ruta de preparaci&oacute;n</h2><p>Una secuencia concreta para organizar tu avance.</p></div>
+                <div class="study-route-progress"><span id="studyRouteProgressText">0 de 6</span><div aria-hidden="true"><i id="studyRouteProgressBar"></i></div></div>
+              </header>
+              <div id="studyPlan" class="study-route-list"></div>
+            </section>
+
+            <section id="studyCardsPanel" class="study-panel" role="tabpanel" data-study-panel="cards" hidden>
+              <header class="study-section-heading">
+                <div><span class="panel-index">02</span><h2>Repaso enfocado</h2><p>Conceptos esenciales organizados en una sesi&oacute;n breve.</p></div>
+                <strong id="studyCardCounter" class="study-card-counter">1 / 4</strong>
+              </header>
+              <div class="study-memory-workspace">
+                <article id="studyMemoryCard" class="study-memory-card" aria-live="polite">
+                  <span id="studyCardCategory" class="study-memory-category">Concepto</span>
+                  <h3 id="studyCardFront"></h3>
+                  <p id="studyCardBack" hidden></p>
+                </article>
+                <div class="study-memory-actions">
+                  <button id="studyRevealCard" class="btn btn-primary" type="button">Ver respuesta</button>
+                  <div id="studyConfidenceActions" hidden>
+                    <button id="studyReviewCard" class="btn btn-secondary" type="button">Necesito repasar</button>
+                    <button id="studyKnowCard" class="btn btn-primary" type="button">Lo sab&iacute;a</button>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section id="studyErrorsPanel" class="study-panel" role="tabpanel" data-study-panel="errors" hidden>
+              <header class="study-section-heading study-errors-heading">
+                <div><span class="panel-index">03</span><h2>Errores para repasar</h2><p>Revisa las decisiones que necesitan mayor atenci&oacute;n.</p></div>
+                <label class="study-attempt-filter"><span>Simulacro</span><select id="studyAttemptSelect" aria-label="Seleccionar simulacro"></select></label>
+              </header>
+              <div id="studyErrorsStatus" class="study-errors-status">Selecciona un intento para consultar sus errores.</div>
+              <div id="studyErrorsList" class="study-errors-list"></div>
+            </section>
           </section>
 
           <section class="view" id="progreso">
@@ -1214,6 +1262,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260805-2"></script>
+    <script src="app.js?v=20260805-3"></script>
   </body>
 </html>

@@ -1,26 +1,30 @@
 const studyItems = [
-  "Leer el acuerdo, anexo y guia de orientacion cuando la CNSC los publique.",
-  "Verificar requisitos minimos de la OPEC antes de pagar derechos de participacion.",
-  "Repasar evaluacion formativa, inclusion, diseno universal y convivencia escolar.",
-  "Resolver ejercicios de lectura critica con tesis, inferencias, evidencias y relaciones logicas.",
-  "Hacer simulacros cronometrados y revisar errores por categoria.",
-  "Organizar certificados de formacion y experiencia en SIMO con soportes legibles."
+  { category: "Convocatoria", title: "Revisar documentos oficiales", detail: "Acuerdo, anexo y guia de orientacion publicados por la CNSC." },
+  { category: "OPEC", title: "Verificar requisitos minimos", detail: "Empleo, funciones, formacion y experiencia exigida antes del pago." },
+  { category: "Pedagogia", title: "Consolidar fundamentos pedagogicos", detail: "Evaluacion formativa, inclusion, DUA y convivencia escolar." },
+  { category: "Lectura critica", title: "Practicar interpretacion de textos", detail: "Tesis, inferencias, evidencias y relaciones logicas." },
+  { category: "Simulacros", title: "Analizar resultados y errores", detail: "Identificar patrones antes de realizar un nuevo intento." },
+  { category: "SIMO", title: "Organizar los documentos", detail: "Certificados de formacion y experiencia con soportes legibles." }
 ];
 
 const flashcards = [
   {
+    category: "Normativa",
     front: "Merito",
     back: "Principio central de ingreso y ascenso en empleos de carrera: seleccion objetiva segun requisitos, pruebas y reglas de convocatoria."
   },
   {
+    category: "Pedagogia",
     front: "Evaluacion formativa",
     back: "Proceso continuo para recoger evidencias, retroalimentar y ajustar la ensenanza antes del cierre de una unidad."
   },
   {
+    category: "Convocatoria",
     front: "OPEC",
     back: "Oferta Publica de Empleos de Carrera. Detalla empleo, ubicacion, funciones y requisitos."
   },
   {
+    category: "Pedagogia",
     front: "Inclusion",
     back: "Identificar barreras, aplicar apoyos razonables y garantizar participacion y aprendizaje."
   }
@@ -149,7 +153,27 @@ const els = {
   resetProgressDialog: document.getElementById("resetProgressDialog"),
   confirmResetProgressBtn: document.getElementById("confirmResetProgressBtn"),
   studyPlan: document.getElementById("studyPlan"),
-  flashcards: document.getElementById("flashcards"),
+  studyTabs: document.querySelectorAll("[data-study-view]"),
+  studyPanels: document.querySelectorAll("[data-study-panel]"),
+  studyContinueBtn: document.getElementById("studyContinueBtn"),
+  studyTodayDescription: document.getElementById("studyTodayDescription"),
+  studyCompletionMetric: document.getElementById("studyCompletionMetric"),
+  studyStreakMetric: document.getElementById("studyStreakMetric"),
+  studyScoreMetric: document.getElementById("studyScoreMetric"),
+  studyRouteProgressText: document.getElementById("studyRouteProgressText"),
+  studyRouteProgressBar: document.getElementById("studyRouteProgressBar"),
+  studyMemoryCard: document.getElementById("studyMemoryCard"),
+  studyCardCategory: document.getElementById("studyCardCategory"),
+  studyCardFront: document.getElementById("studyCardFront"),
+  studyCardBack: document.getElementById("studyCardBack"),
+  studyCardCounter: document.getElementById("studyCardCounter"),
+  studyRevealCard: document.getElementById("studyRevealCard"),
+  studyConfidenceActions: document.getElementById("studyConfidenceActions"),
+  studyReviewCard: document.getElementById("studyReviewCard"),
+  studyKnowCard: document.getElementById("studyKnowCard"),
+  studyAttemptSelect: document.getElementById("studyAttemptSelect"),
+  studyErrorsStatus: document.getElementById("studyErrorsStatus"),
+  studyErrorsList: document.getElementById("studyErrorsList"),
   attemptsList: document.getElementById("attemptsList"),
   recommendations: document.getElementById("recommendations")
 };
@@ -1433,43 +1457,220 @@ function labelCategory(category) {
     conocimientos_especificos: "Conocimientos especificos"
   }[category] || "General";
 }
-function renderStudy() {
-  const progress = loadProgress();
-  els.studyPlan.innerHTML = studyItems.map((item, index) => `
-    <label class="check-item">
-      <input type="checkbox" data-study="${index}" ${progress.completedItems.includes(index) ? "checked" : ""}>
-      <span>${item}</span>
-    </label>
-  `).join("");
+let studyViewState = "route";
+let studyCardIndex = 0;
+let studyCardRevealed = false;
+let studyErrorRequestToken = 0;
+const studyAttemptReviewCache = new Map();
 
-  els.studyPlan.querySelectorAll("input").forEach((input) => {
-    input.addEventListener("change", () => {
+function renderStudyOverview(progress = loadProgress()) {
+  const completed = progress.completedItems.filter((id) => id >= 0 && id < studyItems.length).length;
+  const percent = Math.round((completed / studyItems.length) * 100);
+  const nextItem = studyItems.find((_, index) => !progress.completedItems.includes(index));
+  const latestAttempt = progress.attempts[0];
+
+  els.studyCompletionMetric.textContent = `${percent}%`;
+  els.studyStreakMetric.textContent = `${progress.streak || 0} ${(progress.streak || 0) === 1 ? "dia" : "dias"}`;
+  els.studyScoreMetric.textContent = latestAttempt ? `${latestAttempt.score}%` : "Sin intento";
+  els.studyTodayDescription.textContent = nextItem
+    ? `${nextItem.category}: ${nextItem.title}.`
+    : "Ruta completada. Refuerza tus errores o realiza un nuevo simulacro.";
+  els.studyContinueBtn.textContent = nextItem ? "Continuar ruta" : "Repasar tarjetas";
+  els.studyContinueBtn.append(newsArrow("button-arrow"));
+}
+
+function renderStudyRoute(progress = loadProgress()) {
+  const completed = progress.completedItems.filter((id) => id >= 0 && id < studyItems.length).length;
+  const percent = Math.round((completed / studyItems.length) * 100);
+  els.studyRouteProgressText.textContent = `${completed} de ${studyItems.length}`;
+  els.studyRouteProgressBar.style.width = `${percent}%`;
+
+  const items = studyItems.map((item, index) => {
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    const number = document.createElement("span");
+    const copy = document.createElement("span");
+    const category = document.createElement("small");
+    const title = document.createElement("strong");
+    const detail = document.createElement("span");
+
+    label.className = "study-route-item";
+    checkbox.type = "checkbox";
+    checkbox.dataset.study = String(index);
+    checkbox.checked = progress.completedItems.includes(index);
+    number.className = "study-route-number";
+    copy.className = "study-route-copy";
+    number.textContent = String(index + 1).padStart(2, "0");
+    category.textContent = item.category;
+    title.textContent = item.title;
+    detail.textContent = item.detail;
+    copy.append(category, title, detail);
+    label.append(checkbox, number, copy);
+
+    checkbox.addEventListener("change", () => {
       const current = loadProgress();
-      const id = Number(input.dataset.study);
-      current.completedItems = input.checked
-        ? [...new Set([...current.completedItems, id])]
-        : current.completedItems.filter((item) => item !== id);
+      current.completedItems = checkbox.checked
+        ? [...new Set([...current.completedItems, index])]
+        : current.completedItems.filter((savedId) => savedId !== index);
       saveProgress(current);
       markStudyActivity();
+      renderStudyOverview(loadProgress());
+      renderStudyRoute(loadProgress());
     });
+    return label;
   });
+  els.studyPlan.replaceChildren(...items);
+}
 
-  els.flashcards.innerHTML = flashcards.map((card, index) => `
-    <button class="flashcard" type="button" aria-expanded="false" data-card="${index}">
-      <span class="flashcard-front">${card.front}</span>
-      <span class="flashcard-back">${card.back}</span>
-      <span class="flashcard-action">Tocar para ver respuesta</span>
-    </button>
-  `).join("");
+function renderStudyFlashcard() {
+  const card = flashcards[studyCardIndex];
+  if (!card) return;
+  const progress = loadProgress();
+  const reviewState = progress.flashcardReview?.[studyCardIndex];
+  els.studyCardCategory.textContent = card.category;
+  els.studyCardFront.textContent = card.front;
+  els.studyCardBack.textContent = card.back;
+  els.studyCardBack.hidden = !studyCardRevealed;
+  els.studyCardFront.hidden = studyCardRevealed;
+  els.studyCardCounter.textContent = `${studyCardIndex + 1} / ${flashcards.length}`;
+  els.studyMemoryCard.classList.toggle("revealed", studyCardRevealed);
+  els.studyMemoryCard.dataset.reviewState = reviewState || "new";
+  els.studyRevealCard.hidden = studyCardRevealed;
+  els.studyConfidenceActions.hidden = !studyCardRevealed;
+}
 
-  els.flashcards.querySelectorAll(".flashcard").forEach((card) => {
-    card.addEventListener("click", () => {
-      const expanded = card.classList.toggle("flipped");
-      card.setAttribute("aria-expanded", String(expanded));
-      card.querySelector(".flashcard-action").textContent = expanded ? "Tocar para ocultar" : "Tocar para ver respuesta";
-      markStudyActivity();
+function rateStudyFlashcard(status) {
+  const progress = loadProgress();
+  progress.flashcardReview = { ...(progress.flashcardReview || {}), [studyCardIndex]: status };
+  saveProgress(progress);
+  markStudyActivity();
+  studyCardIndex = (studyCardIndex + 1) % flashcards.length;
+  studyCardRevealed = false;
+  renderStudyFlashcard();
+}
+
+function setStudyView(view) {
+  studyViewState = view;
+  els.studyTabs.forEach((tab) => {
+    const selected = tab.dataset.studyView === view;
+    tab.classList.toggle("active", selected);
+    tab.setAttribute("aria-selected", String(selected));
+  });
+  els.studyPanels.forEach((panel) => {
+    const selected = panel.dataset.studyPanel === view;
+    panel.classList.toggle("active", selected);
+    panel.hidden = !selected;
+  });
+  if (view === "cards") renderStudyFlashcard();
+  if (view === "errors") void loadStudyMistakes();
+}
+
+function studyAttemptValue(attempt, index) {
+  return attempt.attemptId || `local-${index}`;
+}
+
+function renderStudyAttemptOptions(progress = loadProgress()) {
+  if (!els.studyAttemptSelect) return;
+  const previousValue = els.studyAttemptSelect.value;
+  const attempts = progress.attempts || [];
+  const options = attempts.map((attempt, index) => {
+    const option = document.createElement("option");
+    option.value = studyAttemptValue(attempt, index);
+    option.textContent = `${attempt.simulacroTitle || "Simulacro"} · ${attempt.score}%`;
+    return option;
+  });
+  els.studyAttemptSelect.replaceChildren(...options);
+  els.studyAttemptSelect.disabled = !attempts.length;
+  if (options.some((option) => option.value === previousValue)) {
+    els.studyAttemptSelect.value = previousValue;
+  }
+  if (!attempts.length) {
+    const option = document.createElement("option");
+    option.textContent = "Sin intentos disponibles";
+    els.studyAttemptSelect.append(option);
+  }
+}
+
+function selectedStudyAttempt() {
+  const attempts = loadProgress().attempts || [];
+  return attempts.find((attempt, index) => studyAttemptValue(attempt, index) === els.studyAttemptSelect.value);
+}
+
+async function loadStudyMistakes() {
+  const requestToken = ++studyErrorRequestToken;
+  const attempt = selectedStudyAttempt();
+  els.studyErrorsList.replaceChildren();
+  if (!attempt) {
+    els.studyErrorsStatus.textContent = "Completa un simulacro para crear tu lista de repaso.";
+    return;
+  }
+
+  els.studyErrorsStatus.textContent = "Consultando tus respuestas...";
+  try {
+    let questions = studyAttemptReviewCache.get(attempt.attemptId);
+    if (!questions && window.AULA_CONFIG?.authEnabled && attempt.attemptId) {
+      const data = await requestSecureAttemptData(`attempt=${encodeURIComponent(attempt.attemptId)}`);
+      questions = data.questions;
+      studyAttemptReviewCache.set(attempt.attemptId, questions);
+    }
+    if (!questions) {
+      const category = Object.keys(attempt.byCategory || {})[0];
+      const bank = new Map(getSimulacroQuestions(category).map((question) => [question.id, question]));
+      questions = (attempt.questionIds || []).map((id, index) => ({
+        ...bank.get(id),
+        selected: attempt.answers?.[index]
+      })).filter((question) => question.id);
+    }
+    if (requestToken !== studyErrorRequestToken) return;
+
+    const errors = questions.filter((question) => question.selected !== question.answer);
+    els.studyErrorsStatus.textContent = errors.length
+      ? `${errors.length} ${errors.length === 1 ? "error identificado" : "errores identificados"} en este intento.`
+      : "No tuviste respuestas incorrectas en este intento.";
+
+    const errorItems = errors.map((question) => {
+      const details = document.createElement("details");
+      const summary = document.createElement("summary");
+      const number = document.createElement("span");
+      const label = document.createElement("strong");
+      const body = document.createElement("div");
+      const prompt = document.createElement("p");
+      const selected = document.createElement("p");
+      const correct = document.createElement("p");
+      const explanation = document.createElement("p");
+      const selectedLetter = String.fromCharCode(65 + question.selected);
+      const correctLetter = String.fromCharCode(65 + question.answer);
+
+      details.className = "study-error-item";
+      number.textContent = `Pregunta ${question.number}`;
+      label.textContent = question.topic || labelCategory(question.category);
+      prompt.className = "study-error-prompt";
+      selected.className = "study-error-selected";
+      correct.className = "study-error-correct";
+      explanation.className = "study-error-explanation";
+      prompt.textContent = question.prompt;
+      selected.textContent = `Tu respuesta: ${selectedLetter}. ${question.options[question.selected]}`;
+      correct.textContent = `Respuesta correcta: ${correctLetter}. ${question.options[question.answer]}`;
+      explanation.textContent = question.explanation;
+      summary.append(number, label);
+      body.append(prompt, selected, correct, explanation);
+      details.append(summary, body);
+      return details;
     });
-  });
+    els.studyErrorsList.replaceChildren(...errorItems);
+  } catch (error) {
+    if (requestToken !== studyErrorRequestToken) return;
+    els.studyErrorsStatus.textContent = error.message || "No fue posible consultar los errores.";
+  }
+}
+
+function renderStudy() {
+  const progress = loadProgress();
+  renderStudyOverview(progress);
+  renderStudyRoute(progress);
+  renderStudyFlashcard();
+  renderStudyAttemptOptions(progress);
+  setStudyView(studyViewState);
 }
 
 let secureHistoryUserId = null;
@@ -1498,6 +1699,9 @@ async function syncSecureAttemptHistory() {
     }));
     saveProgress(progress);
     secureHistoryUserId = userId;
+    renderStudyOverview(progress);
+    renderStudyAttemptOptions(progress);
+    if (studyViewState === "errors") void loadStudyMistakes();
     renderProgress();
   } catch (error) {
     console.error("No fue posible sincronizar el historial de simulacros.", error);
@@ -2451,6 +2655,38 @@ els.simulacroStartButtons.forEach((button) => {
     }
   });
 });
+els.studyTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => setStudyView(tab.dataset.studyView));
+  tab.addEventListener("keydown", (event) => {
+    if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    event.preventDefault();
+    const direction = event.key === "ArrowRight" ? 1 : -1;
+    const nextIndex = (index + direction + els.studyTabs.length) % els.studyTabs.length;
+    els.studyTabs[nextIndex].focus();
+    setStudyView(els.studyTabs[nextIndex].dataset.studyView);
+  });
+});
+els.studyContinueBtn?.addEventListener("click", () => {
+  const progress = loadProgress();
+  const nextIndex = studyItems.findIndex((_, index) => !progress.completedItems.includes(index));
+  if (nextIndex === -1) {
+    setStudyView("cards");
+    document.getElementById("studyCardsPanel")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    return;
+  }
+  setStudyView("route");
+  const target = els.studyPlan.querySelector(`[data-study="${nextIndex}"]`);
+  target?.closest(".study-route-item")?.scrollIntoView({ behavior: "smooth", block: "center" });
+  window.setTimeout(() => target?.focus(), 350);
+});
+els.studyRevealCard?.addEventListener("click", () => {
+  studyCardRevealed = true;
+  markStudyActivity();
+  renderStudyFlashcard();
+});
+els.studyReviewCard?.addEventListener("click", () => rateStudyFlashcard("review"));
+els.studyKnowCard?.addEventListener("click", () => rateStudyFlashcard("known"));
+els.studyAttemptSelect?.addEventListener("change", () => void loadStudyMistakes());
 els.simulacroPrevBtn?.addEventListener("click", () => {
   if (simulacroState.currentIndex > 0) {
     simulacroState.currentIndex -= 1;
