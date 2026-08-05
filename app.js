@@ -983,7 +983,10 @@ function renderSimulacroSituation(question) {
       return paragraph;
     });
   els.simulacroSituationText.replaceChildren(...paragraphs);
-  if (changedBlock) els.simulacroSituation.open = true;
+  if (changedBlock) {
+    els.simulacroSituation.open = true;
+    els.simulacroSituationText.scrollTop = 0;
+  }
 }
 
 function renderSimulacroOptions(question) {

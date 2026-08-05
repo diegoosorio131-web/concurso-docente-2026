@@ -3000,8 +3000,26 @@ body.sidebar-collapsed .sidebar-open {
   font-size: 0.93rem;
   line-height: 1.7;
   max-height: 220px;
+  overscroll-behavior: contain;
   overflow-y: auto;
   padding: 16px;
+  scrollbar-color: var(--primary) var(--surface-soft);
+  scrollbar-gutter: stable;
+  scrollbar-width: auto;
+}
+
+.simulacro-situation-text::-webkit-scrollbar {
+  width: 9px;
+}
+
+.simulacro-situation-text::-webkit-scrollbar-track {
+  background: var(--surface-soft);
+}
+
+.simulacro-situation-text::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border: 2px solid var(--surface-soft);
+  border-radius: 8px;
 }
 
 .simulacro-situation-text p {
