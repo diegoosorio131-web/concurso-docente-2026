@@ -1,0 +1,2 @@
+-- The licensed Quimica Super Simulacro #12 was loaded directly into the private database.
+-- Questions and answer keys are intentionally omitted from the public repository.
