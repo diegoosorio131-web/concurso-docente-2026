@@ -2959,23 +2959,13 @@ body.sidebar-collapsed .sidebar-open {
   cursor: pointer;
   display: grid;
   gap: 12px;
-  grid-template-columns: auto minmax(0, 1fr) 18px;
+  grid-template-columns: minmax(0, 1fr) 18px;
   list-style: none;
   padding: 13px 15px;
 }
 
 .simulacro-situation summary::-webkit-details-marker {
   display: none;
-}
-
-.simulacro-situation summary > span {
-  background: var(--primary-soft);
-  border-radius: 4px;
-  color: var(--primary);
-  font-size: 0.68rem;
-  font-weight: 800;
-  padding: 4px 7px;
-  text-transform: uppercase;
 }
 
 .simulacro-situation summary > strong {
@@ -3359,7 +3349,7 @@ body.sidebar-collapsed .sidebar-open {
   }
 
   .simulacro-situation summary {
-    grid-template-columns: auto minmax(0, 1fr) 18px;
+    grid-template-columns: minmax(0, 1fr) 18px;
   }
 
   .simulacro-question {

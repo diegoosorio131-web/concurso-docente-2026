@@ -123,7 +123,6 @@ const els = {
   simulacroProgressBar: document.getElementById("simulacroProgressBar"),
   simulacroQuestionNav: document.getElementById("simulacroQuestionNav"),
   simulacroSituation: document.getElementById("simulacroSituation"),
-  simulacroSituationRange: document.getElementById("simulacroSituationRange"),
   simulacroSituationTopic: document.getElementById("simulacroSituationTopic"),
   simulacroSituationText: document.getElementById("simulacroSituationText"),
   simulacroQuestionNumber: document.getElementById("simulacroQuestionNumber"),
@@ -971,7 +970,6 @@ function renderSimulacroNavigator() {
 function renderSimulacroSituation(question) {
   const changedBlock = simulacroState.currentBlockId !== question.blockId;
   simulacroState.currentBlockId = question.blockId;
-  els.simulacroSituationRange.textContent = `Situacion ${question.range}`;
   els.simulacroSituationTopic.textContent = question.topic;
 
   const paragraphs = String(question.situation || "")
