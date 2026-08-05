@@ -156,6 +156,7 @@ const els = {
 
 const simulacroState = {
   category: null,
+  testId: null,
   questions: [],
   answers: [],
   currentIndex: 0,
@@ -892,15 +893,16 @@ function updateSimulacroCounts() {
   });
 }
 
-async function requestSecureQuiz(category, answers = null) {
+async function requestSecureQuiz(category, answers = null, testId = null) {
   const config = window.AULA_CONFIG || {};
   const client = await window.AULA_AUTH_READY;
   const { data: sessionData } = await client.auth.getSession();
   const accessToken = sessionData.session?.access_token;
   if (!accessToken) throw new Error("Tu sesion ha vencido. Ingresa nuevamente.");
 
+  const testQuery = testId ? `&test=${encodeURIComponent(testId)}` : "";
   const response = await fetch(
-    `${config.supabaseUrl}/functions/v1/quiz?category=${encodeURIComponent(category)}`,
+    `${config.supabaseUrl}/functions/v1/quiz?category=${encodeURIComponent(category)}${testQuery}`,
     {
       method: answers ? "POST" : "GET",
       headers: {
@@ -1038,14 +1040,22 @@ function renderSimulacroQuestion() {
   renderSimulacroNavigator();
 }
 
-async function startSimulacro(category) {
+async function startSimulacro(category, testId = null) {
   const secureMode = Boolean(window.AULA_CONFIG?.authEnabled);
-  const data = secureMode ? await requestSecureQuiz(category) : null;
-  const loadedQuestions = secureMode ? data.questions : getSimulacroQuestions(category);
+  const data = secureMode ? await requestSecureQuiz(category, null, testId) : null;
+  const localQuestions = getSimulacroQuestions(category);
+  const loadedQuestions = secureMode
+    ? data.questions
+    : localQuestions.filter((question) => (
+      !testId
+      || (testId === "pedagogicas-general" && question.testId !== "tuiran-pedagogicas-01")
+      || question.testId === testId
+    ));
   const questions = randomizeSimulacroQuestions(loadedQuestions);
   if (!questions.length) return;
 
   simulacroState.category = category;
+  simulacroState.testId = testId;
   simulacroState.questions = questions;
   simulacroState.answers = Array(questions.length).fill(null);
   simulacroState.currentIndex = 0;
@@ -1081,7 +1091,8 @@ async function finishSimulacro() {
       simulacroState.questions.map((question, index) => ({
         id: question.id,
         answer: simulacroState.answers[index]
-      }))
+      })),
+      simulacroState.testId
     );
     const reviewById = new Map(result.review.map((item) => [item.id, item]));
     simulacroState.questions = simulacroState.questions.map((question) => {
@@ -2243,7 +2254,7 @@ els.simulacroStartButtons.forEach((button) => {
     button.disabled = true;
     button.textContent = "Cargando...";
     try {
-      await startSimulacro(button.dataset.startSimulacro);
+      await startSimulacro(button.dataset.startSimulacro, button.dataset.simulacroTest || null);
     } catch (error) {
       window.alert(error.message || "No fue posible cargar el simulacro.");
     } finally {

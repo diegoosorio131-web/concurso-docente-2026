@@ -61,6 +61,7 @@ Deno.serve(async (request) => {
 
   const url = new URL(request.url);
   const category = url.searchParams.get("category");
+  const test = url.searchParams.get("test");
   const categoryFilters: Record<string, { source: string; topic?: string; excludeTopic?: string }> = {
     lectura_critica: { source: "razonamiento" },
     razonamiento_cuantitativo: { source: "razonamiento" },
@@ -71,6 +72,10 @@ Deno.serve(async (request) => {
   if (!categoryFilter) {
     return json({ error: "Categoria no valida." }, 400);
   }
+  const allowedTests = new Set(["pedagogicas-general", "tuiran-pedagogicas-01"]);
+  if (test && !allowedTests.has(test)) {
+    return json({ error: "Simulacro no valido." }, 400);
+  }
 
   let questionsQuery = admin
     .from("quiz_questions")
@@ -80,6 +85,8 @@ Deno.serve(async (request) => {
     .order("sequence");
   if (categoryFilter.topic) questionsQuery = questionsQuery.eq("topic", categoryFilter.topic);
   if (categoryFilter.excludeTopic) questionsQuery = questionsQuery.neq("topic", categoryFilter.excludeTopic);
+  if (test === "pedagogicas-general") questionsQuery = questionsQuery.neq("test_id", "tuiran-pedagogicas-01");
+  if (test === "tuiran-pedagogicas-01") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
 
