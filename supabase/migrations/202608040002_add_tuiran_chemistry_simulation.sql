@@ -1,0 +1,2 @@
+-- The licensed Simulacro #8 was loaded directly into the private Supabase database.
+-- Questions and answer keys are intentionally omitted from the public repository.

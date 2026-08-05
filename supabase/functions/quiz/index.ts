@@ -66,13 +66,14 @@ Deno.serve(async (request) => {
     lectura_critica: { source: "razonamiento" },
     razonamiento_cuantitativo: { source: "razonamiento" },
     competencias_blandas: { source: "pedagogica", topic: "Competencias comportamentales docentes" },
-    competencias_pedagogicas: { source: "pedagogica", excludeTopic: "Competencias comportamentales docentes" }
+    competencias_pedagogicas: { source: "pedagogica", excludeTopic: "Competencias comportamentales docentes" },
+    conocimientos_especificos: { source: "especificos" }
   };
   const categoryFilter = category ? categoryFilters[category] : null;
   if (!categoryFilter) {
     return json({ error: "Categoria no valida." }, 400);
   }
-  const allowedTests = new Set(["pedagogicas-general", "tuiran-pedagogicas-01"]);
+  const allowedTests = new Set(["pedagogicas-general", "tuiran-pedagogicas-01", "tuiran-quimica-08"]);
   if (test && !allowedTests.has(test)) {
     return json({ error: "Simulacro no valido." }, 400);
   }
@@ -87,6 +88,7 @@ Deno.serve(async (request) => {
   if (categoryFilter.excludeTopic) questionsQuery = questionsQuery.neq("topic", categoryFilter.excludeTopic);
   if (test === "pedagogicas-general") questionsQuery = questionsQuery.neq("test_id", "tuiran-pedagogicas-01");
   if (test === "tuiran-pedagogicas-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "tuiran-quimica-08") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
 
