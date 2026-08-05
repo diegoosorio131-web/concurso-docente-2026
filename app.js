@@ -777,7 +777,16 @@ function saveProgress(progress) {
   localStorage.setItem(progressStorageKey(), JSON.stringify(progress));
 }
 
-function resetUserProgress() {
+async function resetUserProgress() {
+  if (window.AULA_CONFIG?.authEnabled && window.AULA_USER_ID) {
+    try {
+      await requestSecureAttemptData("history=1", "DELETE");
+      secureHistoryUserId = window.AULA_USER_ID;
+    } catch (error) {
+      window.alert(error.message || "No fue posible reiniciar tu progreso.");
+      return;
+    }
+  }
   localStorage.removeItem(progressStorageKey());
   renderStudy();
   renderProgress();
@@ -930,6 +939,25 @@ async function requestSecureQuiz(category, answers = null, testId = null) {
   );
   const data = await response.json();
   if (!response.ok) throw new Error(data.error || "No fue posible consultar el simulacro.");
+  return data;
+}
+
+async function requestSecureAttemptData(query, method = "GET") {
+  const config = window.AULA_CONFIG || {};
+  const client = await window.AULA_AUTH_READY;
+  const { data: sessionData } = await client.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  if (!accessToken) throw new Error("Tu sesion ha vencido. Ingresa nuevamente.");
+
+  const response = await fetch(`${config.supabaseUrl}/functions/v1/quiz?${query}`, {
+    method,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      apikey: config.supabasePublishableKey
+    }
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error || "No fue posible consultar tus respuestas.");
   return data;
 }
 
@@ -1121,6 +1149,8 @@ async function finishSimulacro() {
   let correct;
   let total;
   let score;
+  let attemptId = null;
+  let attemptDate = new Date().toISOString();
 
   if (secureMode) {
     els.simulacroFinishBtn.disabled = true;
@@ -1143,7 +1173,8 @@ async function finishSimulacro() {
         optionFeedback: review.optionFeedback
       };
     });
-    ({ correct, total, score } = result);
+    ({ correct, total, score, attemptId } = result);
+    attemptDate = result.createdAt || attemptDate;
   } else {
     correct = simulacroState.questions.reduce(
       (sum, question, index) => sum + (simulacroState.answers[index] === question.answer ? 1 : 0),
@@ -1155,8 +1186,13 @@ async function finishSimulacro() {
   const progress = loadProgress();
   progress.attempts = [
     {
-      date: new Date().toLocaleString("es-CO"),
+      attemptId,
+      createdAt: attemptDate,
+      date: new Date(attemptDate).toLocaleString("es-CO"),
       simulacroTitle: simulacroState.title,
+      testId: simulacroState.testId,
+      questionIds: simulacroState.questions.map((question) => question.id),
+      answers: [...simulacroState.answers],
       score,
       correct,
       total,
@@ -1436,7 +1472,93 @@ function renderStudy() {
   });
 }
 
+let secureHistoryUserId = null;
+let secureHistoryLoading = false;
+
+async function syncSecureAttemptHistory() {
+  const userId = window.AULA_USER_ID;
+  if (!window.AULA_CONFIG?.authEnabled || !userId || secureHistoryLoading || secureHistoryUserId === userId) return;
+
+  secureHistoryLoading = true;
+  try {
+    const data = await requestSecureAttemptData("history=1");
+    const progress = loadProgress();
+    progress.attempts = data.attempts.map((attempt) => ({
+      attemptId: attempt.id,
+      createdAt: attempt.createdAt,
+      date: new Date(attempt.createdAt).toLocaleString("es-CO"),
+      simulacroTitle: attempt.title,
+      testId: attempt.testId,
+      score: attempt.score,
+      correct: attempt.correct,
+      total: attempt.total,
+      byCategory: {
+        [attempt.category]: { total: attempt.total, correct: attempt.correct }
+      }
+    }));
+    saveProgress(progress);
+    secureHistoryUserId = userId;
+    renderProgress();
+  } catch (error) {
+    console.error("No fue posible sincronizar el historial de simulacros.", error);
+  } finally {
+    secureHistoryLoading = false;
+  }
+}
+
+async function openAttemptReview(attempt, button) {
+  const originalLabel = button.querySelector(".attempt-action")?.textContent || "Ver respuestas";
+  button.disabled = true;
+  const action = button.querySelector(".attempt-action");
+  if (action) action.textContent = "Cargando...";
+
+  try {
+    let questions;
+    let title = attempt.simulacroTitle;
+    let category = Object.keys(attempt.byCategory || {})[0] || "competencias_pedagogicas";
+    let testId = attempt.testId || null;
+
+    if (window.AULA_CONFIG?.authEnabled && attempt.attemptId) {
+      const data = await requestSecureAttemptData(`attempt=${encodeURIComponent(attempt.attemptId)}`);
+      questions = data.questions;
+      title = data.attempt.title;
+      category = data.attempt.category;
+      testId = data.attempt.testId;
+    } else {
+      const bank = new Map(getSimulacroQuestions(category).map((question) => [question.id, question]));
+      questions = (attempt.questionIds || []).map((id, index) => ({
+        ...bank.get(id),
+        selected: attempt.answers?.[index]
+      })).filter((question) => question.id);
+    }
+
+    if (!questions?.length) throw new Error("Este intento anterior no tiene respuestas guardadas para revisar.");
+    simulacroState.category = category;
+    simulacroState.testId = testId;
+    simulacroState.title = title;
+    simulacroState.questions = questions;
+    simulacroState.answers = questions.map((question) => question.selected);
+    simulacroState.currentIndex = 0;
+    simulacroState.currentBlockId = null;
+    simulacroState.reviewMode = true;
+    simulacroState.completed = true;
+    els.simulacroRunnerCategory.textContent = simulacroCategoryLabel(category);
+    els.simulacroRunnerTitle.textContent = title;
+    els.simulacroBrowser.hidden = true;
+    els.simulacroResult.hidden = true;
+    els.simulacroRunner.hidden = false;
+    switchView("simulacro");
+    renderSimulacroQuestion();
+  } catch (error) {
+    window.alert(error.message || "No fue posible abrir las respuestas.");
+  } finally {
+    button.disabled = false;
+    if (action) action.textContent = originalLabel;
+  }
+}
+
 function renderProgress() {
+  void syncSecureAttemptHistory();
   const progress = loadProgress();
   if (!progress.attempts.length) {
     els.attemptsList.innerHTML = `<p>Aun no hay simulacros registrados.</p>`;
@@ -1449,22 +1571,31 @@ function renderProgress() {
     const category = Object.keys(attempt.byCategory || {})[0];
     const attemptTitle = attempt.simulacroTitle
       || (category ? simulacroCategoryLabel(category) : "Simulacro");
-    const item = document.createElement("div");
+    const item = document.createElement("button");
     const summary = document.createElement("div");
     const title = document.createElement("strong");
     const result = document.createElement("span");
+    const meta = document.createElement("span");
     const date = document.createElement("time");
+    const action = document.createElement("span");
 
     item.className = "attempt";
+    item.type = "button";
     summary.className = "attempt-summary";
     title.className = "attempt-title";
     result.className = "attempt-result";
+    meta.className = "attempt-meta";
     date.className = "attempt-date";
+    action.className = "attempt-action";
     title.textContent = attemptTitle;
     result.textContent = `${attempt.score}% · ${attempt.correct}/${attempt.total} correctas`;
     date.textContent = attempt.date;
+    action.textContent = "Ver respuestas →";
+    item.setAttribute("aria-label", `Revisar respuestas de ${attemptTitle}`);
     summary.append(title, result);
-    item.append(summary, date);
+    meta.append(date, action);
+    item.append(summary, meta);
+    item.addEventListener("click", () => openAttemptReview(attempt, item));
     els.attemptsList.append(item);
   });
 
@@ -2362,6 +2493,7 @@ document.addEventListener("keydown", (event) => {
 });
 window.addEventListener("aula:auth", (event) => {
   if (!event.detail?.user) return;
+  secureHistoryUserId = null;
   loadClassLessonProgress();
   loadClassTwoProgress();
   loadClassThreeProgress();

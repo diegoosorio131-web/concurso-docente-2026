@@ -1191,10 +1191,33 @@ select {
 }
 
 .attempt {
+  appearance: none;
   align-items: center;
+  color: inherit;
+  cursor: pointer;
   display: grid;
+  font: inherit;
   gap: 18px;
   grid-template-columns: minmax(0, 1fr) auto;
+  text-align: left;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  width: 100%;
+}
+
+.attempt:hover {
+  border-color: color-mix(in srgb, var(--primary) 35%, var(--line));
+  box-shadow: 0 8px 22px rgba(25, 50, 45, 0.08);
+  transform: translateY(-1px);
+}
+
+.attempt:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--primary) 28%, transparent);
+  outline-offset: 2px;
+}
+
+.attempt:disabled {
+  cursor: wait;
+  opacity: 0.75;
 }
 
 .attempt-title,
@@ -1226,6 +1249,19 @@ select {
   white-space: nowrap;
 }
 
+.attempt-meta {
+  align-items: flex-end;
+  display: grid;
+  gap: 7px;
+  justify-items: end;
+}
+
+.attempt-action {
+  color: var(--primary);
+  font-size: 0.73rem;
+  font-weight: 800;
+}
+
 @media (max-width: 560px) {
   .attempt {
     gap: 9px;
@@ -1235,6 +1271,11 @@ select {
   .attempt-date {
     text-align: left;
     white-space: normal;
+  }
+
+  .attempt-meta {
+    align-items: start;
+    justify-items: start;
   }
 }
 

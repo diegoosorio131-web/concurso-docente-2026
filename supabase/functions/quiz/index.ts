@@ -3,7 +3,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, apikey, content-type",
-  "Access-Control-Allow-Methods": "GET, POST, OPTIONS"
+  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS"
 };
 
 function json(body: unknown, status = 200) {
@@ -27,6 +27,18 @@ function publicQuestion(question: Record<string, unknown>) {
     prompt: question.prompt,
     options: question.options
   };
+}
+
+function displayTestTitle(testId: string | null, fallback = "Simulacro") {
+  const titles: Record<string, string> = {
+    "pedagogicas-general": "Simulacro de competencias pedagógicas",
+    "tuiran-pedagogicas-01": "Simulacro #1 · Competencias pedagógicas",
+    "tuiran-pedagogicas-02": "Simulacro #2 · Competencias pedagógicas",
+    "tuiran-quimica-08": "Simulacro #8 · Química",
+    "tuiran-quimica-12": "Súper Simulacro #12 · Química",
+    "tuiran-naturales-08": "Simulacro #8 · Ciencias Naturales"
+  };
+  return titles[testId || ""] || fallback;
 }
 
 Deno.serve(async (request) => {
@@ -60,6 +72,92 @@ Deno.serve(async (request) => {
   if (!approval?.active) return json({ error: "Esta cuenta no tiene acceso." }, 403);
 
   const url = new URL(request.url);
+  const historyRequested = url.searchParams.get("history") === "1";
+  const attemptId = url.searchParams.get("attempt");
+
+  if (historyRequested) {
+    if (request.method === "DELETE") {
+      const { error: deleteError } = await admin
+        .from("quiz_attempts")
+        .delete()
+        .eq("user_id", userData.user.id);
+      if (deleteError) return json({ error: "No fue posible eliminar tu historial." }, 500);
+      return json({ deleted: true });
+    }
+
+    if (request.method !== "GET") return json({ error: "Metodo no permitido." }, 405);
+    const { data: attempts, error: attemptsError } = await admin
+      .from("quiz_attempts")
+      .select("id, category, score, correct_count, total_count, answers, created_at")
+      .eq("user_id", userData.user.id)
+      .order("created_at", { ascending: false })
+      .limit(8);
+    if (attemptsError) return json({ error: "No fue posible consultar tu historial." }, 500);
+
+    const firstQuestionIds = (attempts || [])
+      .map((attempt) => Object.keys(attempt.answers || {})[0])
+      .filter(Boolean);
+    const { data: titleQuestions, error: titleError } = firstQuestionIds.length
+      ? await admin.from("quiz_questions").select("id, test_id, test_title").in("id", firstQuestionIds)
+      : { data: [], error: null };
+    if (titleError) return json({ error: "No fue posible identificar los simulacros." }, 500);
+    const titleByQuestion = new Map((titleQuestions || []).map((question) => [question.id, question]));
+
+    return json({
+      attempts: (attempts || []).map((attempt) => {
+        const firstQuestion = titleByQuestion.get(Object.keys(attempt.answers || {})[0]);
+        const testId = firstQuestion?.test_id || null;
+        return {
+          id: attempt.id,
+          category: attempt.category,
+          score: attempt.score,
+          correct: attempt.correct_count,
+          total: attempt.total_count,
+          createdAt: attempt.created_at,
+          testId,
+          title: displayTestTitle(testId, firstQuestion?.test_title || "Simulacro")
+        };
+      })
+    });
+  }
+
+  if (attemptId) {
+    const { data: attempt, error: attemptError } = await admin
+      .from("quiz_attempts")
+      .select("id, category, score, correct_count, total_count, answers, created_at")
+      .eq("id", attemptId)
+      .eq("user_id", userData.user.id)
+      .maybeSingle();
+    if (attemptError || !attempt) return json({ error: "No se encontró este intento." }, 404);
+
+    const submitted = attempt.answers || {};
+    const questionIds = Object.keys(submitted);
+    const { data: attemptQuestions, error: questionsError } = await admin
+      .from("quiz_questions")
+      .select("*")
+      .in("id", questionIds)
+      .order("sequence");
+    if (questionsError) return json({ error: "No fue posible cargar las respuestas." }, 500);
+
+    const firstQuestion = attemptQuestions?.[0];
+    const testId = firstQuestion?.test_id || null;
+    return json({
+      attempt: {
+        id: attempt.id,
+        category: attempt.category,
+        title: displayTestTitle(testId, firstQuestion?.test_title || "Simulacro"),
+        testId
+      },
+      questions: (attemptQuestions || []).map((question) => ({
+        ...publicQuestion(question),
+        selected: submitted[question.id],
+        answer: question.correct_answer,
+        explanation: question.explanation,
+        optionFeedback: question.option_feedback
+      }))
+    });
+  }
+
   const category = url.searchParams.get("category");
   const test = url.searchParams.get("test");
   const categoryFilters: Record<string, { source: string; topic?: string; excludeTopic?: string }> = {
@@ -153,20 +251,26 @@ Deno.serve(async (request) => {
   });
   const score = Math.round((correctCount / questions.length) * 100);
 
-  const { error: attemptError } = await admin.from("quiz_attempts").insert({
-    user_id: userData.user.id,
-    category,
-    score,
-    correct_count: correctCount,
-    total_count: questions.length,
-    answers: Object.fromEntries(submitted)
-  });
-  if (attemptError) return json({ error: "No fue posible guardar el resultado." }, 500);
+  const { data: savedAttempt, error: attemptError } = await admin
+    .from("quiz_attempts")
+    .insert({
+      user_id: userData.user.id,
+      category,
+      score,
+      correct_count: correctCount,
+      total_count: questions.length,
+      answers: Object.fromEntries(submitted)
+    })
+    .select("id, created_at")
+    .single();
+  if (attemptError || !savedAttempt) return json({ error: "No fue posible guardar el resultado." }, 500);
 
   return json({
     score,
     correct: correctCount,
     total: questions.length,
+    attemptId: savedAttempt.id,
+    createdAt: savedAttempt.created_at,
     review
   });
 });
