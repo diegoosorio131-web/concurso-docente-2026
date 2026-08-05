@@ -157,6 +157,7 @@ const els = {
 const simulacroState = {
   category: null,
   testId: null,
+  title: null,
   questions: [],
   answers: [],
   currentIndex: 0,
@@ -835,6 +836,20 @@ function simulacroCategoryLabel(category) {
   }[category] || "Simulacro";
 }
 
+function getSimulacroTitle(category, testId, questions = []) {
+  const trigger = Array.from(document.querySelectorAll("[data-start-simulacro]")).find((button) => (
+    button.dataset.startSimulacro === category
+    && (button.dataset.simulacroTest || null) === (testId || null)
+  ));
+  const catalogTitle = trigger
+    ?.closest(".simulacro-entry")
+    ?.querySelector(".simulacro-entry-copy strong")
+    ?.textContent
+    ?.trim();
+
+  return catalogTitle || questions[0]?.testTitle || simulacroCategoryLabel(category);
+}
+
 function getSimulacroQuestions(category) {
   const tests = Array.isArray(window.AULA_SIMULACROS?.tests) ? window.AULA_SIMULACROS.tests : [];
   return tests.flatMap((test) => {
@@ -1079,6 +1094,7 @@ async function startSimulacro(category, testId = null) {
 
   simulacroState.category = category;
   simulacroState.testId = testId;
+  simulacroState.title = getSimulacroTitle(category, testId, questions);
   simulacroState.questions = questions;
   simulacroState.answers = Array(questions.length).fill(null);
   simulacroState.currentIndex = 0;
@@ -1086,7 +1102,7 @@ async function startSimulacro(category, testId = null) {
   simulacroState.reviewMode = false;
   simulacroState.completed = false;
   els.simulacroRunnerCategory.textContent = simulacroCategoryLabel(category);
-  els.simulacroRunnerTitle.textContent = questions[0].testTitle;
+  els.simulacroRunnerTitle.textContent = simulacroState.title;
   els.simulacroBrowser.hidden = true;
   els.simulacroResult.hidden = true;
   els.simulacroRunner.hidden = false;
@@ -1140,6 +1156,7 @@ async function finishSimulacro() {
   progress.attempts = [
     {
       date: new Date().toLocaleString("es-CO"),
+      simulacroTitle: simulacroState.title,
       score,
       correct,
       total,
@@ -1427,12 +1444,29 @@ function renderProgress() {
     return;
   }
 
-  els.attemptsList.innerHTML = progress.attempts.map((attempt) => `
-    <div class="attempt">
-      <strong>${attempt.score}% - ${attempt.correct}/${attempt.total}</strong>
-      <span>${attempt.date}</span>
-    </div>
-  `).join("");
+  els.attemptsList.replaceChildren();
+  progress.attempts.forEach((attempt) => {
+    const category = Object.keys(attempt.byCategory || {})[0];
+    const attemptTitle = attempt.simulacroTitle
+      || (category ? simulacroCategoryLabel(category) : "Simulacro");
+    const item = document.createElement("div");
+    const summary = document.createElement("div");
+    const title = document.createElement("strong");
+    const result = document.createElement("span");
+    const date = document.createElement("time");
+
+    item.className = "attempt";
+    summary.className = "attempt-summary";
+    title.className = "attempt-title";
+    result.className = "attempt-result";
+    date.className = "attempt-date";
+    title.textContent = attemptTitle;
+    result.textContent = `${attempt.score}% · ${attempt.correct}/${attempt.total} correctas`;
+    date.textContent = attempt.date;
+    summary.append(title, result);
+    item.append(summary, date);
+    els.attemptsList.append(item);
+  });
 
   const totals = {};
   progress.attempts.forEach((attempt) => {
