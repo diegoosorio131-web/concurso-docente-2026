@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3659a7">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="styles.css?v=20260802-5">
+    <link rel="stylesheet" href="styles.css?v=20260804-2">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -449,41 +449,51 @@
                 <span id="simulacroProgressBar"></span>
               </div>
 
-              <nav id="simulacroQuestionNav" class="simulacro-question-nav" aria-label="Preguntas del simulacro"></nav>
+              <div class="simulacro-workspace">
+                <div class="simulacro-main-column">
+                  <details id="simulacroSituation" class="simulacro-situation" open>
+                    <summary>
+                      <span id="simulacroSituationRange">Situacion</span>
+                      <strong id="simulacroSituationTopic"></strong>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                    </summary>
+                    <div id="simulacroSituationText" class="simulacro-situation-text"></div>
+                  </details>
 
-              <details id="simulacroSituation" class="simulacro-situation" open>
-                <summary>
-                  <span id="simulacroSituationRange">Situacion</span>
-                  <strong id="simulacroSituationTopic"></strong>
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
-                </summary>
-                <div id="simulacroSituationText" class="simulacro-situation-text"></div>
-              </details>
+                  <article class="simulacro-question">
+                    <span id="simulacroQuestionNumber" class="simulacro-question-number">Pregunta 1</span>
+                    <h2 id="simulacroQuestionPrompt"></h2>
+                    <div id="simulacroOptions" class="simulacro-options"></div>
+                    <div id="simulacroFeedback" class="simulacro-feedback" hidden>
+                      <strong id="simulacroFeedbackTitle"></strong>
+                      <p id="simulacroFeedbackSelection"></p>
+                      <p id="simulacroFeedbackWrongReason"></p>
+                      <p id="simulacroFeedbackCorrectAnswer"></p>
+                      <p id="simulacroFeedbackCorrectReason"></p>
+                    </div>
+                  </article>
 
-              <article class="simulacro-question">
-                <span id="simulacroQuestionNumber" class="simulacro-question-number">Pregunta 1</span>
-                <h2 id="simulacroQuestionPrompt"></h2>
-                <div id="simulacroOptions" class="simulacro-options"></div>
-                <div id="simulacroFeedback" class="simulacro-feedback" hidden>
-                  <strong id="simulacroFeedbackTitle"></strong>
-                  <p id="simulacroFeedbackSelection"></p>
-                  <p id="simulacroFeedbackWrongReason"></p>
-                  <p id="simulacroFeedbackCorrectAnswer"></p>
-                  <p id="simulacroFeedbackCorrectReason"></p>
+                  <footer class="simulacro-runner-actions">
+                    <button id="simulacroPrevBtn" class="btn btn-secondary" type="button">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+                      Anterior
+                    </button>
+                    <button id="simulacroNextBtn" class="btn btn-secondary" type="button">
+                      Siguiente
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </button>
+                    <button id="simulacroFinishBtn" class="btn btn-primary" type="button" disabled>Finalizar</button>
+                  </footer>
                 </div>
-              </article>
 
-              <footer class="simulacro-runner-actions">
-                <button id="simulacroPrevBtn" class="btn btn-secondary" type="button">
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
-                  Anterior
-                </button>
-                <button id="simulacroNextBtn" class="btn btn-secondary" type="button">
-                  Siguiente
-                  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-                </button>
-                <button id="simulacroFinishBtn" class="btn btn-primary" type="button" disabled>Finalizar</button>
-              </footer>
+                <aside class="simulacro-answer-sheet" aria-labelledby="simulacroAnswerSheetTitle">
+                  <header>
+                    <div><span>Control</span><h3 id="simulacroAnswerSheetTitle">Hoja de respuestas</h3></div>
+                    <strong id="simulacroSheetProgress">0/0</strong>
+                  </header>
+                  <nav id="simulacroQuestionNav" class="simulacro-question-nav" aria-label="Hoja de respuestas del simulacro"></nav>
+                </aside>
+              </div>
             </section>
 
             <section id="simulacroResult" class="simulacro-result" aria-labelledby="simulacroResultTitle" hidden>
@@ -1195,6 +1205,6 @@
     <script src="config.js?v=20260728-4"></script>
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260728-6"></script>
-    <script src="app.js?v=20260804-1"></script>
+    <script src="app.js?v=20260804-2"></script>
   </body>
 </html>

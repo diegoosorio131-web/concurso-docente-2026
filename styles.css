@@ -2795,49 +2795,156 @@ body.sidebar-collapsed .sidebar-open {
   width: 0;
 }
 
-.simulacro-question-nav {
+.simulacro-workspace {
+  align-items: start;
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) 310px;
+}
+
+.simulacro-main-column {
+  min-width: 0;
+}
+
+.simulacro-answer-sheet {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  border-top: 3px solid var(--primary);
+  min-width: 0;
+  overflow: hidden;
+  padding: 15px;
+  position: sticky;
+  top: 18px;
+}
+
+.simulacro-answer-sheet > header {
+  align-items: flex-start;
   display: flex;
-  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 13px;
+}
+
+.simulacro-answer-sheet header span {
+  color: var(--coral);
+  display: block;
+  font-size: 0.58rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.simulacro-answer-sheet h3 {
+  color: var(--ink);
+  font-size: 0.91rem;
+  line-height: 1.25;
+  margin: 2px 0 0;
+}
+
+#simulacroSheetProgress {
+  background: var(--primary-soft);
+  border-radius: 4px;
+  color: var(--primary);
+  font-size: 0.66rem;
+  padding: 5px 7px;
+}
+
+.simulacro-question-nav {
+  display: grid;
   gap: 6px;
-  margin-bottom: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  max-height: 610px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-color: var(--line) transparent;
+  scrollbar-width: thin;
 }
 
 .simulacro-question-nav button {
   align-items: center;
-  background: var(--surface);
+  background: var(--surface-soft);
   border: 1px solid var(--line);
   border-radius: 5px;
   color: var(--muted);
-  display: inline-flex;
-  font-size: 0.68rem;
-  font-weight: 800;
-  height: 32px;
-  justify-content: center;
-  width: 32px;
+  display: grid;
+  gap: 5px;
+  grid-template-columns: 22px minmax(0, 1fr);
+  height: 36px;
+  min-width: 0;
+  padding: 3px 5px;
+  transition: border-color 150ms ease, box-shadow 150ms ease, background 150ms ease;
+  width: 100%;
 }
 
-.simulacro-question-nav button.answered {
-  background: var(--primary-soft);
+.simulacro-question-nav button:hover {
   border-color: var(--primary);
+}
+
+.simulacro-answer-number {
+  color: var(--muted);
+  font-size: 0.6rem;
+  font-weight: 850;
+  text-align: center;
+}
+
+.simulacro-answer-choices {
+  display: grid;
+  gap: 3px;
+  grid-template-columns: repeat(var(--answer-count, 3), minmax(16px, 1fr));
+  min-width: 0;
+}
+
+.simulacro-answer-choices > span {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--muted);
+  display: flex;
+  font-size: 0.51rem;
+  font-weight: 850;
+  justify-content: center;
+  margin: auto;
+  max-height: 20px;
+  max-width: 20px;
+  width: 100%;
+}
+
+.simulacro-question-nav button.answered .simulacro-answer-number {
   color: var(--primary);
 }
 
-.simulacro-question-nav button.current {
+.simulacro-answer-choices > span.selected {
   background: var(--primary);
   border-color: var(--primary);
   color: #ffffff;
 }
 
+.simulacro-question-nav button.current {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
 .simulacro-question-nav button.correct {
-  background: var(--green-soft);
   border-color: var(--green);
-  color: var(--green);
 }
 
 .simulacro-question-nav button.wrong {
-  background: var(--red-soft);
   border-color: var(--red);
-  color: var(--red);
+}
+
+.simulacro-answer-choices > span.correct {
+  background: var(--green);
+  border-color: var(--green);
+  color: #ffffff;
+}
+
+.simulacro-answer-choices > span.wrong {
+  background: var(--red);
+  border-color: var(--red);
+  color: #ffffff;
 }
 
 .simulacro-situation {
@@ -2854,7 +2961,7 @@ body.sidebar-collapsed .sidebar-open {
   gap: 12px;
   grid-template-columns: auto minmax(0, 1fr) 18px;
   list-style: none;
-  padding: 17px 19px;
+  padding: 13px 15px;
 }
 
 .simulacro-situation summary::-webkit-details-marker {
@@ -2892,9 +2999,9 @@ body.sidebar-collapsed .sidebar-open {
   color: var(--text);
   font-size: 0.8rem;
   line-height: 1.7;
-  max-height: 260px;
+  max-height: 220px;
   overflow-y: auto;
-  padding: 20px;
+  padding: 16px;
 }
 
 .simulacro-situation-text p {
@@ -2909,7 +3016,7 @@ body.sidebar-collapsed .sidebar-open {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  padding: 27px;
+  padding: 21px;
 }
 
 .simulacro-question-number {
@@ -2923,14 +3030,14 @@ body.sidebar-collapsed .sidebar-open {
 
 .simulacro-question h2 {
   color: var(--ink);
-  font-size: 1.2rem;
+  font-size: 1.08rem;
   line-height: 1.45;
-  margin-bottom: 22px;
+  margin-bottom: 16px;
 }
 
 .simulacro-options {
   display: grid;
-  gap: 9px;
+  gap: 7px;
 }
 
 .simulacro-option {
@@ -2943,8 +3050,8 @@ body.sidebar-collapsed .sidebar-open {
   gap: 12px;
   grid-template-columns: 30px minmax(0, 1fr);
   line-height: 1.5;
-  min-height: 58px;
-  padding: 12px 14px;
+  min-height: 50px;
+  padding: 10px 12px;
   text-align: left;
   transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
   width: 100%;
@@ -3051,7 +3158,7 @@ body.sidebar-collapsed .sidebar-open {
   display: flex;
   gap: 9px;
   justify-content: flex-end;
-  margin-top: 16px;
+  margin-top: 14px;
 }
 
 .simulacro-runner-actions #simulacroPrevBtn {
@@ -3206,6 +3313,22 @@ body.sidebar-collapsed .sidebar-open {
   margin-top: 22px;
 }
 
+@media (max-width: 980px) {
+  .simulacro-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .simulacro-answer-sheet {
+    order: -1;
+    position: static;
+  }
+
+  .simulacro-question-nav {
+    grid-template-columns: repeat(4, minmax(72px, 1fr));
+    max-height: 170px;
+  }
+}
+
 @media (max-width: 700px) {
   .simulacro-runner-head {
     grid-template-columns: 38px minmax(0, 1fr);
@@ -3248,6 +3371,15 @@ body.sidebar-collapsed .sidebar-open {
 }
 
 @media (max-width: 560px) {
+  .simulacro-answer-sheet {
+    padding: 12px;
+  }
+
+  .simulacro-question-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-height: 180px;
+  }
+
   .simulacro-panel-action {
     margin-top: 28px;
   }

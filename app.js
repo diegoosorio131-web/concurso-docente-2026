@@ -119,6 +119,7 @@ const els = {
   simulacroRunnerCategory: document.getElementById("simulacroRunnerCategory"),
   simulacroRunnerTitle: document.getElementById("simulacroRunnerTitle"),
   simulacroAnsweredCount: document.getElementById("simulacroAnsweredCount"),
+  simulacroSheetProgress: document.getElementById("simulacroSheetProgress"),
   simulacroProgressBar: document.getElementById("simulacroProgressBar"),
   simulacroQuestionNav: document.getElementById("simulacroQuestionNav"),
   simulacroSituation: document.getElementById("simulacroSituation"),
@@ -927,16 +928,33 @@ function showSimulacroCatalog() {
 function renderSimulacroNavigator() {
   const buttons = simulacroState.questions.map((question, index) => {
     const button = document.createElement("button");
+    const number = document.createElement("span");
+    const choices = document.createElement("span");
     const answer = simulacroState.answers[index];
     button.type = "button";
-    button.textContent = String(index + 1);
+    number.className = "simulacro-answer-number";
+    number.textContent = String(index + 1);
+    choices.className = "simulacro-answer-choices";
+    choices.style.setProperty("--answer-count", String(question.options.length));
+    question.options.forEach((_, optionIndex) => {
+      const marker = document.createElement("span");
+      marker.textContent = String.fromCharCode(65 + optionIndex);
+      marker.classList.toggle("selected", !simulacroState.reviewMode && answer === optionIndex);
+      if (simulacroState.reviewMode) {
+        marker.classList.toggle("correct", optionIndex === question.answer);
+        marker.classList.toggle("wrong", answer === optionIndex && optionIndex !== question.answer);
+      }
+      choices.append(marker);
+    });
+    button.append(number, choices);
     button.classList.toggle("answered", answer !== null);
     button.classList.toggle("current", index === simulacroState.currentIndex);
     if (simulacroState.reviewMode) {
       button.classList.toggle("correct", answer === question.answer);
       button.classList.toggle("wrong", answer !== question.answer);
     }
-    button.setAttribute("aria-label", `Ir a la pregunta ${index + 1}`);
+    const answerLabel = answer === null ? "sin responder" : `respuesta ${String.fromCharCode(65 + answer)}`;
+    button.setAttribute("aria-label", `Pregunta ${index + 1}, ${answerLabel}`);
     button.addEventListener("click", () => {
       simulacroState.currentIndex = index;
       renderSimulacroQuestion();
@@ -944,6 +962,10 @@ function renderSimulacroNavigator() {
     return button;
   });
   els.simulacroQuestionNav.replaceChildren(...buttons);
+  if (els.simulacroSheetProgress) {
+    const answered = simulacroState.answers.filter((answer) => answer !== null).length;
+    els.simulacroSheetProgress.textContent = `${answered}/${simulacroState.questions.length}`;
+  }
 }
 
 function renderSimulacroSituation(question) {
