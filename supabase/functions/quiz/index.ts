@@ -73,7 +73,7 @@ Deno.serve(async (request) => {
   if (!categoryFilter) {
     return json({ error: "Categoria no valida." }, 400);
   }
-  const allowedTests = new Set(["pedagogicas-general", "tuiran-pedagogicas-01", "tuiran-quimica-08"]);
+  const allowedTests = new Set(["pedagogicas-general", "tuiran-pedagogicas-01", "tuiran-pedagogicas-02", "tuiran-quimica-08"]);
   if (test && !allowedTests.has(test)) {
     return json({ error: "Simulacro no valido." }, 400);
   }
@@ -86,8 +86,13 @@ Deno.serve(async (request) => {
     .order("sequence");
   if (categoryFilter.topic) questionsQuery = questionsQuery.eq("topic", categoryFilter.topic);
   if (categoryFilter.excludeTopic) questionsQuery = questionsQuery.neq("topic", categoryFilter.excludeTopic);
-  if (test === "pedagogicas-general") questionsQuery = questionsQuery.neq("test_id", "tuiran-pedagogicas-01");
+  if (test === "pedagogicas-general") {
+    questionsQuery = questionsQuery
+      .neq("test_id", "tuiran-pedagogicas-01")
+      .neq("test_id", "tuiran-pedagogicas-02");
+  }
   if (test === "tuiran-pedagogicas-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "tuiran-pedagogicas-02") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "tuiran-quimica-08") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
