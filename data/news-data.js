@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-09T11:42:09.889Z",
+  "generatedAt": "2026-08-10T11:57:10.545Z",
   "items": [
     {
       "source": "MEN",
