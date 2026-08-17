@@ -772,13 +772,13 @@ let currentClassThreeQuizAttempt = [];
 function updateClassStatusText() {
   if (!els.classStatusText) return;
   const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed) + Number(classThreeLessonState.completed);
-  const available = 4 - completed;
+  const available = 3 - completed;
   if (completed === 0) {
-    els.classStatusText.textContent = "4 disponibles · 54 bloqueadas";
+    els.classStatusText.textContent = "3 disponibles · 55 bloqueadas";
     return;
   }
   if (completed === 3) {
-    els.classStatusText.textContent = "3 clases completadas · 1 disponible · 54 bloqueadas";
+    els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
     return;
   }
   if (available === 0) els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
@@ -788,8 +788,8 @@ function updateClassStatusText() {
 
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
-  els.classRoadmapGrid.innerHTML = Array.from({ length: 54 }, (_, index) => {
-    const classNumber = String(index + 5).padStart(2, "0");
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 55 }, (_, index) => {
+    const classNumber = String(index + 4).padStart(2, "0");
     return `
       <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
         <span>${classNumber}</span>
@@ -1933,6 +1933,13 @@ function switchView(viewId) {
   if (els.workspaceViewLabel) els.workspaceViewLabel.textContent = viewLabels[viewId] || "Aula 2026";
   if (els.mobileViewLabel) els.mobileViewLabel.textContent = viewLabels[viewId] || "Inicio";
   if (viewId !== "simulacro") setSimulacroMenuExpanded(false);
+  if (viewId === "clase") {
+    if (els.classCatalog) els.classCatalog.hidden = false;
+    if (els.classLesson) els.classLesson.hidden = true;
+    if (els.classTwoLesson) els.classTwoLesson.hidden = true;
+    if (els.classThreeLesson) els.classThreeLesson.hidden = true;
+    if (els.classFourLesson) els.classFourLesson.hidden = true;
+  }
   if (viewId === "estudio") renderStudy();
   if (viewId === "progreso") renderProgress();
   window.scrollTo({ top: 0, behavior: "smooth" });
