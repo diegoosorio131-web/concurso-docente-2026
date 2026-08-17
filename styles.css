@@ -6277,6 +6277,14 @@ body.auth-locked {
 .class-card-three .class-card-index strong {
   color: var(--blue);
 }
+.class-four-lesson .class-lesson-header { background: #145849; }
+.class-four-lesson .class-lesson-heading h2 { color: #fff; }
+.class-four-lesson .class-lesson-heading p { color: rgba(255,255,255,.78); }
+.class-four-lesson .class-lesson-kicker { color: #a7dfcd; }
+.class-four-lesson .class-profile-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+.class-four-lesson .class-profile-list > article { align-content:start; border:1px solid var(--line); border-radius:8px; display:grid; gap:13px; padding:20px; }
+.class-four-lesson .class-profile-list > article > span { background:#e5f3ee; color:#145849; font-weight:800; justify-self:start; padding:6px 9px; }
+.class-four-lesson .class-profile-list a { color:#176d5a; font-weight:800; }
 
 .class-card-index {
   height: 116px;
