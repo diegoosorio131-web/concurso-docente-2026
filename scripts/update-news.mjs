@@ -40,6 +40,23 @@ const keywordWeights = new Map([
   ["escalafon", 5]
 ]);
 
+const directSignals = [
+  "concurso docente",
+  "concurso de meritos",
+  "directivos docentes",
+  "carrera docente",
+  "vacantes docentes",
+  "convocatoria",
+  "inscripcion",
+  "prueba escrita",
+  "opec",
+  "simo",
+  "merito",
+  "escalafon",
+  "encargo",
+  "provision de cargos"
+];
+
 function decodeHtml(value = "") {
   const named = {
     amp: "&",
@@ -57,7 +74,7 @@ function decodeHtml(value = "") {
 }
 
 function cleanText(value = "") {
-  return decodeHtml(
+  const cleaned = decodeHtml(
     value
       .replace(/<script[\s\S]*?<\/script>/gi, " ")
       .replace(/<style[\s\S]*?<\/style>/gi, " ")
@@ -65,6 +82,16 @@ function cleanText(value = "") {
   )
     .replace(/\s+/g, " ")
     .trim();
+
+  // Algunas fuentes oficiales entregan UTF-8 como si fuera Latin-1.
+  if (/[ÃÂ]/.test(cleaned)) {
+    try {
+      return Buffer.from(cleaned, "latin1").toString("utf8").trim();
+    } catch {
+      return cleaned;
+    }
+  }
+  return cleaned;
 }
 
 function normalizeForScore(value = "") {
@@ -81,6 +108,57 @@ function relevanceScore(text) {
     if (normalized.includes(keyword)) score += weight;
   }
   return score;
+}
+
+function directRelevanceScore(text) {
+  const normalized = normalizeForScore(text);
+  return directSignals.reduce((score, signal) => (
+    normalized.includes(signal) ? score + 1 : score
+  ), 0);
+}
+
+function classifyNews(text) {
+  const normalized = normalizeForScore(text);
+  if (/(convocatoria|inscripcion|prueba|concurso de meritos)/.test(normalized)) {
+    return {
+      topic: "Concurso y pruebas",
+      priority: "prioridad",
+      impact: "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion."
+    };
+  }
+  if (/(vacante|opec|provision de cargos|encargo)/.test(normalized)) {
+    return {
+      topic: "Vacantes y OPEC",
+      priority: "seguimiento",
+      impact: "Puede afectar la oferta de cargos o la forma en que se proveen las vacantes."
+    };
+  }
+  if (/(decreto|ley|resolucion|norma|escalafon)/.test(normalized)) {
+    return {
+      topic: "Normativa docente",
+      priority: "prioridad",
+      impact: "Contrasta esta novedad con la norma vigente antes de tomar decisiones de inscripcion."
+    };
+  }
+  if (/(carrera docente|merito|docente|maestro)/.test(normalized)) {
+    return {
+      topic: "Carrera docente",
+      priority: "seguimiento",
+      impact: "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
+    };
+  }
+  return {
+    topic: "Actualidad oficial",
+    priority: "informativa",
+    impact: "Consulta la fuente oficial para confirmar si tiene efectos directos en tu preparacion."
+  };
+}
+
+function isRelevantForApplicant(item) {
+  const text = `${item.title} ${item.summary ?? ""}`;
+  const directSignalsFound = directRelevanceScore(text);
+  const score = relevanceScore(text);
+  return directSignalsFound >= 1 && score >= 7;
 }
 
 function absoluteUrl(href, base) {
@@ -119,7 +197,7 @@ function extractLinks(html, source) {
     if (/\.(pdf|docx?|xlsx?|zip)(\?|$)/i.test(url)) continue;
 
     const score = relevanceScore(title);
-    if (score < 5) continue;
+    if (directRelevanceScore(title) < 1 || score < 7) continue;
     links.push({ source: source.name, title, url, score });
   }
 
@@ -210,13 +288,16 @@ async function enrichCandidate(candidate) {
       || inferredMenImage;
     const title = pageTitle.slice(0, 180);
     const cleanedSummary = summary.slice(0, 260);
+    const classification = classifyNews(`${title} ${cleanedSummary}`);
     return {
       ...candidate,
       title,
       summary: cleanedSummary || "Consulta la publicacion oficial para conocer todos los detalles.",
       date: extractDate(html),
       image: image ? absoluteUrl(image, candidate.url) : candidate.image,
-      topic: relevanceScore(`${title} ${cleanedSummary}`) >= 15 ? "Concurso y carrera docente" : "Actualidad educativa",
+      topic: classification.topic,
+      priority: classification.priority,
+      impact: classification.impact,
       score: relevanceScore(`${title} ${cleanedSummary}`)
     };
   } catch (error) {
@@ -225,7 +306,7 @@ async function enrichCandidate(candidate) {
       ...candidate,
       summary: "Consulta la publicacion oficial para conocer todos los detalles.",
       date: "",
-      topic: "Actualidad educativa"
+      ...classifyNews(candidate.title)
     };
   }
 }
@@ -287,19 +368,21 @@ async function main() {
   const existing = await loadExistingItems();
   const unique = [...new Map([
     ...discovered.slice(0, 18),
-    ...existing.filter((item) => !item.image)
+    ...existing.filter(isRelevantForApplicant)
   ].map((item) => [item.url, item])).values()];
   const enriched = await Promise.all(unique.map(enrichCandidate));
-  const relevantDiscovered = enriched
-    .filter((item) => relevanceScore(`${item.title} ${item.summary ?? ""}`) >= 6);
+  const relevantDiscovered = enriched.filter(isRelevantForApplicant);
   const enrichedByUrl = new Map(enriched.map((item) => [item.url, item]));
-  const refreshedExisting = existing.map((item) => {
+  const refreshedExisting = existing.filter(isRelevantForApplicant).map((item) => {
     const fresh = enrichedByUrl.get(item.url);
     return fresh
       ? {
           ...item,
           date: fresh.date || item.date,
-          image: fresh.image || item.image
+          image: fresh.image || item.image,
+          topic: fresh.topic || item.topic,
+          priority: fresh.priority || item.priority,
+          impact: fresh.impact || item.impact
         }
       : item;
   });
@@ -312,8 +395,8 @@ async function main() {
     .slice(0, 6)
     .map(({ rank, score, ...item }) => item);
 
-  if (ranked.length < 3) {
-    throw new Error("No se encontraron al menos tres noticias relevantes; se conserva el archivo anterior.");
+  if (ranked.length < 2) {
+    throw new Error("No se encontraron al menos dos noticias relevantes; se conserva el archivo anterior.");
   }
 
   await localizeFeatureImage(ranked);

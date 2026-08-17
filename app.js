@@ -1319,6 +1319,46 @@ function newsMeta(item) {
   return meta;
 }
 
+function newsImpact(item) {
+  if (item.impact) return item.impact;
+  const text = `${item.title || ""} ${item.summary || ""}`.toLowerCase();
+  if (/(convocatoria|inscripcion|prueba|concurso)/.test(text)) {
+    return "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion.";
+  }
+  if (/(vacante|opec|encargo|provision)/.test(text)) {
+    return "Puede afectar la oferta de cargos o la forma en que se proveen las vacantes.";
+  }
+  if (/(decreto|ley|resolucion|norma|escalafon)/.test(text)) {
+    return "Contrasta esta novedad con la norma vigente antes de tomar decisiones de inscripcion.";
+  }
+  return "Consulta la fuente oficial para confirmar si tiene efectos directos en tu preparacion.";
+}
+
+function newsImpactBlock(item, compact = false) {
+  const impact = document.createElement("div");
+  const label = document.createElement("span");
+  const copy = document.createElement("p");
+  const priority = ["prioridad", "seguimiento", "informativa"].includes(item.priority)
+    ? item.priority
+    : "informativa";
+
+  impact.className = `news-impact ${compact ? "compact" : ""} ${priority}`.trim();
+  label.textContent = compact ? "Para tu preparacion" : "Como te afecta";
+  copy.textContent = newsImpact(item);
+  impact.append(label, copy);
+  return impact;
+}
+
+function isNewsRelevantForPreparation(item) {
+  const text = `${item.title || ""} ${item.summary || ""}`.toLowerCase();
+  return /(concurso|convocatoria|inscripcion|prueba|vacante|opec|simo|merito|carrera docente|encargo|escalafon|decreto|resolucion)/.test(text);
+}
+
+function newsDateValue(item) {
+  const value = Date.parse(`${item.date || ""}T00:00:00Z`);
+  return Number.isNaN(value) ? 0 : value;
+}
+
 function allowedNewsUrl(value) {
   try {
     const url = new URL(value);
@@ -1384,9 +1424,12 @@ function newsMedia(item) {
 function renderNews() {
   const data = window.AULA_NEWS;
   const items = Array.isArray(data?.items)
-    ? data.items.filter((item) => item?.title && allowedNewsUrl(item.url)).slice(0, 3)
+    ? data.items
+      .filter((item) => item?.title && allowedNewsUrl(item.url) && isNewsRelevantForPreparation(item))
+      .sort((first, second) => newsDateValue(second) - newsDateValue(first))
+      .slice(0, 3)
     : [];
-  if (items.length < 3 || !els.newsFeature || !els.newsList) return;
+  if (items.length < 2 || !els.newsFeature || !els.newsList) return;
 
   const feature = items[0];
   els.newsFeature.href = feature.url;
@@ -1401,7 +1444,7 @@ function renderNews() {
   summary.textContent = feature.summary;
   const read = newsArrow("news-read");
   read.prepend("Leer comunicado ");
-  featureCopy.append(newsMeta(feature), topic, title, summary, read);
+  featureCopy.append(newsMeta(feature), topic, title, summary, newsImpactBlock(feature), read);
   els.newsFeature.replaceChildren(newsMedia(feature), featureCopy);
 
   const cards = items.slice(1).map((item) => {
@@ -1414,7 +1457,7 @@ function renderNews() {
     cardTitle.textContent = item.title;
     const cardSummary = document.createElement("p");
     cardSummary.textContent = item.summary;
-    card.append(newsMeta(item), cardTitle, cardSummary, newsArrow("news-arrow"));
+    card.append(newsMeta(item), cardTitle, cardSummary, newsImpactBlock(item, true), newsArrow("news-arrow"));
     return card;
   });
   els.newsList.replaceChildren(...cards);
