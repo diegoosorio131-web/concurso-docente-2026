@@ -111,6 +111,9 @@ const els = {
   classThreeQuizResultTitle: document.getElementById("classThreeQuizResultTitle"),
   classThreeQuizResultCopy: document.getElementById("classThreeQuizResultCopy"),
   classThreeQuizRetry: document.getElementById("classThreeQuizRetry"),
+  classFourLesson: document.getElementById("classFourLesson"),
+  classFourOpenBtn: document.getElementById("classFourOpenBtn"),
+  classFourBackBtn: document.getElementById("classFourBackBtn"),
   simulacroMenu: document.getElementById("simulacroMenu"),
   simulacroTab: document.getElementById("simulacroTab"),
   simulacroSubmenu: document.getElementById("simulacroSubmenu"),
@@ -769,7 +772,15 @@ let currentClassThreeQuizAttempt = [];
 function updateClassStatusText() {
   if (!els.classStatusText) return;
   const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed) + Number(classThreeLessonState.completed);
-  const available = 3 - completed;
+  const available = 4 - completed;
+  if (completed === 0) {
+    els.classStatusText.textContent = "4 disponibles · 54 bloqueadas";
+    return;
+  }
+  if (completed === 3) {
+    els.classStatusText.textContent = "3 clases completadas · 1 disponible · 54 bloqueadas";
+    return;
+  }
   if (available === 0) els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
   else if (completed === 0) els.classStatusText.textContent = "3 disponibles · 55 bloqueadas";
   else els.classStatusText.textContent = `${completed} completada${completed === 1 ? "" : "s"} · ${available} disponible${available === 1 ? "" : "s"} · 55 bloqueadas`;
@@ -777,8 +788,8 @@ function updateClassStatusText() {
 
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
-  els.classRoadmapGrid.innerHTML = Array.from({ length: 55 }, (_, index) => {
-    const classNumber = String(index + 4).padStart(2, "0");
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 54 }, (_, index) => {
+    const classNumber = String(index + 5).padStart(2, "0");
     return `
       <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
         <span>${classNumber}</span>
@@ -2632,6 +2643,21 @@ function resetClassThreeQuiz() {
   els.classThreeQuiz?.querySelector("button[type='submit']")?.removeAttribute("hidden");
 }
 
+function setClassFourLessonOpen(open) {
+  if (!els.classCatalog || !els.classFourLesson || !els.classFourOpenBtn) return;
+  els.classCatalog.hidden = open;
+  if (els.classLesson) els.classLesson.hidden = true;
+  if (els.classTwoLesson) els.classTwoLesson.hidden = true;
+  if (els.classThreeLesson) els.classThreeLesson.hidden = true;
+  els.classFourLesson.hidden = !open;
+  els.classFourOpenBtn.setAttribute("aria-expanded", String(open));
+  const target = open ? els.classFourLesson : document.querySelector(".class-heading");
+  target?.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.setTimeout(() => (open ? els.classFourBackBtn : els.classFourOpenBtn)?.focus(), 350);
+}
+
+els.classFourOpenBtn?.addEventListener("click", () => setClassFourLessonOpen(true));
+els.classFourBackBtn?.addEventListener("click", () => setClassFourLessonOpen(false));
 els.classThreeOpenBtn?.addEventListener("click", () => setClassThreeLessonOpen(true));
 els.classThreeBackBtn?.addEventListener("click", () => setClassThreeLessonOpen(false));
 els.classThreeModuleButtons.forEach((button) => {
