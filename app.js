@@ -772,24 +772,24 @@ let currentClassThreeQuizAttempt = [];
 function updateClassStatusText() {
   if (!els.classStatusText) return;
   const completed = Number(classLessonState.completed) + Number(classTwoLessonState.completed) + Number(classThreeLessonState.completed);
-  const available = 3 - completed;
+  const totalAvailable = 4;
+  const locked = 54;
+  const available = totalAvailable - completed;
   if (completed === 0) {
-    els.classStatusText.textContent = "3 disponibles · 55 bloqueadas";
+    els.classStatusText.textContent = `${totalAvailable} disponibles · ${locked} bloqueadas`;
     return;
   }
-  if (completed === 3) {
-    els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
+  if (available === 0) {
+    els.classStatusText.textContent = `${totalAvailable} clases completadas · ${locked} bloqueadas`;
     return;
   }
-  if (available === 0) els.classStatusText.textContent = "3 clases completadas · 55 bloqueadas";
-  else if (completed === 0) els.classStatusText.textContent = "3 disponibles · 55 bloqueadas";
-  else els.classStatusText.textContent = `${completed} completada${completed === 1 ? "" : "s"} · ${available} disponible${available === 1 ? "" : "s"} · 55 bloqueadas`;
+  els.classStatusText.textContent = `${completed} completada${completed === 1 ? "" : "s"} · ${available} disponible${available === 1 ? "" : "s"} · ${locked} bloqueadas`;
 }
 
 function renderClassRoadmap() {
   if (!els.classRoadmapGrid) return;
-  els.classRoadmapGrid.innerHTML = Array.from({ length: 55 }, (_, index) => {
-    const classNumber = String(index + 4).padStart(2, "0");
+  els.classRoadmapGrid.innerHTML = Array.from({ length: 54 }, (_, index) => {
+    const classNumber = String(index + 5).padStart(2, "0");
     return `
       <article class="class-locked-card" aria-label="Clase ${classNumber}, bloqueada">
         <span>${classNumber}</span>
