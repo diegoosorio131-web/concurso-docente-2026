@@ -36,7 +36,9 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "tuiran-pedagogicas-02": "Simulacro #2 · Competencias pedagógicas",
     "tuiran-quimica-08": "Simulacro #8 · Química",
     "tuiran-quimica-12": "Súper Simulacro #12 · Química",
-    "tuiran-naturales-08": "Simulacro #8 · Ciencias Naturales"
+    "tuiran-naturales-08": "Simulacro #8 · Ciencias Naturales",
+    "generado-quimica-01": "Simulacro nuevo · Química",
+    "generado-naturales-01": "Simulacro nuevo · Ciencias Naturales"
   };
   return titles[testId || ""] || fallback;
 }
@@ -177,7 +179,9 @@ Deno.serve(async (request) => {
     "tuiran-pedagogicas-02",
     "tuiran-quimica-08",
     "tuiran-quimica-12",
-    "tuiran-naturales-08"
+    "tuiran-naturales-08",
+    "generado-quimica-01",
+    "generado-naturales-01"
   ]);
   if (test && !allowedTests.has(test)) {
     return json({ error: "Simulacro no valido." }, 400);
@@ -201,6 +205,8 @@ Deno.serve(async (request) => {
   if (test === "tuiran-quimica-08") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "tuiran-quimica-12") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "tuiran-naturales-08") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "generado-quimica-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "generado-naturales-01") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
 
