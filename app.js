@@ -160,6 +160,11 @@ const els = {
   studyCompletionMetric: document.getElementById("studyCompletionMetric"),
   studyStreakMetric: document.getElementById("studyStreakMetric"),
   studyScoreMetric: document.getElementById("studyScoreMetric"),
+  aspirantProfileForm: document.getElementById("aspirantProfileForm"),
+  aspirantArea: document.getElementById("aspirantArea"),
+  aspirantTerritory: document.getElementById("aspirantTerritory"),
+  aspirantGoal: document.getElementById("aspirantGoal"),
+  aspirantProfileStatus: document.getElementById("aspirantProfileStatus"),
   studyRouteProgressText: document.getElementById("studyRouteProgressText"),
   studyRouteProgressBar: document.getElementById("studyRouteProgressBar"),
   studyMemoryCard: document.getElementById("studyMemoryCard"),
@@ -789,7 +794,7 @@ function progressStorageKey() {
 }
 
 function loadProgress() {
-  const fallback = { attempts: [], completedItems: [], lastStudyDate: null, streak: 0 };
+  const fallback = { attempts: [], completedItems: [], lastStudyDate: null, streak: 0, aspirantProfile: {} };
   try {
     return { ...fallback, ...JSON.parse(localStorage.getItem(progressStorageKey())) };
   } catch {
@@ -867,6 +872,28 @@ function simulacroCategoryLabel(category) {
     ofimatica: "Ofimatica",
     conocimientos_especificos: "Conocimientos especificos"
   }[category] || "Simulacro";
+}
+
+function profileAreaLabel(area) {
+  return {
+    competencias_pedagogicas: "Competencias pedagógicas",
+    lectura_critica: "Lectura crítica",
+    razonamiento_cuantitativo: "Razonamiento cuantitativo",
+    ofimatica: "Ofimática",
+    quimica: "Química",
+    ciencias_naturales: "Ciencias naturales",
+    otro: "Otra área"
+  }[area] || "";
+}
+
+function renderAspirantProfile(progress = loadProgress()) {
+  const profile = progress.aspirantProfile || {};
+  if (els.aspirantArea) els.aspirantArea.value = profile.area || "";
+  if (els.aspirantTerritory) els.aspirantTerritory.value = profile.territory || "";
+  if (els.aspirantGoal) els.aspirantGoal.value = Number.isFinite(profile.goal) ? String(profile.goal) : "";
+  if (!els.aspirantProfileStatus) return;
+  const details = [profileAreaLabel(profile.area), profile.territory, profile.goal ? `Meta ${profile.goal}/100` : ""].filter(Boolean);
+  els.aspirantProfileStatus.textContent = details.length ? details.join(" · ") : "Aún sin configurar";
 }
 
 function getSimulacroTitle(category, testId, questions = []) {
@@ -1515,8 +1542,11 @@ function renderStudyOverview(progress = loadProgress()) {
   els.studyCompletionMetric.textContent = `${percent}%`;
   els.studyStreakMetric.textContent = `${progress.streak || 0} ${(progress.streak || 0) === 1 ? "dia" : "dias"}`;
   els.studyScoreMetric.textContent = latestAttempt ? `${latestAttempt.score}%` : "Sin intento";
+  const profile = progress.aspirantProfile || {};
+  const target = profile.goal ? ` Tu meta es ${profile.goal}/100.` : "";
+  const area = profileAreaLabel(profile.area);
   els.studyTodayDescription.textContent = nextItem
-    ? `${nextItem.category}: ${nextItem.title}.`
+    ? `${area ? `${area}: ` : ""}${nextItem.category}: ${nextItem.title}.${target}`
     : "Ruta completada. Refuerza tus errores o realiza un nuevo simulacro.";
   els.studyContinueBtn.textContent = nextItem ? "Continuar ruta" : "Repasar tarjetas";
   els.studyContinueBtn.append(newsArrow("button-arrow"));
@@ -1709,6 +1739,7 @@ async function loadStudyMistakes() {
 
 function renderStudy() {
   const progress = loadProgress();
+  renderAspirantProfile(progress);
   renderStudyOverview(progress);
   renderStudyRoute(progress);
   renderStudyFlashcard();
@@ -1862,7 +1893,13 @@ function renderProgress() {
     }))
     .sort((a, b) => a.percent - b.percent);
 
-  els.recommendations.innerHTML = ranked.map((item) => `
+  const profile = progress.aspirantProfile || {};
+  const preferredArea = profile.area;
+  ranked.sort((a, b) => (a.category === preferredArea ? -1 : b.category === preferredArea ? 1 : a.percent - b.percent));
+  const targetMessage = profile.goal
+    ? `<div class="recommendation profile-recommendation"><strong>Meta personal: ${profile.goal}/100</strong><p>${profile.territory ? `${profile.territory}. ` : ""}Compara tus próximos resultados con esta meta y prioriza el área seleccionada.</p><span class="tag">${profileAreaLabel(profile.area) || "Perfil activo"}</span></div>`
+    : "";
+  els.recommendations.innerHTML = targetMessage + ranked.map((item) => `
     <div class="recommendation">
       <strong>${labelCategory(item.category)}</strong>
       <p>Promedio reciente: ${item.percent}%. Dedica una sesion corta a errores frecuentes y realiza otro simulacro.</p>
@@ -2730,6 +2767,20 @@ els.studyRevealCard?.addEventListener("click", () => {
 els.studyReviewCard?.addEventListener("click", () => rateStudyFlashcard("review"));
 els.studyKnowCard?.addEventListener("click", () => rateStudyFlashcard("known"));
 els.studyAttemptSelect?.addEventListener("change", () => void loadStudyMistakes());
+els.aspirantProfileForm?.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const goal = Number(els.aspirantGoal.value);
+  const progress = loadProgress();
+  progress.aspirantProfile = {
+    area: els.aspirantArea.value,
+    territory: els.aspirantTerritory.value.trim(),
+    goal: Number.isFinite(goal) && goal >= 50 && goal <= 100 ? goal : null
+  };
+  saveProgress(progress);
+  renderAspirantProfile(progress);
+  renderStudyOverview(progress);
+  renderProgress();
+});
 els.simulacroPrevBtn?.addEventListener("click", () => {
   if (simulacroState.currentIndex > 0) {
     simulacroState.currentIndex -= 1;

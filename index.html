@@ -1169,6 +1169,20 @@
               </div>
             </section>
 
+            <section class="aspirant-profile" aria-labelledby="aspirantProfileTitle">
+              <div class="aspirant-profile-heading">
+                <span class="panel-index">01</span>
+                <div><h2 id="aspirantProfileTitle">Perfil del aspirante</h2><p>Personaliza tu preparación sin compartir esta información.</p></div>
+                <span id="aspirantProfileStatus" class="aspirant-profile-status">Aún sin configurar</span>
+              </div>
+              <form id="aspirantProfileForm" class="aspirant-profile-form">
+                <label><span>Área de postulación</span><select id="aspirantArea" name="area"><option value="">Selecciona un área</option><option value="competencias_pedagogicas">Competencias pedagógicas</option><option value="lectura_critica">Lectura crítica</option><option value="razonamiento_cuantitativo">Razonamiento cuantitativo</option><option value="ofimatica">Ofimática</option><option value="quimica">Química</option><option value="ciencias_naturales">Ciencias naturales</option><option value="otro">Otra área</option></select></label>
+                <label><span>Departamento o entidad territorial</span><input id="aspirantTerritory" name="territory" type="text" maxlength="80" autocomplete="address-level1" placeholder="Ej. Caquetá o Bogotá D.C."></label>
+                <label><span>Meta de puntaje</span><div class="aspirant-score-input"><input id="aspirantGoal" name="goal" type="number" min="50" max="100" step="1" inputmode="numeric" placeholder="70"><b>/100</b></div></label>
+                <button class="btn btn-primary" type="submit">Guardar perfil</button>
+              </form>
+            </section>
+
             <nav class="study-tabs" role="tablist" aria-label="Herramientas de estudio">
               <button class="study-tab active" type="button" role="tab" aria-selected="true" aria-controls="studyRoutePanel" data-study-view="route">Ruta de estudio</button>
               <button class="study-tab" type="button" role="tab" aria-selected="false" aria-controls="studyCardsPanel" data-study-view="cards">Tarjetas</button>

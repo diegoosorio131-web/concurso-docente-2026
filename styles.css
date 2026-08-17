@@ -1270,6 +1270,35 @@ select {
   overflow-wrap: anywhere;
 }
 
+.aspirant-profile {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 24px;
+  padding: 24px 28px;
+}
+
+.aspirant-profile-heading {
+  align-items: center;
+  display: flex;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.aspirant-profile-heading h2 { font-size: 1.18rem; margin: 0 0 3px; }
+.aspirant-profile-heading p { color: var(--muted); font-size: .88rem; margin: 0; }
+.aspirant-profile-status { color: var(--accent); font-size: .77rem; font-weight: 800; margin-left: auto; text-align: right; }
+.aspirant-profile-form { align-items: end; display: grid; gap: 16px; grid-template-columns: 1.15fr 1.4fr .8fr auto; }
+.aspirant-profile-form label { display: grid; gap: 7px; min-width: 0; }
+.aspirant-profile-form label > span { color: var(--text); font-size: .76rem; font-weight: 800; }
+.aspirant-profile-form input, .aspirant-profile-form select { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; color: var(--text); font: inherit; min-height: 42px; padding: 0 12px; width: 100%; }
+.aspirant-profile-form input:focus, .aspirant-profile-form select:focus { border-color: var(--accent); outline: 2px solid color-mix(in srgb, var(--accent) 18%, transparent); }
+.aspirant-score-input { align-items: center; display: flex; position: relative; }
+.aspirant-score-input input { padding-right: 45px; }
+.aspirant-score-input b { color: var(--muted); font-size: .78rem; pointer-events: none; position: absolute; right: 12px; }
+.aspirant-profile-form .btn { min-height: 42px; white-space: nowrap; }
+.profile-recommendation { border-color: var(--accent) !important; }
+
 .study-tabs {
   border-bottom: 1px solid var(--line);
   display: flex;
@@ -1618,6 +1647,8 @@ select {
     grid-template-columns: 1fr;
   }
 
+  .aspirant-profile-form { grid-template-columns: 1fr 1fr; }
+
   .study-today-metrics {
     border-left: 0;
     border-top: 1px solid rgba(255, 255, 255, 0.18);
@@ -1631,6 +1662,11 @@ select {
     gap: 22px;
     padding: 23px;
   }
+
+  .aspirant-profile { padding: 20px; }
+  .aspirant-profile-heading { align-items: flex-start; }
+  .aspirant-profile-status { margin-left: 0; }
+  .aspirant-profile-form { grid-template-columns: 1fr; }
 
   .study-today-metrics {
     gap: 14px;
