@@ -5,6 +5,7 @@ import path from "node:path";
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectDir = path.resolve(scriptDir, "..");
 const outputPath = path.join(projectDir, "data", "news-data.js");
+const indexPath = path.join(projectDir, "index.html");
 const newsAssetsDir = path.join(projectDir, "assets", "news");
 const featureImagePath = path.join(newsAssetsDir, "feature.jpg");
 
@@ -18,10 +19,21 @@ const sources = [
     name: "MEN",
     url: "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/",
     host: "mineducacion.gov.co"
+  },
+  {
+    name: "MEN",
+    url: "https://www.mineducacion.gov.co/portal/decadas/",
+    host: "mineducacion.gov.co"
   }
 ];
 
 const seedItems = [
+  {
+    source: "MEN",
+    title: "12.725 nuevos cargos docentes fortalecen la capacidad del sistema educativo",
+    url: "https://www.mineducacion.gov.co/portal/decadas/430054:",
+    score: 38
+  },
   {
     source: "MEN",
     title: "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
@@ -440,6 +452,16 @@ async function localizeNewsImages(items) {
   }
 }
 
+async function updateNewsCacheBuster(generatedAt) {
+  const version = generatedAt.replace(/\D/g, "").slice(0, 12);
+  const html = await readFile(indexPath, "utf8");
+  const updated = html.replace(
+    /data\/news-data\.js\?v=[^"]+/,
+    `data/news-data.js?v=${version}`
+  );
+  if (updated !== html) await writeFile(indexPath, updated, "utf8");
+}
+
 async function main() {
   const discovered = [];
 
@@ -498,13 +520,15 @@ async function main() {
 
   await localizeFeatureImage(ranked);
   await localizeNewsImages(ranked);
+  const generatedAt = new Date().toISOString();
   const payload = {
-    generatedAt: new Date().toISOString(),
+    generatedAt,
     updateMode: "automatic",
     sources: sources.map((source) => ({ name: source.name, url: source.url })),
     items: ranked
   };
   await writeFile(outputPath, `window.AULA_NEWS = ${JSON.stringify(payload, null, 2)};\n`, "utf8");
+  await updateNewsCacheBuster(generatedAt);
   console.log(`Noticias actualizadas: ${ranked.length}`);
 }
 
