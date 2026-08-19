@@ -37,8 +37,8 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "tuiran-quimica-08": "Simulacro #8 · Química",
     "tuiran-quimica-12": "Súper Simulacro #12 · Química",
     "tuiran-naturales-08": "Simulacro #8 · Ciencias Naturales",
-    "generado-quimica-01": "Simulacro nuevo · Química",
-    "generado-naturales-01": "Simulacro nuevo · Ciencias Naturales"
+    "generado-quimica-01": "Simulacro #13 · Química",
+    "generado-naturales-01": "Simulacro #9 · Ciencias Naturales"
   };
   return titles[testId || ""] || fallback;
 }
