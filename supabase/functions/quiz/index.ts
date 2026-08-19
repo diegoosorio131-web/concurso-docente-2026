@@ -164,8 +164,8 @@ Deno.serve(async (request) => {
   const category = url.searchParams.get("category");
   const test = url.searchParams.get("test");
   const categoryFilters: Record<string, { source: string; topic?: string; excludeTopic?: string }> = {
-    lectura_critica: { source: "razonamiento" },
-    razonamiento_cuantitativo: { source: "razonamiento" },
+    lectura_critica: { source: "razonamiento", topic: "Lectura critica" },
+    razonamiento_cuantitativo: { source: "razonamiento", topic: "Razonamiento cuantitativo" },
     competencias_blandas: { source: "pedagogica", topic: "Competencias comportamentales docentes" },
     competencias_pedagogicas: { source: "pedagogica", excludeTopic: "Competencias comportamentales docentes" },
     ofimatica: { source: "ofimatica" },
