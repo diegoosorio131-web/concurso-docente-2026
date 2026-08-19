@@ -38,7 +38,8 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "tuiran-quimica-12": "Simulacro #2 · Química",
     "tuiran-naturales-08": "Simulacro #1 · Ciencias Naturales",
     "generado-quimica-01": "Simulacro #3 · Química",
-    "generado-naturales-01": "Simulacro #2 · Ciencias Naturales"
+    "generado-naturales-01": "Simulacro #2 · Ciencias Naturales",
+    "ofimatica-01": "Simulacro #1 · Ofimática"
   };
   return titles[testId || ""] || fallback;
 }
@@ -167,6 +168,7 @@ Deno.serve(async (request) => {
     razonamiento_cuantitativo: { source: "razonamiento" },
     competencias_blandas: { source: "pedagogica", topic: "Competencias comportamentales docentes" },
     competencias_pedagogicas: { source: "pedagogica", excludeTopic: "Competencias comportamentales docentes" },
+    ofimatica: { source: "ofimatica" },
     conocimientos_especificos: { source: "especificos" }
   };
   const categoryFilter = category ? categoryFilters[category] : null;
@@ -181,7 +183,8 @@ Deno.serve(async (request) => {
     "tuiran-quimica-12",
     "tuiran-naturales-08",
     "generado-quimica-01",
-    "generado-naturales-01"
+    "generado-naturales-01",
+    "ofimatica-01"
   ]);
   if (test && !allowedTests.has(test)) {
     return json({ error: "Simulacro no valido." }, 400);
@@ -207,6 +210,7 @@ Deno.serve(async (request) => {
   if (test === "tuiran-naturales-08") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "generado-quimica-01") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "generado-naturales-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "ofimatica-01") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
 
