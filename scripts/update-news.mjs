@@ -398,6 +398,48 @@ async function localizeFeatureImage(items) {
   }
 }
 
+function imageExtension(contentType = "") {
+  if (contentType.includes("png")) return "png";
+  if (contentType.includes("webp")) return "webp";
+  return "jpg";
+}
+
+function defaultNewsImage(item) {
+  return item.source === "CNSC" ? "assets/news/source-cnsc.svg" : "assets/news/source-men.svg";
+}
+
+async function localizeNewsImages(items) {
+  await mkdir(newsAssetsDir, { recursive: true });
+  for (const [index, item] of items.entries()) {
+    if (!item.image?.startsWith("https://")) {
+      item.image = item.image || defaultNewsImage(item);
+      continue;
+    }
+
+    try {
+      const response = await fetch(item.image, {
+        headers: {
+          "Accept": "image/avif,image/webp,image/png,image/jpeg",
+          "User-Agent": "Aula2026-NewsBot/1.0 (+https://github.com/)"
+        },
+        signal: AbortSignal.timeout(20000)
+      });
+      const contentType = response.headers.get("content-type") ?? "";
+      if (!response.ok || !contentType.startsWith("image/")) {
+        throw new Error(`${response.status} ${contentType || "sin tipo de contenido"}`);
+      }
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      if (bytes.length > 8_000_000) throw new Error("la imagen supera 8 MB");
+      const fileName = index === 0 ? `feature.${imageExtension(contentType)}` : `item-${index + 1}.${imageExtension(contentType)}`;
+      await writeFile(path.join(newsAssetsDir, fileName), bytes);
+      item.image = `assets/news/${fileName}`;
+    } catch (error) {
+      console.warn(`No se pudo guardar imagen de ${item.url}: ${error.message}`);
+      item.image = defaultNewsImage(item);
+    }
+  }
+}
+
 async function main() {
   const discovered = [];
 
@@ -455,6 +497,7 @@ async function main() {
   }
 
   await localizeFeatureImage(ranked);
+  await localizeNewsImages(ranked);
   const payload = {
     generatedAt: new Date().toISOString(),
     updateMode: "automatic",

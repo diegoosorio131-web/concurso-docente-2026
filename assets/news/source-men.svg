@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-label="Novedad oficial MEN">
+  <rect width="1200" height="720" fill="#f5f8f6"/>
+  <rect x="74" y="66" width="1052" height="588" rx="24" fill="#ffffff" stroke="#dce4e1" stroke-width="3"/>
+  <rect x="74" y="66" width="1052" height="156" rx="24" fill="#1f6655"/>
+  <path d="M74 196h1052v32H74z" fill="#34758a"/>
+  <rect x="136" y="118" width="82" height="82" rx="18" fill="#e7f1ed"/>
+  <path d="M158 172c34-30 65-30 99 0M158 144c34-30 65-30 99 0" stroke="#1f6655" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <text x="258" y="138" fill="#ffffff" font-family="Segoe UI, Arial, sans-serif" font-size="44" font-weight="850">MEN</text>
+  <text x="258" y="181" fill="#d9f5ec" font-family="Segoe UI, Arial, sans-serif" font-size="25" font-weight="700">Ministerio de Educación Nacional</text>
+  <text x="132" y="326" fill="#172b2a" font-family="Segoe UI, Arial, sans-serif" font-size="58" font-weight="850">Actualidad educativa</text>
+  <text x="132" y="383" fill="#4c5c59" font-family="Segoe UI, Arial, sans-serif" font-size="31" font-weight="650">Seguimiento oficial para aspirantes al concurso docente.</text>
+  <g fill="#e8f2f5" stroke="#c7dce3" stroke-width="3">
+    <rect x="132" y="462" width="272" height="94" rx="14"/>
+    <rect x="438" y="462" width="272" height="94" rx="14"/>
+    <rect x="744" y="462" width="272" height="94" rx="14"/>
+  </g>
+  <g fill="#34758a" font-family="Segoe UI, Arial, sans-serif" font-size="24" font-weight="800">
+    <text x="164" y="518">Docentes</text>
+    <text x="470" y="518">Pruebas</text>
+    <text x="776" y="518">Territorio</text>
+  </g>
+</svg>

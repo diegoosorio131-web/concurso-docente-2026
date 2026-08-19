@@ -1441,7 +1441,7 @@ function appendNewsImage(media, source, referrerPolicy = "") {
 function newsMedia(item) {
   const media = document.createElement("div");
   media.className = "news-feature-media";
-  if (typeof item.image === "string" && /^assets\/news\/[a-z0-9._-]+$/i.test(item.image)) {
+  if (typeof item.image === "string" && /^assets\/news\/[a-z0-9._-]+\.(?:jpg|jpeg|png|webp|svg)$/i.test(item.image)) {
     appendNewsImage(media, item.image);
     return media;
   }
@@ -1456,6 +1456,12 @@ function newsMedia(item) {
   }
 
   media.append(newsFallback());
+  return media;
+}
+
+function newsCardMedia(item) {
+  const media = newsMedia(item);
+  media.className = "news-card-media";
   return media;
 }
 
@@ -1491,11 +1497,14 @@ function renderNews() {
     card.href = item.url;
     card.target = "_blank";
     card.rel = "noreferrer";
+    const cardCopy = document.createElement("div");
+    cardCopy.className = "news-card-copy";
     const cardTitle = document.createElement("h3");
     cardTitle.textContent = item.title;
     const cardSummary = document.createElement("p");
     cardSummary.textContent = item.summary;
-    card.append(newsMeta(item), cardTitle, cardSummary, newsImpactBlock(item, true), newsArrow("news-arrow"));
+    cardCopy.append(newsMeta(item), cardTitle, cardSummary, newsImpactBlock(item, true));
+    card.append(newsCardMedia(item), cardCopy, newsArrow("news-arrow"));
     return card;
   });
   els.newsList.replaceChildren(...cards);

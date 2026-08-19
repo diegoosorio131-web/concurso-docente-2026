@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-19T03:53:52.542Z",
+  "generatedAt": "2026-08-19T03:57:07.577Z",
   "updateMode": "automatic",
   "sources": [
     {
@@ -29,7 +29,7 @@ window.AULA_NEWS = {
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
       "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
       "date": "2026-06-19",
-      "image": "https://www.mineducacion.gov.co/1780/articles-429273_foto_g.thumb_redes-1911.jpg",
+      "image": "assets/news/item-2.jpg",
       "topic": "Carrera docente",
       "priority": "seguimiento",
       "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
@@ -42,7 +42,8 @@ window.AULA_NEWS = {
       "url": "https://www.cnsc.gov.co/cnsc-y-ministerio-de-educacion-fortalecen-la-transparencia-y-el-merito-docente-en-santa-marta-y-el",
       "topic": "Carrera docente",
       "priority": "seguimiento",
-      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
+      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente.",
+      "image": "assets/news/source-cnsc.svg"
     }
   ]
 };
