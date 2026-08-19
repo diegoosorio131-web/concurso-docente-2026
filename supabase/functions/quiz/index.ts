@@ -34,11 +34,11 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "pedagogicas-general": "Simulacro de competencias pedagógicas",
     "tuiran-pedagogicas-01": "Simulacro #1 · Competencias pedagógicas",
     "tuiran-pedagogicas-02": "Simulacro #2 · Competencias pedagógicas",
-    "tuiran-quimica-08": "Simulacro #8 · Química",
-    "tuiran-quimica-12": "Súper Simulacro #12 · Química",
-    "tuiran-naturales-08": "Simulacro #8 · Ciencias Naturales",
-    "generado-quimica-01": "Simulacro #13 · Química",
-    "generado-naturales-01": "Simulacro #9 · Ciencias Naturales"
+    "tuiran-quimica-08": "Simulacro #1 · Química",
+    "tuiran-quimica-12": "Simulacro #2 · Química",
+    "tuiran-naturales-08": "Simulacro #1 · Ciencias Naturales",
+    "generado-quimica-01": "Simulacro #3 · Química",
+    "generado-naturales-01": "Simulacro #2 · Ciencias Naturales"
   };
   return titles[testId || ""] || fallback;
 }
