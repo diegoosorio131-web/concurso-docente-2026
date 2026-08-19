@@ -1502,11 +1502,13 @@ function renderNews() {
 
   const generated = new Date(data.generatedAt);
   if (els.newsUpdated && !Number.isNaN(generated.valueOf())) {
-    els.newsUpdated.textContent = `Actualizado ${new Intl.DateTimeFormat("es-CO", {
+    els.newsUpdated.textContent = `Autoactualizado ${new Intl.DateTimeFormat("es-CO", {
       day: "numeric",
       month: "long",
       year: "numeric"
     }).format(generated)}.`;
+  } else if (els.newsUpdated) {
+    els.newsUpdated.textContent = "Actualizacion automatica activa.";
   }
 }
 

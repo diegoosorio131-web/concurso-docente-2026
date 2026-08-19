@@ -21,13 +21,38 @@ const sources = [
   }
 ];
 
+const seedItems = [
+  {
+    source: "MEN",
+    title: "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
+    url: "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
+    score: 36
+  },
+  {
+    source: "MEN",
+    title: "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros",
+    url: "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
+    score: 34
+  },
+  {
+    source: "CNSC",
+    title: "CNSC y Ministerio de Educación fortalecen la transparencia y el mérito docente",
+    url: "https://www.cnsc.gov.co/cnsc-y-ministerio-de-educacion-fortalecen-la-transparencia-y-el-merito-docente-en-santa-marta-y-el",
+    score: 28
+  }
+];
+
 const keywordWeights = new Map([
   ["concurso docente", 16],
   ["directivos docentes", 14],
   ["carrera docente", 12],
   ["vacantes docentes", 12],
+  ["vacantes definitivas", 12],
   ["docente", 8],
+  ["docentes", 8],
+  ["directivo docente", 12],
   ["maestro", 7],
+  ["maestros", 7],
   ["convocatoria", 7],
   ["vacante", 7],
   ["merito", 6],
@@ -46,6 +71,7 @@ const directSignals = [
   "directivos docentes",
   "carrera docente",
   "vacantes docentes",
+  "vacantes definitivas",
   "convocatoria",
   "inscripcion",
   "prueba escrita",
@@ -54,7 +80,8 @@ const directSignals = [
   "merito",
   "escalafon",
   "encargo",
-  "provision de cargos"
+  "provision de cargos",
+  "reporte de vacantes"
 ];
 
 function decodeHtml(value = "") {
@@ -84,9 +111,10 @@ function cleanText(value = "") {
     .trim();
 
   // Algunas fuentes oficiales entregan UTF-8 como si fuera Latin-1.
-  if (/[ÃÂ]/.test(cleaned)) {
+  if (/[\u00c3\u00c2\ufffd]/.test(cleaned)) {
     try {
-      return Buffer.from(cleaned, "latin1").toString("utf8").trim();
+      const repaired = Buffer.from(cleaned, "latin1").toString("utf8").trim();
+      return /[\u00c3\u00c2\ufffd]/.test(repaired) ? cleaned : repaired;
     } catch {
       return cleaned;
     }
@@ -158,7 +186,7 @@ function isRelevantForApplicant(item) {
   const text = `${item.title} ${item.summary ?? ""}`;
   const directSignalsFound = directRelevanceScore(text);
   const score = relevanceScore(text);
-  return directSignalsFound >= 1 && score >= 7;
+  return directSignalsFound >= 1 && score >= 6;
 }
 
 function absoluteUrl(href, base) {
@@ -180,6 +208,18 @@ function titleFromUrl(url) {
   } catch {
     return "";
   }
+}
+
+function cleanTitle(value = "") {
+  const rawTitle = cleanText(value);
+  const [firstPart, ...rest] = rawTitle.split(" - ");
+  const deduped = rest.length && normalizeForScore(firstPart).startsWith(normalizeForScore(rest.join(" - ").slice(0, 48)))
+    ? firstPart
+    : rawTitle;
+  const title = deduped
+    .replace(/\s+/g, " ")
+    .trim();
+  return title.length > 170 ? `${title.slice(0, 167).trim()}...` : title;
 }
 
 function extractLinks(html, source) {
@@ -286,7 +326,7 @@ async function enrichCandidate(candidate) {
     const image = extractMeta(html, ["og:image", "twitter:image"])
       || extractArticleImage(html, candidate.url)
       || inferredMenImage;
-    const title = pageTitle.slice(0, 180);
+    const title = cleanTitle(pageTitle);
     const cleanedSummary = summary.slice(0, 260);
     const classification = classifyNews(`${title} ${cleanedSummary}`);
     return {
@@ -315,6 +355,11 @@ function recencyScore(date) {
   if (!date) return 0;
   const ageDays = Math.max(0, (Date.now() - new Date(`${date}T00:00:00Z`).valueOf()) / 86400000);
   return Math.max(0, 18 - ageDays / 7);
+}
+
+function dateValue(item) {
+  const value = Date.parse(`${item.date || ""}T00:00:00Z`);
+  return Number.isNaN(value) ? 0 : value;
 }
 
 async function loadExistingItems() {
@@ -367,8 +412,9 @@ async function main() {
 
   const existing = await loadExistingItems();
   const unique = [...new Map([
+    ...existing.filter(isRelevantForApplicant),
     ...discovered.slice(0, 18),
-    ...existing.filter(isRelevantForApplicant)
+    ...seedItems
   ].map((item) => [item.url, item])).values()];
   const enriched = await Promise.all(unique.map(enrichCandidate));
   const relevantDiscovered = enriched.filter(isRelevantForApplicant);
@@ -378,6 +424,8 @@ async function main() {
     return fresh
       ? {
           ...item,
+          title: fresh.title || item.title,
+          summary: fresh.summary || item.summary,
           date: fresh.date || item.date,
           image: fresh.image || item.image,
           topic: fresh.topic || item.topic,
@@ -389,11 +437,18 @@ async function main() {
   const combined = [...relevantDiscovered, ...refreshedExisting]
     .filter((item) => item.title && item.url);
 
-  const ranked = [...new Map(combined.map((item) => [item.url, item])).values()]
+  let ranked = [...new Map(combined.map((item) => [item.url, item])).values()]
     .map((item) => ({ ...item, rank: (item.score ?? relevanceScore(item.title)) + recencyScore(item.date) }))
     .sort((a, b) => b.rank - a.rank)
     .slice(0, 6)
     .map(({ rank, score, ...item }) => item);
+
+  if (ranked.length < 2) {
+    ranked = existing
+      .filter(isRelevantForApplicant)
+      .sort((a, b) => dateValue(b) - dateValue(a))
+      .slice(0, 6);
+  }
 
   if (ranked.length < 2) {
     throw new Error("No se encontraron al menos dos noticias relevantes; se conserva el archivo anterior.");
@@ -402,6 +457,8 @@ async function main() {
   await localizeFeatureImage(ranked);
   const payload = {
     generatedAt: new Date().toISOString(),
+    updateMode: "automatic",
+    sources: sources.map((source) => ({ name: source.name, url: source.url })),
     items: ranked
   };
   await writeFile(outputPath, `window.AULA_NEWS = ${JSON.stringify(payload, null, 2)};\n`, "utf8");

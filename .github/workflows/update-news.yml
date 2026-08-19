@@ -3,6 +3,7 @@ name: Actualizar noticias
 on:
   schedule:
     - cron: "15 11 * * *"
+    - cron: "15 23 * * *"
   workflow_dispatch:
 
 permissions:

@@ -5130,6 +5130,26 @@ body.auth-locked {
   color: var(--primary);
 }
 
+.news-source-links {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.news-auto-badge {
+  border: 1px solid var(--green-soft);
+  border-radius: 999px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 850;
+  padding: 9px 11px;
+  white-space: nowrap;
+}
+
 .news-all-link:hover {
   border-color: var(--primary);
   background: var(--surface);
@@ -8493,6 +8513,17 @@ body.auth-locked {
   .news-heading p {
     font-size: 0.9rem;
     overflow-wrap: anywhere;
+  }
+
+  .news-source-links {
+    justify-content: flex-start;
+    margin-top: 14px;
+    width: 100%;
+  }
+
+  .news-auto-badge,
+  .news-all-link {
+    min-height: 40px;
   }
 
   .btn {

@@ -1,39 +1,48 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-16T11:31:58.644Z",
+  "generatedAt": "2026-08-19T03:53:52.542Z",
+  "updateMode": "automatic",
+  "sources": [
+    {
+      "name": "CNSC",
+      "url": "https://www.cnsc.gov.co/cnsc-al-dia"
+    },
+    {
+      "name": "MEN",
+      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/"
+    }
+  ],
   "items": [
     {
       "source": "MEN",
       "date": "2026-04-01",
-      "title": "Educacion y CNSC anuncian avances claves para la carrera docente",
-      "summary": "Las entidades informaron avances en la ejecucion del nuevo concurso, los procesos de encargo y los traslados por seguridad.",
+      "title": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros",
+      "summary": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros En los avances se dio a conocer sobre la ejecución del nuevo concurso de méritos, la regulación de los procesos de e",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
-      "topic": "Nuevo concurso de meritos",
-      "image": "assets/news/feature.jpg"
+      "topic": "Concurso y pruebas",
+      "image": "assets/news/feature.jpg",
+      "priority": "prioridad",
+      "impact": "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion."
     },
     {
       "source": "MEN",
-      "title": "Ministerio de Educación fortalece las competencias de comunicación pública de la ciencia de estudiantes y docentes en el Encuentro Regional de las Olimpiadas STEM+ Colombia 2026 - ",
-      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/430077:Ministerio-de-Educacion-fortalece-las-competencias-de-comunicacion-publica-de-la-ciencia-de-estudiantes-y-docentes-en-el-Encuentro-Regional-de-las-Olimpiadas-STEM+-Colombia-2026",
-      "summary": "Ministerio de Educación fortalece las competencias de comunicación pública de la ciencia de estudiantes y docentes en el Encuentro Regional de las Olimpiadas STEM+ Colombia 2026 Con actividades de formación en narrativa digital, expresión corporal y producción",
-      "date": "2026-08-01",
-      "image": "assets/news/feature.jpg",
-      "topic": "Actualidad educativa"
+      "title": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
+      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
+      "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
+      "date": "2026-06-19",
+      "image": "https://www.mineducacion.gov.co/1780/articles-429273_foto_g.thumb_redes-1911.jpg",
+      "topic": "Carrera docente",
+      "priority": "seguimiento",
+      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
     },
     {
       "source": "CNSC",
       "date": "2026-04-23",
-      "title": "Avanza la identificacion y el reporte de vacantes definitivas",
-      "summary": "CNSC, MEN y secretarias trabajan para consolidar una oferta publica precisa para el nuevo proceso.",
+      "title": "CNSC y Ministerio de Educación fortalecen la transparencia y el mérito docente",
+      "summary": "Consulta la publicacion oficial para conocer todos los detalles.",
       "url": "https://www.cnsc.gov.co/cnsc-y-ministerio-de-educacion-fortalecen-la-transparencia-y-el-merito-docente-en-santa-marta-y-el",
-      "topic": "Vacantes docentes"
-    },
-    {
-      "source": "CNSC",
-      "date": "2026-05-04",
-      "title": "Nuevas directrices para evitar vacancias prolongadas",
-      "summary": "La Circular 2026RS069413 fija instrucciones para la provision de cargos directivos mediante encargo.",
-      "url": "https://www.cnsc.gov.co/la-cnsc-y-el-men-reiteran-directrices-para-evitar-vacancias-prolongadas-y-el-uso-inadecuado-de-la",
-      "topic": "Carrera docente"
+      "topic": "Carrera docente",
+      "priority": "seguimiento",
+      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
     }
   ]
 };
