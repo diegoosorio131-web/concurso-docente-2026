@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-21T11:37:39.706Z",
+  "generatedAt": "2026-08-21T23:36:44.851Z",
   "updateMode": "automatic",
   "sources": [
     {
