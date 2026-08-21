@@ -31,8 +31,7 @@
     rememberLoginInput.checked = remember;
     emailInput.value = remember ? localStorage.getItem(rememberedEmailKey) || "" : "";
     form.autocomplete = remember ? "on" : "off";
-    // Clean up any legacy insecure password storage
-    localStorage.removeItem(rememberedCredentialKey);
+    if (remember) void restoreEncryptedCredential();
   }
 
   function saveLoginPreference(email) {
@@ -42,6 +41,122 @@
     if (remember) localStorage.setItem(rememberedEmailKey, email);
     else {
       localStorage.removeItem(rememberedEmailKey);
+      localStorage.removeItem(rememberedCredentialKey);
+    }
+  }
+
+  function openCredentialDatabase() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(credentialDatabaseName, 1);
+      request.onupgradeneeded = () => {
+        if (!request.result.objectStoreNames.contains(credentialStoreName)) {
+          request.result.createObjectStore(credentialStoreName);
+        }
+      };
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function readCredentialKey(database) {
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(credentialStoreName, "readonly");
+      const request = transaction.objectStore(credentialStoreName).get(credentialKeyId);
+      request.onsuccess = () => resolve(request.result || null);
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  function writeCredentialKey(database, key) {
+    return new Promise((resolve, reject) => {
+      const transaction = database.transaction(credentialStoreName, "readwrite");
+      transaction.objectStore(credentialStoreName).put(key, credentialKeyId);
+      transaction.oncomplete = () => resolve();
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+  }
+
+  async function getIndexedDatabaseCredentialKey() {
+    const database = await openCredentialDatabase();
+    try {
+      let key = await readCredentialKey(database);
+      if (!key) {
+        key = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+        await writeCredentialKey(database, key);
+      }
+      return key;
+    } finally {
+      database.close();
+    }
+  }
+
+  async function getDerivedCredentialKey() {
+    const source = new TextEncoder().encode(
+      `${config.supabaseUrl}|${config.supabasePublishableKey}|aula2026-local-credentials`
+    );
+    const digest = await crypto.subtle.digest("SHA-256", source);
+    return crypto.subtle.importKey("raw", digest, { name: "AES-GCM" }, false, ["encrypt", "decrypt"]);
+  }
+
+  async function resolveCredentialEncryptionKey(preferredMode = "") {
+    if (preferredMode === "derived") {
+      return { key: await getDerivedCredentialKey(), mode: "derived" };
+    }
+    if (window.indexedDB) {
+      try {
+        return { key: await getIndexedDatabaseCredentialKey(), mode: "indexeddb" };
+      } catch {
+        // Some privacy modes expose IndexedDB but block its use.
+      }
+    }
+    return { key: await getDerivedCredentialKey(), mode: "derived" };
+  }
+
+  function bytesToBase64(bytes) {
+    let binary = "";
+    bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+    return btoa(binary);
+  }
+
+  function base64ToBytes(value) {
+    return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+  }
+
+  async function saveEncryptedCredential(email, password) {
+    if (!rememberLoginInput.checked || !window.crypto?.subtle) return;
+    try {
+      const { key, mode } = await resolveCredentialEncryptionKey();
+      const iv = crypto.getRandomValues(new Uint8Array(12));
+      const content = new TextEncoder().encode(JSON.stringify({ email, password }));
+      const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, content);
+      localStorage.setItem(rememberedCredentialKey, JSON.stringify({
+        mode,
+        iv: bytesToBase64(iv),
+        data: bytesToBase64(new Uint8Array(encrypted))
+      }));
+    } catch {
+      // The browser password manager remains available as a fallback.
+    }
+  }
+
+  async function restoreEncryptedCredential() {
+    const saved = localStorage.getItem(rememberedCredentialKey);
+    if (!saved || !window.crypto?.subtle) return;
+    try {
+      const payload = JSON.parse(saved);
+      const { key } = await resolveCredentialEncryptionKey(payload.mode || "indexeddb");
+      const decrypted = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: base64ToBytes(payload.iv) },
+        key,
+        base64ToBytes(payload.data)
+      );
+      const credential = JSON.parse(new TextDecoder().decode(decrypted));
+      if (credential.email && credential.password && rememberLoginInput.checked) {
+        emailInput.value = credential.email;
+        passwordInput.value = credential.password;
+      }
+    } catch {
       localStorage.removeItem(rememberedCredentialKey);
     }
   }
@@ -179,6 +294,7 @@
         }
 
         if (signInData.user) {
+          await saveEncryptedCredential(email, password);
           if (await verifyApproval(client, signInData.user)) {
             await saveBrowserCredential(email, password);
           }

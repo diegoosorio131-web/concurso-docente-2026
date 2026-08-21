@@ -5,7 +5,6 @@ import path from "node:path";
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectDir = path.resolve(scriptDir, "..");
 const outputPath = path.join(projectDir, "data", "news-data.js");
-const indexPath = path.join(projectDir, "index.html");
 const newsAssetsDir = path.join(projectDir, "assets", "news");
 const featureImagePath = path.join(newsAssetsDir, "feature.jpg");
 
@@ -19,21 +18,10 @@ const sources = [
     name: "MEN",
     url: "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/",
     host: "mineducacion.gov.co"
-  },
-  {
-    name: "MEN",
-    url: "https://www.mineducacion.gov.co/portal/decadas/",
-    host: "mineducacion.gov.co"
   }
 ];
 
 const seedItems = [
-  {
-    source: "MEN",
-    title: "12.725 nuevos cargos docentes fortalecen la capacidad del sistema educativo",
-    url: "https://www.mineducacion.gov.co/portal/decadas/430054:",
-    score: 38
-  },
   {
     source: "MEN",
     title: "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
@@ -314,26 +302,15 @@ function extractDate(html) {
 }
 
 async function fetchText(url) {
-  const headers = {
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-    "Accept-Language": "es-CO,es;q=0.9,en-US;q=0.8,en;q=0.7",
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-  };
-  try {
-    const response = await fetch(url, { headers, signal: AbortSignal.timeout(15000) });
-    if (response.ok) return await response.text();
-  } catch (err) {
-    // Intentar con proxy en caso de bloqueo SSL/DNS en el servidor local
-    try {
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
-      const proxyResp = await fetch(proxyUrl, { headers, signal: AbortSignal.timeout(20000) });
-      if (proxyResp.ok) return await proxyResp.text();
-    } catch {
-      // Ignorar fallback si también falla
-    }
-    throw err;
-  }
-  throw new Error(`No se pudo obtener ${url}`);
+  const response = await fetch(url, {
+    headers: {
+      "Accept": "text/html,application/xhtml+xml",
+      "User-Agent": "Aula2026-NewsBot/1.0 (+https://github.com/)"
+    },
+    signal: AbortSignal.timeout(20000)
+  });
+  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  return response.text();
 }
 
 async function enrichCandidate(candidate) {
@@ -463,16 +440,6 @@ async function localizeNewsImages(items) {
   }
 }
 
-async function updateNewsCacheBuster(generatedAt) {
-  const version = generatedAt.replace(/\D/g, "").slice(0, 12);
-  const html = await readFile(indexPath, "utf8");
-  const updated = html.replace(
-    /data\/news-data\.js\?v=[^"]+/,
-    `data/news-data.js?v=${version}`
-  );
-  if (updated !== html) await writeFile(indexPath, updated, "utf8");
-}
-
 async function main() {
   const discovered = [];
 
@@ -531,15 +498,13 @@ async function main() {
 
   await localizeFeatureImage(ranked);
   await localizeNewsImages(ranked);
-  const generatedAt = new Date().toISOString();
   const payload = {
-    generatedAt,
+    generatedAt: new Date().toISOString(),
     updateMode: "automatic",
     sources: sources.map((source) => ({ name: source.name, url: source.url })),
     items: ranked
   };
   await writeFile(outputPath, `window.AULA_NEWS = ${JSON.stringify(payload, null, 2)};\n`, "utf8");
-  await updateNewsCacheBuster(generatedAt);
   console.log(`Noticias actualizadas: ${ranked.length}`);
 }
 
