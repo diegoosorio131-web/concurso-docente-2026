@@ -46,6 +46,7 @@ const els = {
   newsFeature: document.getElementById("newsFeature"),
   newsList: document.getElementById("newsList"),
   newsUpdated: document.getElementById("newsUpdated"),
+  refreshNewsBtn: document.getElementById("refreshNewsBtn"),
   flyerReveal: document.getElementById("flyerReveal"),
   flyerToggle: document.getElementById("flyerToggle"),
   flyerToggles: document.querySelectorAll("[data-flyer-toggle]"),
@@ -1438,35 +1439,30 @@ function appendNewsImage(media, source, referrerPolicy = "") {
   media.append(backdrop, image);
 }
 
-function newsMedia(item) {
-  const media = document.createElement("div");
-  media.className = "news-feature-media";
-  if (typeof item.image === "string" && /^assets\/news\/[a-z0-9._-]+\.(?:jpg|jpeg|png|webp|svg)$/i.test(item.image)) {
-    appendNewsImage(media, item.image);
-    return media;
-  }
-  try {
-    const imageUrl = new URL(item.image);
-    if (imageUrl.protocol === "https:") {
-      appendNewsImage(media, imageUrl.href, "no-referrer");
-      return media;
-    }
-  } catch {
-    // The branded fallback below keeps the layout stable.
-  }
+const AULA_NEWS_STORAGE_KEY = "concursoDocente2026_news_cache";
 
-  media.append(newsFallback());
-  return media;
+function getActiveNewsData() {
+  const cached = localStorage.getItem(AULA_NEWS_STORAGE_KEY);
+  if (cached) {
+    try {
+      const parsed = JSON.parse(cached);
+      if (parsed && Array.isArray(parsed.items) && parsed.items.length >= 2) {
+        return parsed;
+      }
+    } catch {}
+  }
+  return window.AULA_NEWS || { generatedAt: new Date().toISOString(), items: [] };
 }
 
-function newsCardMedia(item) {
-  const media = newsMedia(item);
-  media.className = "news-card-media";
-  return media;
+function saveActiveNewsData(data) {
+  window.AULA_NEWS = data;
+  try {
+    localStorage.setItem(AULA_NEWS_STORAGE_KEY, JSON.stringify(data));
+  } catch {}
 }
 
 function renderNews() {
-  const data = window.AULA_NEWS;
+  const data = getActiveNewsData();
   const items = Array.isArray(data?.items)
     ? data.items
       .filter((item) => item?.title && allowedNewsUrl(item.url) && isNewsRelevantForPreparation(item))
@@ -1510,12 +1506,16 @@ function renderNews() {
   els.newsList.replaceChildren(...cards);
 
   const generated = new Date(data.generatedAt);
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const isToday = !Number.isNaN(generated.valueOf()) && generated.toISOString().slice(0, 10) === todayStr;
+
   if (els.newsUpdated && !Number.isNaN(generated.valueOf())) {
-    els.newsUpdated.textContent = `Autoactualizado ${new Intl.DateTimeFormat("es-CO", {
+    const formattedDate = new Intl.DateTimeFormat("es-CO", {
       day: "numeric",
       month: "long",
       year: "numeric"
-    }).format(generated)}.`;
+    }).format(generated);
+    els.newsUpdated.textContent = isToday ? `Autoactualizado hoy (${formattedDate}).` : `Autoactualizado ${formattedDate}.`;
   } else if (els.newsUpdated) {
     els.newsUpdated.textContent = "Actualizacion automatica activa.";
   }
@@ -2889,6 +2889,12 @@ renderClassRoadmap();
 renderClassQuizQuestions();
 renderClassTwoQuizQuestions();
 renderClassThreeQuizQuestions();
+if (els.refreshNewsBtn) {
+  els.refreshNewsBtn.addEventListener("click", () => {
+    syncNewsLive(true);
+  });
+}
 renderNews();
+syncNewsLive(false);
 renderStudy();
 renderProgress();

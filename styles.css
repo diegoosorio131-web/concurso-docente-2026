@@ -5150,6 +5150,46 @@ body.auth-locked {
   white-space: nowrap;
 }
 
+.news-refresh-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--navy);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.news-refresh-btn:hover {
+  border-color: var(--primary);
+  background: var(--surface-soft);
+  color: var(--primary);
+}
+
+.news-refresh-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  fill: none;
+  transition: transform 0.4s ease;
+}
+
+.news-refresh-btn.is-loading svg {
+  animation: spinNews 1s linear infinite;
+}
+
+@keyframes spinNews {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 .news-all-link:hover {
   border-color: var(--primary);
   background: var(--surface);

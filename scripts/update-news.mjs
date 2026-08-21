@@ -314,15 +314,26 @@ function extractDate(html) {
 }
 
 async function fetchText(url) {
-  const response = await fetch(url, {
-    headers: {
-      "Accept": "text/html,application/xhtml+xml",
-      "User-Agent": "Aula2026-NewsBot/1.0 (+https://github.com/)"
-    },
-    signal: AbortSignal.timeout(20000)
-  });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
-  return response.text();
+  const headers = {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+    "Accept-Language": "es-CO,es;q=0.9,en-US;q=0.8,en;q=0.7",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+  };
+  try {
+    const response = await fetch(url, { headers, signal: AbortSignal.timeout(15000) });
+    if (response.ok) return await response.text();
+  } catch (err) {
+    // Intentar con proxy en caso de bloqueo SSL/DNS en el servidor local
+    try {
+      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+      const proxyResp = await fetch(proxyUrl, { headers, signal: AbortSignal.timeout(20000) });
+      if (proxyResp.ok) return await proxyResp.text();
+    } catch {
+      // Ignorar fallback si también falla
+    }
+    throw err;
+  }
+  throw new Error(`No se pudo obtener ${url}`);
 }
 
 async function enrichCandidate(candidate) {

@@ -125,6 +125,7 @@ Deno.serve(async (request) => {
   }
 
   if (attemptId) {
+    if (request.method !== "GET") return json({ error: "Metodo no permitido." }, 405);
     const { data: attempt, error: attemptError } = await admin
       .from("quiz_attempts")
       .select("id, category, score, correct_count, total_count, answers, created_at")
@@ -235,7 +236,6 @@ Deno.serve(async (request) => {
         typeof answer.id === "string"
         && Number.isInteger(answer.answer)
         && Number(answer.answer) >= 0
-        && Number(answer.answer) <= 2
       ))
       .map((answer) => [answer.id, answer.answer])
   );
