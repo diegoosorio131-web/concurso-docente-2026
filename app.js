@@ -1521,6 +1521,144 @@ function renderNews() {
   }
 }
 
+async function syncNewsLive(force = false) {
+  const currentData = getActiveNewsData();
+  const todayStr = new Date().toISOString().slice(0, 10);
+  const lastDate = currentData?.generatedAt && !Number.isNaN(new Date(currentData.generatedAt).valueOf())
+    ? new Date(currentData.generatedAt).toISOString().slice(0, 10)
+    : "";
+
+  if (!force && lastDate === todayStr) {
+    return;
+  }
+
+  if (els.refreshNewsBtn) els.refreshNewsBtn.classList.add("is-loading");
+  if (els.newsUpdated) els.newsUpdated.textContent = "Buscando novedades oficiales al día...";
+
+  let updated = false;
+
+  // Intentar descargar la versión más reciente alojada en GitHub Raw (Feed principal infalible)
+  try {
+    const githubRawUrl = `https://raw.githubusercontent.com/diegoosorio131-web/concurso-docente-2026/main/data/news-data.js?t=${Date.now()}`;
+    const ghRes = await fetch(githubRawUrl, { cache: "no-store", signal: AbortSignal.timeout(8000) });
+    if (ghRes.ok) {
+      const text = await ghRes.text();
+      const jsonMatch = text.match(/window\.AULA_NEWS\s*=\s*({[\s\S]*});?\s*$/)?.[1];
+      if (jsonMatch) {
+        const ghData = JSON.parse(jsonMatch);
+        if (ghData && Array.isArray(ghData.items) && ghData.items.length >= 2) {
+          saveActiveNewsData(ghData);
+          updated = true;
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("No se pudo obtener el feed desde GitHub Raw:", err);
+  }
+
+  // Intentar raspado directo en vivo como respaldo adicional a proxies
+  try {
+    const sources = [
+      { name: "CNSC", url: "https://www.cnsc.gov.co/cnsc-al-dia" },
+      { name: "MEN", url: "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/" }
+    ];
+
+    const proxyTemplates = [
+      (url) => `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`,
+      (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+      (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`
+    ];
+
+    const freshScrapedItems = [];
+    for (const src of sources) {
+      let htmlText = null;
+      for (const getProxyUrl of proxyTemplates) {
+        try {
+          const res = await fetch(getProxyUrl(src.url), { signal: AbortSignal.timeout(8000) });
+          if (res.ok) {
+            htmlText = await res.text();
+            if (htmlText && htmlText.length > 500) break;
+          }
+        } catch {}
+      }
+
+      if (!htmlText) continue;
+
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(htmlText, "text/html");
+      const links = Array.from(doc.querySelectorAll("a[href]"));
+
+      for (const a of links) {
+        const href = a.getAttribute("href");
+        if (!href) continue;
+        const rawText = (a.textContent || "").trim().replace(/\s+/g, " ");
+        if (rawText.length < 30 || rawText.length > 180) continue;
+        const lower = rawText.toLowerCase();
+
+        if (
+          lower.includes("docente") ||
+          lower.includes("concurso") ||
+          lower.includes("vacante") ||
+          lower.includes("opec") ||
+          lower.includes("simo") ||
+          lower.includes("merito")
+        ) {
+          let fullUrl = href;
+          if (href.startsWith("/")) {
+            fullUrl = src.name === "CNSC" ? `https://www.cnsc.gov.co${href}` : `https://www.mineducacion.gov.co${href}`;
+          }
+          if (!allowedNewsUrl(fullUrl)) continue;
+
+          freshScrapedItems.push({
+            source: src.name,
+            date: todayStr,
+            title: rawText,
+            summary: rawText,
+            url: fullUrl,
+            topic: lower.includes("convocatoria") || lower.includes("prueba") ? "Concurso y pruebas" : "Carrera docente",
+            priority: "prioridad",
+            impact: "Consulta la publicación oficial para confirmar todos los detalles.",
+            image: src.name === "CNSC" ? "assets/news/source-cnsc.svg" : "assets/news/source-men.svg"
+          });
+        }
+      }
+    }
+
+    if (freshScrapedItems.length > 0) {
+      const activeData = getActiveNewsData();
+      const mergedMap = new Map();
+      for (const item of (activeData.items || [])) {
+        if (item.url) mergedMap.set(item.url, item);
+      }
+      for (const item of freshScrapedItems) {
+        if (item.url && !mergedMap.has(item.url)) {
+          mergedMap.set(item.url, item);
+        }
+      }
+      const updatedPayload = {
+        generatedAt: new Date().toISOString(),
+        updateMode: "automatic",
+        sources: activeData.sources || [],
+        items: Array.from(mergedMap.values()).slice(0, 10)
+      };
+      saveActiveNewsData(updatedPayload);
+      updated = true;
+    }
+  } catch (err) {
+    console.warn("Fallo al consultar proxies en vivo:", err);
+  } finally {
+    if (!updated) {
+      const activeData = getActiveNewsData();
+      saveActiveNewsData({
+        ...activeData,
+        generatedAt: new Date().toISOString()
+      });
+    }
+    if (els.refreshNewsBtn) els.refreshNewsBtn.classList.remove("is-loading");
+    renderNews();
+  }
+}
+
 function markStudyActivity() {
   const progress = loadProgress();
   const today = new Date().toISOString().slice(0, 10);
