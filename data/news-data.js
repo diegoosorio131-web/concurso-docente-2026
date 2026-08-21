@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-08-21T03:16:23.697Z",
+  "generatedAt": "2026-08-21T11:37:39.706Z",
   "updateMode": "automatic",
   "sources": [
     {
@@ -9,10 +9,6 @@ window.AULA_NEWS = {
     {
       "name": "MEN",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/"
-    },
-    {
-      "name": "MEN",
-      "url": "https://www.mineducacion.gov.co/portal/decadas/"
     }
   ],
   "items": [
