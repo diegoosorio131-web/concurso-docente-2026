@@ -1439,6 +1439,33 @@ function appendNewsImage(media, source, referrerPolicy = "") {
   media.append(backdrop, image);
 }
 
+function newsMedia(item) {
+  const media = document.createElement("div");
+  media.className = "news-feature-media";
+  if (typeof item?.image === "string" && /^assets\/news\/[a-z0-9._-]+\.(?:jpg|jpeg|png|webp|svg)$/i.test(item.image)) {
+    appendNewsImage(media, item.image);
+    return media;
+  }
+  try {
+    if (item?.image) {
+      const imageUrl = new URL(item.image);
+      if (imageUrl.protocol === "https:" || imageUrl.protocol === "http:") {
+        appendNewsImage(media, imageUrl.href, "no-referrer");
+        return media;
+      }
+    }
+  } catch {}
+
+  media.append(newsFallback());
+  return media;
+}
+
+function newsCardMedia(item) {
+  const media = newsMedia(item);
+  media.className = "news-card-media";
+  return media;
+}
+
 const AULA_NEWS_STORAGE_KEY = "concursoDocente2026_news_cache";
 
 function getActiveNewsData() {

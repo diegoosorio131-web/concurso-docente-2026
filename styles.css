@@ -2615,25 +2615,30 @@ body.sidebar-collapsed .sidebar-open {
 
 .news-media-fallback {
   align-items: center;
-  background: #3659a7 url("assets/pattern.svg");
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
   color: #ffffff;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   height: 100%;
+  width: 100%;
   justify-content: center;
-  min-height: 354px;
+  min-height: 220px;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 
 .news-media-fallback span {
-  padding: 10px 14px;
-  border: 1px solid rgba(255, 255, 255, .32);
-  border-radius: 4px;
-  color: rgba(255, 255, 255, .86);
-  font-size: .68rem;
+  padding: 8px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  color: #ffffff;
+  font-size: 0.72rem;
   font-weight: 800;
-  letter-spacing: 0;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .news-meta {
