@@ -893,6 +893,7 @@ function profileAreaLabel(area) {
     ofimatica: "Ofimática",
     quimica: "Química",
     ciencias_naturales: "Ciencias naturales",
+    matematicas: "Matemáticas",
     otro: "Otra área"
   }[area] || "";
 }
