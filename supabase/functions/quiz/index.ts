@@ -39,7 +39,10 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "tuiran-naturales-08": "Simulacro #1 · Ciencias Naturales",
     "generado-quimica-01": "Simulacro #3 · Química",
     "generado-naturales-01": "Simulacro #2 · Ciencias Naturales",
-    "ofimatica-01": "Simulacro #1 · Ofimática"
+    "ofimatica-01": "Simulacro #1 · Ofimática",
+    "generado-matematicas-01": "Simulacro #1 · Matemáticas",
+    "generado-matematicas-02": "Simulacro #2 · Matemáticas",
+    "tuiran-matematicas-08": "Simulacro #3 · Matemáticas"
   };
   return titles[testId || ""] || fallback;
 }
