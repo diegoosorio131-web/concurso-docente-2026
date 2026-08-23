@@ -6,7 +6,12 @@ const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const projectDir = path.resolve(scriptDir, "..");
 const outputPath = path.join(projectDir, "data", "news-data.js");
 const newsAssetsDir = path.join(projectDir, "assets", "news");
-const featureImagePath = path.join(newsAssetsDir, "feature.jpg");
+
+function assetStamp(date = new Date()) {
+  return date.toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+}
+
+const currentStamp = assetStamp();
 
 const sources = [
   {
@@ -390,8 +395,9 @@ async function localizeFeatureImage(items) {
     const bytes = new Uint8Array(await response.arrayBuffer());
     if (bytes.length > 8_000_000) throw new Error("la imagen supera 8 MB");
     await mkdir(newsAssetsDir, { recursive: true });
-    await writeFile(featureImagePath, bytes);
-    feature.image = "assets/news/feature.jpg";
+    const fileName = `feature-${currentStamp}.${imageExtension(contentType)}`;
+    await writeFile(path.join(newsAssetsDir, fileName), bytes);
+    feature.image = `assets/news/${fileName}`;
   } catch (error) {
     console.warn(`No se pudo guardar la imagen principal: ${error.message}`);
     delete feature.image;
@@ -430,7 +436,9 @@ async function localizeNewsImages(items) {
       }
       const bytes = new Uint8Array(await response.arrayBuffer());
       if (bytes.length > 8_000_000) throw new Error("la imagen supera 8 MB");
-      const fileName = index === 0 ? `feature.${imageExtension(contentType)}` : `item-${index + 1}.${imageExtension(contentType)}`;
+      const fileName = index === 0
+        ? `feature-${currentStamp}.${imageExtension(contentType)}`
+        : `item-${index + 1}-${currentStamp}.${imageExtension(contentType)}`;
       await writeFile(path.join(newsAssetsDir, fileName), bytes);
       item.image = `assets/news/${fileName}`;
     } catch (error) {

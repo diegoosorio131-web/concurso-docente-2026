@@ -19,7 +19,7 @@ window.AULA_NEWS = {
       "summary": "El Ministerio de Educacion lidero la segunda reunion presencial de la Mesa Nacional de Educacion en Emergencia para articular capacidades del Gobierno nacional, organismos de cooperacion y sociedad civil frente a las afectaciones del sismo del 10 de agosto.",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/430335:Mesa-Nacional-de-Educacion-en-Emergencia-fortalece-la-respuesta-del-sector-educativo-tras-emergencia-sismica-nacional",
       "topic": "Continuidad escolar",
-      "image": "assets/news/feature.jpg",
+      "image": "assets/news/feature-20260823T153000Z.jpg",
       "priority": "prioridad",
       "impact": "Revisa si cambia la continuidad escolar, los apoyos territoriales o el calendario de trabajo en tu zona."
     },
@@ -30,7 +30,7 @@ window.AULA_NEWS = {
       "summary": "La CNSC publico los proyectos de acuerdo de convocatoria, el anexo tecnico y la OPEC preliminar del proceso de seleccion docente y directivos docentes 2026. La ciudadania puede presentar observaciones hasta el 25 de agosto.",
       "url": "https://www.cnsc.gov.co/la-cnsc-publica-los-proyectos-de-acuerdo-el-anexo-tecnico-y-la-opec-preliminar-del-proceso-de",
       "topic": "Concurso y pruebas",
-      "image": "assets/news/item-2.jpg",
+      "image": "assets/news/item-2-20260823T153000Z.jpg",
       "priority": "prioridad",
       "impact": "Revisa si modifica reglas, vacantes, requisitos o pasos del proceso de seleccion."
     },
