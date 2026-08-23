@@ -43,9 +43,9 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "generado-matematicas-01": "Simulacro #1 · Matemáticas",
     "generado-matematicas-02": "Simulacro #2 · Matemáticas",
     "tuiran-matematicas-08": "Simulacro #3 · Matemáticas",
-    "banco-quimica-200": "Banco de 200 preguntas · Química",
-    "banco-naturales-200": "Banco de 200 preguntas · Ciencias Naturales",
-    "banco-matematicas-200": "Banco de 200 preguntas · Matemáticas"
+    "banco-quimica-200": "Simulacro #4 · Química",
+    "banco-naturales-200": "Simulacro #3 · Ciencias Naturales",
+    "banco-matematicas-200": "Simulacro #4 · Matemáticas"
   };
   return titles[testId || ""] || fallback;
 }
