@@ -185,6 +185,9 @@ Deno.serve(async (request) => {
     "tuiran-naturales-08",
     "generado-quimica-01",
     "generado-naturales-01",
+    "generado-matematicas-01",
+    "generado-matematicas-02",
+    "tuiran-matematicas-08",
     "ofimatica-01"
   ]);
   if (test && !allowedTests.has(test)) {
@@ -211,6 +214,9 @@ Deno.serve(async (request) => {
   if (test === "tuiran-naturales-08") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "generado-quimica-01") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "generado-naturales-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "generado-matematicas-01") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "generado-matematicas-02") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "tuiran-matematicas-08") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "ofimatica-01") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
