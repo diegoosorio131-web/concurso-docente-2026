@@ -42,7 +42,10 @@ function displayTestTitle(testId: string | null, fallback = "Simulacro") {
     "ofimatica-01": "Simulacro #1 · Ofimática",
     "generado-matematicas-01": "Simulacro #1 · Matemáticas",
     "generado-matematicas-02": "Simulacro #2 · Matemáticas",
-    "tuiran-matematicas-08": "Simulacro #3 · Matemáticas"
+    "tuiran-matematicas-08": "Simulacro #3 · Matemáticas",
+    "banco-quimica-200": "Banco de 200 preguntas · Química",
+    "banco-naturales-200": "Banco de 200 preguntas · Ciencias Naturales",
+    "banco-matematicas-200": "Banco de 200 preguntas · Matemáticas"
   };
   return titles[testId || ""] || fallback;
 }
@@ -191,6 +194,9 @@ Deno.serve(async (request) => {
     "generado-matematicas-01",
     "generado-matematicas-02",
     "tuiran-matematicas-08",
+    "banco-quimica-200",
+    "banco-naturales-200",
+    "banco-matematicas-200",
     "ofimatica-01"
   ]);
   if (test && !allowedTests.has(test)) {
@@ -220,6 +226,9 @@ Deno.serve(async (request) => {
   if (test === "generado-matematicas-01") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "generado-matematicas-02") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "tuiran-matematicas-08") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "banco-quimica-200") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "banco-naturales-200") questionsQuery = questionsQuery.eq("test_id", test);
+  if (test === "banco-matematicas-200") questionsQuery = questionsQuery.eq("test_id", test);
   if (test === "ofimatica-01") questionsQuery = questionsQuery.eq("test_id", test);
 
   const { data: questions, error: questionsError } = await questionsQuery;
