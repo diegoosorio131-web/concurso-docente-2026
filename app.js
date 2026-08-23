@@ -1390,7 +1390,7 @@ function newsImpactBlock(item, compact = false) {
 
 function isNewsRelevantForPreparation(item) {
   const text = `${item.title || ""} ${item.summary || ""}`.toLowerCase();
-  return /(concurso|convocatoria|inscripcion|prueba|vacante|opec|simo|merito|carrera docente|encargo|escalafon|decreto|resolucion)/.test(text);
+  return /(concurso|convocatoria|inscripcion|prueba|vacante|opec|simo|merito|carrera docente|encargo|escalafon|decreto|resolucion|educacion|escuela|colegio|colegios|sismo|emergencia|icfes|saber pro|saber tyt|continuidad escolar|territorios)/.test(text);
 }
 
 function newsDateValue(item) {
@@ -1401,7 +1401,7 @@ function newsDateValue(item) {
 function allowedNewsUrl(value) {
   try {
     const url = new URL(value);
-    return ["cnsc.gov.co", "mineducacion.gov.co", "funcionpublica.gov.co"]
+    return ["cnsc.gov.co", "mineducacion.gov.co", "funcionpublica.gov.co", "icfes.gov.co"]
       .some((host) => url.hostname === host || url.hostname.endsWith(`.${host}`));
   } catch {
     return false;
@@ -1464,6 +1464,21 @@ function newsCardMedia(item) {
   const media = newsMedia(item);
   media.className = "news-card-media";
   return media;
+}
+
+async function refreshNewsData() {
+  try {
+    const response = await fetch(`data/news-data.js?ts=${Date.now()}`, {
+      cache: "no-store"
+    });
+    if (!response.ok) return;
+    const source = await response.text();
+    const match = source.match(/window\.AULA_NEWS\s*=\s*({[\s\S]*});?\s*$/);
+    if (!match) return;
+    window.AULA_NEWS = JSON.parse(match[1]);
+  } catch {
+    // Keep the bundled data if the network request fails.
+  }
 }
 
 function renderNews() {
@@ -2891,5 +2906,6 @@ renderClassQuizQuestions();
 renderClassTwoQuizQuestions();
 renderClassThreeQuizQuestions();
 renderNews();
+void refreshNewsData().then(() => renderNews());
 renderStudy();
 renderProgress();
