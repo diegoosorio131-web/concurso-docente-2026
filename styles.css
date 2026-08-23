@@ -2559,8 +2559,8 @@ body.sidebar-collapsed .sidebar-open {
 
 .news-grid {
   display: grid;
-  gap: 18px;
-  grid-template-columns: minmax(0, 1.5fr) minmax(330px, 0.78fr);
+  gap: 14px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(330px, 0.8fr);
 }
 
 .news-feature {
@@ -2570,7 +2570,7 @@ body.sidebar-collapsed .sidebar-open {
   color: var(--text);
   display: grid;
   grid-template-columns: minmax(260px, 1fr) minmax(300px, 1fr);
-  min-height: 354px;
+  min-height: 320px;
   overflow: hidden;
   position: relative;
   transition: box-shadow 180ms ease, transform 180ms ease;
@@ -2601,7 +2601,7 @@ body.sidebar-collapsed .sidebar-open {
 
 .news-feature-image {
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   position: relative;
   transition: transform 350ms ease;
@@ -2622,7 +2622,7 @@ body.sidebar-collapsed .sidebar-open {
   gap: 14px;
   height: 100%;
   justify-content: center;
-  min-height: 354px;
+  min-height: 320px;
 }
 
 .news-media-fallback span {
@@ -2660,7 +2660,7 @@ body.sidebar-collapsed .sidebar-open {
 .news-feature-copy {
   align-self: center;
   max-width: 650px;
-  padding: 30px;
+  padding: 24px;
   position: relative;
   z-index: 2;
 }
@@ -5156,13 +5156,13 @@ body.auth-locked {
 }
 
 .news-grid {
-  gap: 22px;
-  grid-template-columns: minmax(0, 1.7fr) minmax(300px, .72fr);
+  gap: 14px;
+  grid-template-columns: minmax(0, 1.45fr) minmax(300px, .8fr);
 }
 
 .news-feature {
-  min-height: 390px;
-  grid-template-columns: minmax(300px, 1.08fr) minmax(300px, .92fr);
+  min-height: 320px;
+  grid-template-columns: minmax(280px, 1fr) minmax(300px, 1fr);
   border-color: var(--line);
   background: var(--surface);
   box-shadow: 0 12px 36px rgba(23, 43, 42, .06);
@@ -5174,6 +5174,9 @@ body.auth-locked {
 
 .news-feature-media {
   background: #d8dfdc;
+  min-height: 100%;
+  overflow: hidden;
+  position: relative;
 }
 
 .news-feature-backdrop {
@@ -5182,12 +5185,15 @@ body.auth-locked {
 }
 
 .news-feature-image {
-  object-fit: contain;
+  height: 100%;
+  object-fit: cover;
   object-position: center;
+  width: 100%;
 }
 
 .news-feature-copy {
-  padding: 34px;
+  align-self: center;
+  padding: 24px;
 }
 
 .news-topic {
@@ -5251,11 +5257,11 @@ body.auth-locked {
 }
 
 .news-list {
-  gap: 14px;
+  gap: 12px;
 }
 
 .news-card {
-  padding: 24px 50px 22px 22px;
+  padding: 14px 14px 14px 12px;
   border-color: var(--line);
   background: var(--surface);
   box-shadow: 0 7px 24px rgba(23, 43, 42, .04);
@@ -5264,8 +5270,7 @@ body.auth-locked {
 .news-card {
   display: grid;
   grid-template-columns: 128px minmax(0, 1fr) 30px;
-  gap: 16px;
-  padding: 16px 16px 16px 14px;
+  gap: 14px;
 }
 
 .news-card-copy {
