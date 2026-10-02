@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-10-01T17:21:18.187Z",
+  "generatedAt": "2026-10-02T02:14:07.616Z",
   "updateMode": "automatic",
   "sources": [
     {
@@ -29,21 +29,10 @@ window.AULA_NEWS = {
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
       "summary": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros En los avances se dio a conocer sobre la ejecución del nuevo concurso de méritos, la regulación de los procesos de e",
       "date": "2026-04-01",
-      "image": "assets/news/item-2-20261001T172116Z.jpg",
+      "image": "assets/news/item-2-20261002T021401Z.jpg",
       "topic": "Concurso y pruebas",
       "priority": "prioridad",
       "impact": "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion."
-    },
-    {
-      "source": "MEN",
-      "title": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
-      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
-      "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
-      "date": "2026-06-19",
-      "image": "assets/news/item-3-20261001T172116Z.jpg",
-      "topic": "Carrera docente",
-      "priority": "seguimiento",
-      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
     },
     {
       "source": "CNSC",
@@ -55,6 +44,17 @@ window.AULA_NEWS = {
       "priority": "seguimiento",
       "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente.",
       "image": "assets/news/source-cnsc.svg"
+    },
+    {
+      "source": "MEN",
+      "title": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
+      "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
+      "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
+      "date": "2026-06-19",
+      "image": "assets/news/item-4-20261002T021401Z.jpg",
+      "topic": "Carrera docente",
+      "priority": "seguimiento",
+      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
     }
   ]
 };
