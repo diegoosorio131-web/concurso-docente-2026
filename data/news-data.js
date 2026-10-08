@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-10-08T02:41:36.483Z",
+  "generatedAt": "2026-10-08T17:51:15.383Z",
   "updateMode": "automatic",
   "sources": [
     {
@@ -29,7 +29,7 @@ window.AULA_NEWS = {
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/431016:19-900-directivos-docentes-lideran-la-transformacion-de-la-educacion-en-Colombia",
       "summary": "19.900 directivos docentes lideran la transformación de la educación en Colombia Hoy, en el Día del Directivo Docente, el Ministerio de Educación Nacional reconoce el liderazgo de rectores, coordinadores y directivos rurales que trabajan por garantizar una edu",
       "date": "2026-10-05",
-      "image": "assets/news/item-2-20261008T024133Z.jpg",
+      "image": "assets/news/item-2-20261008T175111Z.jpg",
       "topic": "Carrera docente",
       "priority": "seguimiento",
       "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
@@ -40,7 +40,7 @@ window.AULA_NEWS = {
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
       "summary": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros En los avances se dio a conocer sobre la ejecución del nuevo concurso de méritos, la regulación de los procesos de e",
       "date": "2026-04-01",
-      "image": "assets/news/item-3-20261008T024133Z.jpg",
+      "image": "assets/news/item-3-20261008T175111Z.jpg",
       "topic": "Concurso y pruebas",
       "priority": "prioridad",
       "impact": "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion."
@@ -62,7 +62,7 @@ window.AULA_NEWS = {
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
       "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
       "date": "2026-06-19",
-      "image": "assets/news/item-5-20261008T024133Z.jpg",
+      "image": "assets/news/item-5-20261008T175111Z.jpg",
       "topic": "Carrera docente",
       "priority": "seguimiento",
       "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
