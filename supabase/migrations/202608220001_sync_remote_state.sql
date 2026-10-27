@@ -1,2 +1,0 @@
--- Local marker for a remote migration already present in the linked database.
--- This keeps the local migration history aligned so new migrations can be pushed.
