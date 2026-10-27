@@ -28,10 +28,21 @@ jobs:
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
+      # Solo se publican los archivos que necesita la pagina.
+      # Quedan fuera supabase/ (banco de preguntas con respuestas), scripts/,
+      # data/class4-extracted/ y la documentacion interna.
+      - name: Copiar solo archivos publicos
+        run: |
+          mkdir -p _site/data
+          cp index.html app.js auth.js config.js styles.css .nojekyll _site/
+          cp -r assets _site/
+          cp data/news-data.js _site/data/
+          cp -r data/class4-source _site/data/
+
       - name: Preparar sitio
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
 
       - name: Publicar
         id: deployment
