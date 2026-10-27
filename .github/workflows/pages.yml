@@ -34,7 +34,7 @@ jobs:
       - name: Copiar solo archivos publicos
         run: |
           mkdir -p _site/data
-          cp index.html app.js auth.js config.js styles.css .nojekyll _site/
+          cp index.html app.js auth.js config.js dashboard.js styles.css theme.css fonts.css .nojekyll _site/
           cp -r assets _site/
           cp data/news-data.js _site/data/
           cp -r data/class4-source _site/data/
