@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Aula 2026 | Preparacion docente</title>
     <meta name="description" content="Noticias, estudio y simulacros para preparar el Concurso Docente 2026.">
-    <meta name="theme-color" content="#120d38">
+    <meta name="theme-color" content="#0b2545">
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
     <link rel="preload" href="assets/auth-classroom.webp" as="image" type="image/webp">
-    <link rel="stylesheet" href="fonts.css?v=20261027-2">
-    <link rel="stylesheet" href="styles.css?v=20261027-2">
-    <link rel="stylesheet" href="theme.css?v=20261027-2">
+    <link rel="stylesheet" href="fonts.css?v=20261027-3">
+    <link rel="stylesheet" href="styles.css?v=20261027-3">
+    <link rel="stylesheet" href="theme.css?v=20261027-3">
   </head>
   <body>
     <section id="authGate" class="auth-gate" aria-labelledby="authTitle" hidden>
@@ -194,6 +194,37 @@
 
         <div class="page">
           <section class="view active" id="inicio">
+            <section class="dash" aria-label="Tu tablero">
+              <div class="dash-hero">
+                <span class="dash-tag">Tu sesi&oacute;n de hoy</span>
+                <h1 class="dash-title">Hola<span id="dashName"></span>, sigue con <em>tu ruta</em></h1>
+                <p id="dashNext">Contin&uacute;a donde quedaste y practica con un simulacro.</p>
+                <div class="dash-cta">
+                  <button class="dash-btn dash-btn-main" type="button" data-simulacro-shortcut="lectura_critica">Empezar simulacro <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+                  <button class="dash-btn dash-btn-ghost tab dash-tab" type="button" data-view="clase">Ver clases</button>
+                </div>
+              </div>
+              <div class="dash-progress">
+                <span class="dash-small">Tu avance en la ruta</span>
+                <div class="dash-ring">
+                  <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="dash-ring-bg" cx="60" cy="60" r="50"/><circle id="dashRing" class="dash-ring-fg" cx="60" cy="60" r="50"/></svg>
+                  <div><strong id="dashPercent">0%</strong><span class="dash-small" id="dashRouteText">Ruta de estudio</span></div>
+                </div>
+                <div class="dash-stats">
+                  <div><strong id="dashAttempts">0</strong><span class="dash-small">Simulacros hechos</span></div>
+                  <div><strong id="dashBest">&mdash;</strong><span class="dash-small">Mejor puntaje</span></div>
+                </div>
+              </div>
+              <div class="dash-section-head"><h2>Simulacros</h2><span>4 m&iacute;nimos + 2 adicionales</span></div>
+              <div class="dash-tiles">
+                <button class="dash-tile t1" type="button" data-simulacro-shortcut="lectura_critica"><i>&#128214;</i><span>01</span><strong>Lectura cr&iacute;tica</strong></button>
+                <button class="dash-tile t2" type="button" data-simulacro-shortcut="razonamiento_cuantitativo"><i>&#128290;</i><span>02</span><strong>Razonamiento cuantitativo</strong></button>
+                <button class="dash-tile t3" type="button" data-simulacro-shortcut="competencias_blandas"><i>&#129309;</i><span>03</span><strong>Competencias blandas</strong></button>
+                <button class="dash-tile t4" type="button" data-simulacro-shortcut="competencias_pedagogicas"><i>&#127891;</i><span>04</span><strong>Competencias pedag&oacute;gicas</strong></button>
+                <button class="dash-tile t5" type="button" data-simulacro-shortcut="ofimatica"><i>&#128187;</i><span>05</span><strong>Ofim&aacute;tica</strong></button>
+                <button class="dash-tile t6" type="button" data-simulacro-shortcut="conocimientos_especificos"><i>&#129514;</i><span>06</span><strong>Conocimientos espec&iacute;ficos</strong></button>
+              </div>
+            </section>
             <section class="news-section" aria-labelledby="newsTitle">
               <header class="news-heading">
                 <div class="news-heading-copy">
@@ -1438,5 +1469,6 @@
     <script src="auth.js?v=20260801-10"></script>
     <script src="data/news-data.js?v=20260823-2"></script>
     <script src="app.js?v=20260816-4"></script>
+    <script src="dashboard.js?v=20261027-1"></script>
   </body>
 </html>
