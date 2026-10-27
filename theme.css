@@ -1,0 +1,154 @@
+/* ==========================================================
+   Aula 2026 · Capa de estilo (rediseño octubre 2026)
+   Se carga después de styles.css. Para volver al diseño
+   anterior basta con quitar el <link> de theme.css.
+   ========================================================== */
+
+:root {
+  --font: "Plus Jakarta Sans", "Segoe UI", Arial, sans-serif;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --shadow: 0 24px 60px -24px rgba(15, 29, 58, 0.22), 0 2px 6px rgba(15, 29, 58, 0.04);
+  --shadow-sm: 0 10px 28px -16px rgba(15, 29, 58, 0.25), 0 1px 3px rgba(15, 29, 58, 0.05);
+  --accent-grad: linear-gradient(135deg, #2c4fd1 0%, #5a3fd6 100%);
+}
+
+body {
+  font-family: var(--font);
+  letter-spacing: -0.005em;
+  background:
+    radial-gradient(1200px 520px at 100% -10%, rgba(44, 79, 209, 0.07), transparent 60%),
+    radial-gradient(900px 480px at -10% 110%, rgba(240, 122, 79, 0.06), transparent 60%),
+    var(--page);
+  background-attachment: fixed;
+}
+
+/* ---------- Títulos ---------- */
+h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+}
+
+h2,
+h3,
+h4 {
+  letter-spacing: -0.015em;
+}
+
+.news-feature h2 {
+  font-size: clamp(22px, 2.1vw, 28px);
+  line-height: 1.22;
+  font-weight: 800;
+}
+
+.auth-visual-copy h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+/* ---------- Barra lateral ---------- */
+.sidebar {
+  background:
+    radial-gradient(420px 260px at 0% 0%, rgba(142, 166, 255, 0.18), transparent 70%),
+    linear-gradient(180deg, #13224a 0%, #0f1b3d 100%);
+  box-shadow: 10px 0 40px -20px rgba(15, 29, 58, 0.45);
+}
+
+:root[data-theme="dark"] .sidebar {
+  background: linear-gradient(180deg, #0e1834 0%, #0a1226 100%);
+}
+
+.sidebar a,
+.sidebar button {
+  border-radius: 12px;
+}
+
+/* ---------- Tarjetas y superficies ---------- */
+.news-feature,
+.news-card,
+.simulacro-category-panel,
+.class-card,
+.study-card,
+.content-panel {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.news-feature:hover,
+.news-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-2px);
+}
+
+.news-feature,
+.news-card {
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+/* ---------- Botones ---------- */
+button,
+.button,
+a.button {
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease, color 0.2s ease;
+}
+
+.auth-submit,
+[data-start-simulacro],
+.class-quiz-submit,
+.btn-primary {
+  background: var(--accent-grad) !important;
+  border: 0 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 24px -10px rgba(44, 79, 209, 0.6);
+}
+
+.auth-submit:not(:disabled):hover,
+[data-start-simulacro]:hover,
+.class-quiz-submit:hover,
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 30px -12px rgba(44, 79, 209, 0.7);
+}
+
+/* ---------- Formularios ---------- */
+input,
+select,
+textarea {
+  border-radius: var(--radius-sm);
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid rgba(44, 79, 209, 0.35);
+  outline-offset: 2px;
+}
+
+/* ---------- Etiquetas pequeñas ---------- */
+.auth-kicker,
+.sidebar-section-label {
+  letter-spacing: 0.08em;
+}
+
+/* ---------- Barra superior ---------- */
+.workspace-topbar,
+.mobile-header {
+  backdrop-filter: saturate(160%) blur(10px);
+  -webkit-backdrop-filter: saturate(160%) blur(10px);
+}
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
