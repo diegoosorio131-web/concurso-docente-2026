@@ -1,5 +1,5 @@
 window.AULA_NEWS = {
-  "generatedAt": "2026-11-14T03:11:35.920Z",
+  "generatedAt": "2026-11-14T17:01:43.677Z",
   "updateMode": "automatic",
   "sources": [
     {
@@ -27,7 +27,7 @@ window.AULA_NEWS = {
       "source": "MEN",
       "title": "19.900 directivos docentes lideran la transformación de la educación en Colombia",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/431016:19-900-directivos-docentes-lideran-la-transformacion-de-la-educacion-en-Colombia",
-      "summary": "19.900 directivos docentes lideran la transformación de la educación en Colombia Hoy, en el Día del Directivo Docente, el Ministerio de Educación Nacional reconoce el liderazgo de rectores, coordinadores y directivos rurales que trabajan por garantizar una edu",
+      "summary": "Consulta la publicacion oficial para conocer todos los detalles.",
       "date": "2026-10-05",
       "image": "assets/news/item-2-20261114T031131Z.jpg",
       "topic": "Carrera docente",
@@ -38,12 +38,12 @@ window.AULA_NEWS = {
       "source": "MEN",
       "title": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/428350:El-Ministerio-de-Educacion-y-la-Comision-Nacional-del-Servicio-Civil-anuncian-avances-claves-en-el-concurso-docente-y-la-proteccion-de-maestros",
-      "summary": "El Ministerio de Educación y la Comisión Nacional del Servicio Civil anuncian avances claves en el concurso docente y la protección de maestros En los avances se dio a conocer sobre la ejecución del nuevo concurso de méritos, la regulación de los procesos de e",
+      "summary": "Consulta la publicacion oficial para conocer todos los detalles.",
       "date": "2026-04-01",
       "image": "assets/news/item-3-20261114T031131Z.jpg",
-      "topic": "Concurso y pruebas",
-      "priority": "prioridad",
-      "impact": "Revisa si modifica fechas, requisitos, pruebas o documentos de tu inscripcion."
+      "topic": "Carrera docente",
+      "priority": "seguimiento",
+      "impact": "Te ayuda a entender cambios y decisiones que pueden influir en tu proceso docente."
     },
     {
       "source": "CNSC",
@@ -60,7 +60,7 @@ window.AULA_NEWS = {
       "source": "MEN",
       "title": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública",
       "url": "https://www.mineducacion.gov.co/portal/salaprensa/Comunicados/429273:Gobierno-del-Cambio-abrira-mas-de-26-mil-plazas-docentes-para-fortalecer-la-educacion-publica",
-      "summary": "Gobierno del Cambio abrirá más de 26 mil plazas docentes para fortalecer la educación pública El Ministerio de Educación Nacional y la Comisión Nacional del Servicio Civil avanzan en la estructuración del próximo concurso de docentes y directivos docentes, con",
+      "summary": "Consulta la publicacion oficial para conocer todos los detalles.",
       "date": "2026-06-19",
       "image": "assets/news/item-5-20261114T031131Z.jpg",
       "topic": "Carrera docente",
